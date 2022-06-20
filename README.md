@@ -9,11 +9,15 @@ training
 - 講座_氏名/*　(例　html_css_trainig_arimura)
 ```
 
-# 作業手順
+# 初期作業
 * リポジトリのクローン (最初だけで大丈夫です)
 ```
 git clone https://github.com/indigo-sti-front-ojt/training.git
 ```
+
+# 作業手順
+* jiraで課題の作成
+
 * 作業ブランチの作成　
 ```
 git checkout -b 'feature/ブランチ名'
