@@ -25,7 +25,7 @@ git clone git@github.com:indigo-sti-front-ojt/training.git
 git checkout -b 'feature/ブランチ名'
 ```
 * 作業が完了したらPRを作成（有村と岡田さんをレビュアーに入れてください）
-* PRがマージされたら,`main`ブランチでpull
+* PRがマージされたら,`develop`ブランチでpull
 ```
 git checkout develop
 git pull origin develop
