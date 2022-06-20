@@ -6,6 +6,7 @@
 ```
 training
 - README.md
+- testDir (有村が動作確認用に作ったディレクトリです)
 - 講座_氏名/*　(例　html_css_trainig_arimura)
 ```
 
