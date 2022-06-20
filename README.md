@@ -10,9 +10,10 @@ training
 ```
 
 # 初期作業
+* [sshキーの作成,githubへの登録](https://qiita.com/shiro01/items/e886aa1e4beb404f9038#%E8%A8%AD%E5%AE%9A%E6%89%8B%E9%A0%86)
 * リポジトリのクローン (最初だけで大丈夫です)
 ```
-git clone https://github.com/indigo-sti-front-ojt/training.git
+git clone git@github.com:indigo-sti-front-ojt/training.git
 ```
 
 # 作業手順
