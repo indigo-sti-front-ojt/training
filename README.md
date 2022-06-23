@@ -18,7 +18,7 @@ git clone git@github.com:indigo-sti-front-ojt/training.git
 ```
 
 # 作業手順
-* jiraで課題の作成(ラベルはojtでお願いします)
+* jiraで課題の作成(ラベルはtrainingでお願いします)
 
 * 作業ブランチの作成　
 ```
