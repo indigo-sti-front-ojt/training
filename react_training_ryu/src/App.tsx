@@ -5,7 +5,7 @@ import { ToDoView } from "./views/ToDoView";
 function App() {
   return (
     <div className="App">
-      <ToDoView></ToDoView>
+      <ToDoView />
     </div>
   );
 }

@@ -7,11 +7,7 @@ type Props = {
   FunctionDelete: (todo: ToDoType) => void;
 };
 
-export const ToDoItem: React.FC<Props> = ({
-  todo,
-  FunctionDone,
-  FunctionDelete,
-}) => {
+export const ToDoItem = ({ todo, FunctionDone, FunctionDelete }: Props) => {
   return (
     <div>
       <input

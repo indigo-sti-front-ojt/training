@@ -10,8 +10,8 @@ export const ToDoView = () => {
 
   return (
     <div>
-      <ToDoInput todos={todos} setTodos={setTodos}></ToDoInput>
-      <ToDoList todos={todos} setTodos={setTodos}></ToDoList>
+      <ToDoInput todos={todos} setTodos={setTodos} />
+      <ToDoList todos={todos} setTodos={setTodos} />
     </div>
   );
 };

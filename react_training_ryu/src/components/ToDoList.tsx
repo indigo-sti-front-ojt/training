@@ -7,20 +7,19 @@ type Props = {
   setTodos: React.Dispatch<React.SetStateAction<ToDoType[]>>;
 };
 
-export const ToDoList: React.FC<Props> = ({ todos, setTodos }) => {
+export const ToDoList = ({ todos, setTodos }: Props) => {
   const FunctionDelete = (todo: ToDoType) => {
     const newTodo = todos.filter((pre) => {
       return pre.id !== todo.id;
     });
-    setTodos([...newTodo]);
+    setTodos(newTodo);
   };
 
   const FunctionDone = (todo: ToDoType) => {
-    setTodos((ToDo) =>
-      ToDo.map((t) =>
-        t.id == todo.id ? { ...todo, completed: !todo.completed } : t
-      )
+    const newTodo = todos.map((t) =>
+      t.id == todo.id ? { ...todo, completed: !todo.completed } : t
     );
+    setTodos(newTodo);
   };
 
   return (
