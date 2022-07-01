@@ -22,30 +22,40 @@ export const ToDoList = ({ todos, setTodos }: Props) => {
     setTodos(newTodo);
   };
 
+  const DivUnCompleted = () => {
+    const newData = todos
+      .filter((todo) => !todo.completed)
+      .map((todo) => (
+        <ToDoItem
+          key={todo.id}
+          todo={todo}
+          FunctionDelete={FunctionDelete}
+          FunctionDone={FunctionDone}
+        />
+      ));
+    return newData;
+  };
+
+  const DivCompleted = () => {
+    const newData = todos
+      .filter((todo) => todo.completed)
+      .map((todo) => (
+        <ToDoItem
+          key={todo.id}
+          todo={todo}
+          FunctionDelete={FunctionDelete}
+          FunctionDone={FunctionDone}
+        />
+      ));
+    return newData;
+  };
+
   return (
     <div>
       <div>uncompleted</div>
-      {todos
-        .filter((todo) => !todo.completed)
-        .map((todo) => (
-          <ToDoItem
-            key={todo.id}
-            todo={todo}
-            FunctionDelete={FunctionDelete}
-            FunctionDone={FunctionDone}
-          />
-        ))}
+      {DivUnCompleted()}
       <div>completed</div>
-      {todos
-        .filter((todo) => todo.completed)
-        .map((todo) => (
-          <ToDoItem
-            key={todo.id}
-            todo={todo}
-            FunctionDelete={FunctionDelete}
-            FunctionDone={FunctionDone}
-          />
-        ))}
+      {DivCompleted()}
     </div>
   );
 };
