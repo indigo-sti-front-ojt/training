@@ -1,3 +1,4 @@
+import { Chip, Grid } from "@mui/material";
 import React from "react";
 import { ToDoType } from "../types/ToDoType";
 import { ToDoItem } from "./ToDoItem";
@@ -53,11 +54,30 @@ export const ToDoList = (props: Props) => {
   };
 
   return (
-    <div>
-      <div>uncompleted</div>
-      {DivUnCompleted()}
-      <div>completed</div>
-      {DivCompleted()}
-    </div>
+    <Grid container>
+      <Grid item xs={6}>
+        <Chip label="未消化のToDo" color="secondary" />
+        <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="center"
+          spacing={2}
+        >
+          {DivUnCompleted()}
+        </Grid>
+      </Grid>
+      <Grid item xs={6}>
+        <Chip label="完了のToDo" color="primary" />
+        <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="center"
+        >
+          {DivCompleted()}
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };

@@ -1,3 +1,4 @@
+import { Container } from "@mui/material";
 import React, { useState } from "react";
 import { ToDoInput } from "../components/ToDoInput";
 import { ToDoList } from "../components/ToDoList";
@@ -9,9 +10,9 @@ export const ToDoView = () => {
   const [todos, setTodos] = useState(FirstDataTodo);
 
   return (
-    <div>
+    <Container maxWidth="lg">
       <ToDoInput todos={todos} setTodos={setTodos} />
       <ToDoList todos={todos} setTodos={setTodos} />
-    </div>
+    </Container>
   );
 };

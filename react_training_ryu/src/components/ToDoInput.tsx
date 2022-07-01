@@ -1,3 +1,4 @@
+import { Button, Grid, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { ToDoType } from "../types/ToDoType";
 
@@ -30,14 +31,24 @@ export const ToDoInput = (props: Props) => {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="todo plz input"
-        value={inputText}
-        onChange={OnChangeInput}
-      />
-      <button onClick={FunctionSubmit}>追加</button>
-    </div>
+    <Grid spacing={1} container>
+      <Grid
+        item
+        xs={12}
+        justifyContent="center"
+        alignContent="center"
+        container
+      >
+        <TextField
+          id="standard-basic"
+          label="ToDoタスク"
+          value={inputText}
+          onChange={OnChangeInput}
+        />
+        <Button variant="contained" color="primary" onClick={FunctionSubmit}>
+          追加
+        </Button>
+      </Grid>
+    </Grid>
   );
 };

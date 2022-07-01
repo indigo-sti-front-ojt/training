@@ -22,5 +22,5 @@
 
 ## Material-UI
 
-- yarn add @material-ui/core
-- yarn add @material-ui/icons
+- yarn add @mui/material @emotion/react @emotion/styled
+- [公式リファレンス](https://mui.com/material-ui/react-alert/)
