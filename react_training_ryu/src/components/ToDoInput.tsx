@@ -6,7 +6,9 @@ type Props = {
   setTodos: React.Dispatch<React.SetStateAction<ToDoType[]>>;
 };
 
-export const ToDoInput = ({ todos, setTodos }: Props) => {
+export const ToDoInput = (props: Props) => {
+  const { todos, setTodos } = props;
+
   const [inputText, setInputText] = useState("");
   const [count, setCount] = useState(
     todos.length != 0 ? Math.max(...todos.map((todo) => todo.id)) + 1 : 1

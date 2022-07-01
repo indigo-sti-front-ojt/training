@@ -7,7 +7,9 @@ type Props = {
   setTodos: React.Dispatch<React.SetStateAction<ToDoType[]>>;
 };
 
-export const ToDoList = ({ todos, setTodos }: Props) => {
+export const ToDoList = (props: Props) => {
+  const { todos, setTodos } = props;
+
   const FunctionDelete = (todo: ToDoType) => {
     const newTodo = todos.filter((pre) => {
       return pre.id !== todo.id;

@@ -7,7 +7,9 @@ type Props = {
   FunctionDelete: (todo: ToDoType) => void;
 };
 
-export const ToDoItem = ({ todo, FunctionDone, FunctionDelete }: Props) => {
+export const ToDoItem = (props: Props) => {
+  const { todo, FunctionDone, FunctionDelete } = props;
+
   return (
     <div>
       <input
