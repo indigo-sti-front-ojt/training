@@ -1,4 +1,4 @@
-import { Button, Grid, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { ToDoType } from "../types/ToDoType";
 
@@ -18,6 +18,15 @@ export const ToDoInput = (props: Props) => {
   const OnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
   };
+  const OnKeyPressEnterInput = (e: {
+    key: string;
+    preventDefault: () => void;
+  }) => {
+    if (e.key == "Enter") {
+      e.preventDefault();
+      FunctionSubmit();
+    }
+  };
 
   const FunctionSubmit = () => {
     const newTodo: ToDoType = {
@@ -31,24 +40,22 @@ export const ToDoInput = (props: Props) => {
   };
 
   return (
-    <Grid spacing={1} container>
-      <Grid
-        item
-        xs={12}
-        justifyContent="center"
-        alignContent="center"
-        container
-      >
-        <TextField
-          id="standard-basic"
-          label="ToDoタスク"
-          value={inputText}
-          onChange={OnChangeInput}
-        />
-        <Button variant="contained" color="primary" onClick={FunctionSubmit}>
-          追加
-        </Button>
-      </Grid>
-    </Grid>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignContent="center"
+      margin={4}
+    >
+      <TextField
+        id="standard-basic"
+        label="ToDoタスク"
+        value={inputText}
+        onChange={OnChangeInput}
+        onKeyDown={OnKeyPressEnterInput}
+      />
+      <Button variant="contained" color="primary" onClick={FunctionSubmit}>
+        追加
+      </Button>
+    </Box>
   );
 };

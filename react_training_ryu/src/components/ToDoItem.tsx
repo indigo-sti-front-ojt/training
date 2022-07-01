@@ -15,31 +15,26 @@ export const ToDoItem = (props: Props) => {
   };
 
   return (
-    <Grid
-      container
-      xs={12}
-      direction="row"
-      justifyContent="space-around"
-      alignContent="center"
-      item
-    >
-      <Grid item xs={3}>
-        <Checkbox
-          onClick={() => FunctionDone(todo)}
-          defaultChecked={todo.completed}
-        />
-      </Grid>
-      <Grid item xs={3} display="flex">
-        <span style={spanStyle}>{todo.title}</span>
-      </Grid>
-      <Grid item xs={3}>
-        <Button
-          onClick={() => FunctionDelete(todo)}
-          variant="contained"
-          color="secondary"
-        >
-          削除
-        </Button>
+    <Grid xs={12} item>
+      <Grid container>
+        <Grid item xs={1}>
+          <Checkbox
+            onClick={() => FunctionDone(todo)}
+            defaultChecked={todo.completed}
+          />
+        </Grid>
+        <Grid item xs={9} display="flex">
+          <span style={spanStyle}>{todo.title}</span>
+        </Grid>
+        <Grid item xs={2}>
+          <Button
+            onClick={() => FunctionDelete(todo)}
+            variant="contained"
+            color="secondary"
+          >
+            削除
+          </Button>
+        </Grid>
       </Grid>
     </Grid>
   );

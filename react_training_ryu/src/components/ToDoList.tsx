@@ -36,6 +36,14 @@ export const ToDoList = (props: Props) => {
           FunctionDone={FunctionDone}
         />
       ));
+    if (newData.length == 0) {
+      const message = (
+        <Grid item xs={12}>
+          <span>指定されたタスクはありません</span>
+        </Grid>
+      );
+      return message;
+    }
     return newData;
   };
 
@@ -50,33 +58,26 @@ export const ToDoList = (props: Props) => {
           FunctionDone={FunctionDone}
         />
       ));
+    if (newData.length == 0) {
+      const message = (
+        <Grid item xs={12}>
+          <span>指定されたタスクはありません</span>
+        </Grid>
+      );
+      return message;
+    }
     return newData;
   };
 
   return (
-    <Grid container>
-      <Grid item xs={6}>
+    <Grid container justifyContent="space-around">
+      <Grid item xs={12} md={6}>
         <Chip label="未消化のToDo" color="secondary" />
-        <Grid
-          container
-          direction="column"
-          justifyContent="flex-start"
-          alignItems="center"
-          spacing={2}
-        >
-          {DivUnCompleted()}
-        </Grid>
+        <Grid container>{DivUnCompleted()}</Grid>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6}>
         <Chip label="完了のToDo" color="primary" />
-        <Grid
-          container
-          direction="column"
-          justifyContent="flex-start"
-          alignItems="center"
-        >
-          {DivCompleted()}
-        </Grid>
+        <Grid container>{DivCompleted()}</Grid>
       </Grid>
     </Grid>
   );
