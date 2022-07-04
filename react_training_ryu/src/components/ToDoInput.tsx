@@ -1,3 +1,4 @@
+import { Box, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { ToDoType } from "../types/ToDoType";
 
@@ -6,7 +7,9 @@ type Props = {
   setTodos: React.Dispatch<React.SetStateAction<ToDoType[]>>;
 };
 
-export const ToDoInput = ({ todos, setTodos }: Props) => {
+export const ToDoInput = (props: Props) => {
+  const { todos, setTodos } = props;
+
   const [inputText, setInputText] = useState("");
   const [count, setCount] = useState(
     todos.length != 0 ? Math.max(...todos.map((todo) => todo.id)) + 1 : 1
@@ -14,6 +17,15 @@ export const ToDoInput = ({ todos, setTodos }: Props) => {
 
   const OnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
+  };
+  const OnKeyPressEnterInput = (e: {
+    key: string;
+    preventDefault: () => void;
+  }) => {
+    if (e.key == "Enter") {
+      e.preventDefault();
+      FunctionSubmit();
+    }
   };
 
   const FunctionSubmit = () => {
@@ -28,14 +40,22 @@ export const ToDoInput = ({ todos, setTodos }: Props) => {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="todo plz input"
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignContent="center"
+      margin={4}
+    >
+      <TextField
+        id="standard-basic"
+        label="ToDoタスク"
         value={inputText}
         onChange={OnChangeInput}
+        onKeyDown={OnKeyPressEnterInput}
       />
-      <button onClick={FunctionSubmit}>追加</button>
-    </div>
+      <Button variant="contained" color="primary" onClick={FunctionSubmit}>
+        追加
+      </Button>
+    </Box>
   );
 };
