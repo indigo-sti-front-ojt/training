@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from "react";
+import React, { useContext } from "react";
 
 import { useAuthUserRedirect } from "../hocks/AuthUserRedirect";
 import { AuthUserContext } from "../provider/AuthUserProvider";

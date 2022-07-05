@@ -4,7 +4,6 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithRedirect,
-  getRedirectResult,
   onAuthStateChanged,
   User,
 } from "firebase/auth";
@@ -31,30 +30,41 @@ export const useAuthUserRedirect = () => {
   };
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (user: User | null) => {
-      console.log("state change");
-      console.log(user);
+    changeUserState();
+  }, [auth]);
+
+  // useEffect(() => {
+  //   console.log("get user");
+  //   console.log(isActive);
+
+  //   getUser();
+  // }, [isActive]);
+
+  const changeUserState = async () => {
+    await onAuthStateChanged(auth, (getAuthUser: User | null) => {
+      console.log("change state");
+      console.log(getAuthUser);
+      if (getAuthUser) {
+        const current_User: userType = {
+          uid: getAuthUser.uid,
+          photoIcon: getAuthUser.photoURL,
+          nickname: getAuthUser.displayName,
+          mailddress: getAuthUser.email,
+        };
+        setUser(current_User);
+        setisLoggined(true);
+      } else {
+        const current_User: userType = {
+          uid: "",
+          photoIcon: "",
+          nickname: "",
+          mailddress: "",
+        };
+        setUser(current_User);
+        setisLoggined(false);
+      }
     });
-  });
-
-  const getUser = async () => {
-    const getAuthUser = await getRedirectResult(auth);
-    console.log("getauthuser");
-    console.log(getAuthUser);
-
-    if (getAuthUser) {
-      const current_User: userType = {
-        uid: getAuthUser.user.uid,
-        photoIcon: getAuthUser.user.photoURL,
-        nickname: getAuthUser.user.displayName,
-        mailddress: getAuthUser.user.email,
-      };
-      setUser(current_User);
-      setisLoggined(true);
-    } else {
-      setisLoggined(false);
-    }
   };
 
-  return { login, logout, isActive, getUser };
+  return { login, logout, isActive };
 };
