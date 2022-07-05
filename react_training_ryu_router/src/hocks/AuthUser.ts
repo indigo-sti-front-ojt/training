@@ -1,4 +1,4 @@
-import { useCallback, useContext } from "react";
+import { useContext } from "react";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -13,27 +13,23 @@ import { userType } from "../types/userType";
 
 export const useAuth = () => {
   const { setUser, setisLoggined } = useContext(AuthUserContext);
-  const login = useCallback(() => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((login_user) => {
-        AuthSetUser(login_user.user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
 
-  const logout = useCallback(() => {
-    signOut(auth)
-      .then(() => {
-        console.log("logout");
-        AuthSetUser(null);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  const login = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const firebaseAuthUser = await signInWithPopup(auth, provider);
+      if (firebaseAuthUser.user) {
+        AuthSetUser(firebaseAuthUser.user);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const logout = async () => {
+    await signOut(auth);
+    AuthSetUser(null);
+  };
 
   const AuthSetUser = (firebase_user: User | null) => {
     if (firebase_user) {
@@ -70,3 +66,25 @@ const firebaseConfig = {
 };
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
+
+// const login = useCallback(() => {
+//   const provider = new GoogleAuthProvider();
+//   signInWithPopup(auth, provider)
+//     .then((login_user) => {
+//       AuthSetUser(login_user.user);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// }, []);
+
+// const logout = useCallback(() => {
+//   signOut(auth)
+//     .then(() => {
+//       console.log("logout");
+//       AuthSetUser(null);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// }, []);

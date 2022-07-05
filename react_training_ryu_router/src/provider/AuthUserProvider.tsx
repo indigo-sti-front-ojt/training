@@ -16,7 +16,7 @@ type Props = {
   children: ReactNode;
 };
 
-const initialuser: userType = {
+const initialzeuser: userType = {
   uid: "",
   photoIcon: "",
   nickname: "",
@@ -25,9 +25,9 @@ const initialuser: userType = {
 
 export const AuthUserProvider = (props: Props) => {
   const { children } = props;
-  //   const [userInfo, setUserInfo] = useState<string>("");
-  const [user, setUser] = useState<userType>(initialuser);
+  const [user, setUser] = useState<userType>(initialzeuser);
   const [isLoggined, setisLoggined] = useState<boolean>(false);
+
   return (
     <AuthUserContext.Provider
       value={{ user, setUser, isLoggined, setisLoggined }}

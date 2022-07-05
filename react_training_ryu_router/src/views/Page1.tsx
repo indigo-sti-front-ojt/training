@@ -5,20 +5,19 @@ import { AuthUserContext } from "../provider/AuthUserProvider";
 
 export const Page1 = () => {
   const { login, logout } = useAuth();
-  const { isLoggined } = useContext(AuthUserContext);
+  const { isLoggined, user } = useContext(AuthUserContext);
 
-  const AuthRender = () => {
-    const RenderButton = isLoggined ? (
-      <button onClick={logout}>logout</button>
-    ) : (
-      <button onClick={login}>login</button>
-    );
-    return RenderButton;
-  };
+  const AuthRender = isLoggined ? (
+    <button onClick={logout}>logout</button>
+  ) : (
+    <button onClick={login}>login</button>
+  );
+
   return (
     <>
       Page1
-      {AuthRender()}
+      {AuthRender}
+      {user.nickname}
     </>
   );
 };
