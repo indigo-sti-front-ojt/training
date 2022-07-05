@@ -6,6 +6,7 @@ import { Layout } from "../views/Layout";
 import { NotFound } from "../views/NotFound";
 import { Page1 } from "../views/Page1";
 import { Page2 } from "../views/Page2";
+import { Page3 } from "../views/Page3";
 
 export const RouterConfig = () => {
   return (
@@ -15,9 +16,10 @@ export const RouterConfig = () => {
           <Route path="/" element={<Layout />}>
             <Route path="/page1" element={<Page1 />}></Route>
             <Route path="/page2" element={<Page2 />}>
-              <Route path="child1" element={<Child1 />}></Route>
-              <Route path="child2" element={<Child2 />}></Route>
+              <Route path="child1" element={<Child1 />} />
+              <Route path="child2" element={<Child2 />} />
             </Route>
+            <Route path="/page3" element={<Page3 />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
