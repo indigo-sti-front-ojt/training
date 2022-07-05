@@ -11,4 +11,13 @@
 Context に関して
 
 - value に含めるものは全て型を指定したうえで Context を宣言する必要がある
--
+
+---
+
+Firebase に関して
+
+- yarn add firebase
+- [参考になる git](https://github.com/kurab/react-typescript-firebase.git)
+- [参考になる git のためのリンク](https://qiita.com/kurab/items/e1f78008cc87cdafebf4#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB%E3%81%AE%E5%89%8D%E3%81%AE%E7%B5%90%E8%AB%96)
+- [env 書き方](https://reffect.co.jp/react/react-firebase-auth)
+- [env 読み込むために](https://qiita.com/hirogw/items/aa6e589bc90f1495033c)
