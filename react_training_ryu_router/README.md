@@ -28,3 +28,4 @@ Firebase に関して
 - [async/await then/catch 論争（TS では async/await が吉）](https://qiita.com/jamashita/items/67b29f590e4d5ee6ed38)
 - [popup を使うことでの問題点？](https://i-ssue.com/topics/223f449f-c9c2-4a3f-bf4a-9024409327c6)
 - [redirect 版 login Zen](https://zenn.dev/knaka0209/articles/1cf194dd70eff9)
+- [getRedirectResult と onAuthStateChanged の処理の流れ](https://qiita.com/katsu-o/items/728812f5d7f682e80fc3)

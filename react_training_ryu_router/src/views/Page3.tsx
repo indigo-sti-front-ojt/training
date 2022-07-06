@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 
-import { useAuthUser } from "../hocks/AuthUser";
+import { useAuthUserRedirect } from "../hocks/AuthUserRedirect";
 import { AuthUserContext } from "../provider/AuthUserProvider";
 
-export const Page1 = () => {
-  const { login, logout } = useAuthUser();
+export const Page3 = () => {
+  const { login, logout } = useAuthUserRedirect();
   const { isLoggined, user } = useContext(AuthUserContext);
 
   const AuthRender = isLoggined ? (
@@ -15,7 +15,7 @@ export const Page1 = () => {
 
   return (
     <>
-      Page1
+      Page3
       {AuthRender}
       {user.nickname}
     </>
