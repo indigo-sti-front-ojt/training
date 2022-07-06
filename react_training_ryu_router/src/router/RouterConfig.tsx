@@ -27,7 +27,7 @@ export const RouterConfig = () => {
               />
             </Route>
             <Route path="/page3" element={<Page3 />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/*" element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>
