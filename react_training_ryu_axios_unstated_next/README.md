@@ -49,3 +49,12 @@ axiosClient.interceptors.response.eject(responseInterceptor)
 }, [])
 
 ```
+
+# unstated-next
+
+[参考リンク](https://qiita.com/iewori/items/5a2068d9c3eb35f95b52)
+
+- yarn add unstated-next
+- ステートに関する処理をコンテナとしてまとめて、読み込む方法が useContainer を使用して明示的に呼び出す
+- useContext との違いは処理を呼び出す手法が異なるだけ
+- createContaier provider useContainer の三つのコマンドを覚える
