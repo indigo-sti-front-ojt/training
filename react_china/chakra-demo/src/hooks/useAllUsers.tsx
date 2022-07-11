@@ -10,18 +10,34 @@ export const useAllusers = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [users, setUsers] = useState<Array<User>>([]);
 
-  const getUsers = useCallback(() => {
-    setLoading(true);
+  //thenを使った書き方
 
-    axios
-      .get<Array<User>>("https://jsonplaceholder.typicode.com/users/")
-      .then((res) => {
-        setUsers(res.data)
-      })
-      .catch(() =>
-        showMessage({ title: "ユーザーが取得できません", status: "error" })
-      )
-      .finally(() => setLoading(false));
-  }, []);
+  // const getUsers = useCallback(() => {
+  //   setLoading(true);
+
+  //   axios
+  //     .get<Array<User>>("https://jsonplaceholder.typicode.com/users/")
+  //     .then((res) => {
+  //       setUsers(res.data);
+  //     })
+  //     .catch(() => showMessage({ title: "ユーザーが取得できません", status: "error" })
+  //     )
+  //     .finally(() => setLoading(false));
+  // }, []);
+
+
+  // async/await構文を使った書き方
+const getUsers = useCallback(async() => {
+  try{
+    const res = await axios.get<Array<User>>("https://jsonplaceholder.typicode.com/users/");
+    setUsers(res.data);
+  }catch(error){
+    showMessage({ title: "ユーザーが取得できません", status: "error" });
+  }finally{
+    setLoading(false);
+  }
+},[]);
+
   return { getUsers,loading,users };
 };
+
