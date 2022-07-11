@@ -27,16 +27,18 @@ export const useAllusers = () => {
 
 
   // async/await構文を使った書き方
-const getUsers = useCallback(async() => {
-  try{
-    const res = await axios.get<Array<User>>("https://jsonplaceholder.typicode.com/users/");
-    setUsers(res.data);
-  }catch(error){
-    showMessage({ title: "ユーザーが取得できません", status: "error" });
-  }finally{
-    setLoading(false);
-  }
-},[]);
+  const getUsers = useCallback(()=>{
+    (async() => {
+      try{
+        const res = await axios.get<Array<User>>("https://jsonplaceholder.typicode.com/users/");
+        setUsers(res.data);
+      }catch(error){
+        showMessage({ title: "ユーザーが取得できません", status: "error" });
+      }finally{
+        setLoading(false);
+      }
+    })()
+  },[]);
 
   return { getUsers,loading,users };
 };
