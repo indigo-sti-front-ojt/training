@@ -20,7 +20,7 @@ export const Layout = () => {
         </li>
       </ul>
 
-      <Outlet></Outlet>
+      <Outlet />
     </>
   );
 };
