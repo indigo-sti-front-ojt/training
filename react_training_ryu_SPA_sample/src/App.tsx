@@ -1,11 +1,14 @@
 import React from "react";
 import "./App.css";
+import { AuthUserContainer } from "./provider/AuthUserProvider";
 import { RouterConfig } from "./router/RouterConfig";
 
 function App() {
   return (
     <div className="App">
-      <RouterConfig />
+      <AuthUserContainer.Provider>
+        <RouterConfig />
+      </AuthUserContainer.Provider>
     </div>
   );
 }

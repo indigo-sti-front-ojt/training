@@ -16,7 +16,7 @@ export const Layout = () => {
           <Link to="/pages">pages</Link>
         </li>
         <li>
-          <Link to="/notfond">not found</Link>
+          <Link to="/login">login</Link>
         </li>
       </ul>
 
