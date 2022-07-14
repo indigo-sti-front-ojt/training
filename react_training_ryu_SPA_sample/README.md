@@ -8,6 +8,7 @@
 - yarn add axios
 - yarn add unstated-next
 - yarn add @mui/material @emotion/react @emotion/styled
+- yarn add firestore
 
 参考になるリンク集
 
