@@ -6,6 +6,7 @@ import { ItemLayout } from "../views/ItemLayout";
 import { ItemListPage } from "../views/ItemListPage";
 import { ItemPage } from "../views/ItemPage";
 import { Layout } from "../views/Layout";
+import { LoginPage } from "../views/LoginPage";
 import { NotFoundPage } from "../views/NotFoundPage";
 import { OwnerItemEditPage } from "../views/OwnerItemEditPage";
 import { OwnerItemLayout } from "../views/OwnerItemLayout";
@@ -18,6 +19,8 @@ import { OwnerUserPage } from "../views/OwnerUserPage";
 import { UserLayout } from "../views/UserLayout";
 import { UserListPage } from "../views/UserListPage";
 import { UserPage } from "../views/UserPage";
+import { RouteAuthGate } from "./RouteAuthGate";
+import { RouteAuthGateReverse } from "./RouteAuthGateReverse";
 
 export const RouterConfig = () => {
   return (
@@ -37,8 +40,23 @@ export const RouterConfig = () => {
               <Route path=":id" element={<UserPage />} />
             </Route>
 
+            <Route
+              path="login"
+              element={
+                <RouteAuthGateReverse
+                  component={<LoginPage />}
+                  redirect="/owner"
+                />
+              }
+            />
+
             {/* 認証が必要 */}
-            <Route path="owner" element={<OwnerLayout />}>
+            <Route
+              path="owner"
+              element={
+                <RouteAuthGate component={<OwnerLayout />} redirect="/" />
+              }
+            >
               <Route path="pages" element={<OwnerItemLayout />}>
                 <Route index element={<OwnerItemListPage />} />
                 <Route path=":id" element={<OwnerItemPage />}>
