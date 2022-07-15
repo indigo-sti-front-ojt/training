@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { SampleDBContainer } from "../provider/SampleDBProvider";
 import { AboutPage } from "../views/AboutPage";
 import { HomePage } from "../views/HomePage";
 import { ItemLayout } from "../views/ItemLayout";
@@ -16,6 +17,7 @@ import { OwnerLayout } from "../views/OwnerLayout";
 import { OwnerUserEditPage } from "../views/OwnerUserEditPage";
 import { OwnerUserLayout } from "../views/OwnerUserLayout";
 import { OwnerUserPage } from "../views/OwnerUserPage";
+import { TestView } from "../views/TestView";
 import { UserLayout } from "../views/UserLayout";
 import { UserListPage } from "../views/UserListPage";
 import { UserPage } from "../views/UserPage";
@@ -39,6 +41,8 @@ export const RouterConfig = () => {
               <Route index element={<UserListPage />} />
               <Route path=":id" element={<UserPage />} />
             </Route>
+
+            <Route path="test" element={<TestView />} />
 
             <Route
               path="login"
