@@ -16,7 +16,7 @@ import { useLogin, useLoginWithGoogle } from "../hooks/useAuth";
 
 export const Login = () => {
   const { login, success, error } = useLogin();
-  const { loginWithGoogle } = useLoginWithGoogle();
+  const { loginWithGoogle, success, error } = useLoginWithGoogle();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
