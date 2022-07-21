@@ -9,7 +9,6 @@ import {
 
 import { userType } from "../types/userType";
 import { AuthUserContainer } from "../provider/AuthUserProvider";
-import { useEffect } from "react";
 
 export const useAuthUser = () => {
   const { setUser, setisLoggined, setisAuthChecked } =
@@ -28,12 +27,8 @@ export const useAuthUser = () => {
     await signOut(auth);
   };
 
-  useEffect(() => {
-    changeUserState();
-    setisAuthChecked(true);
-  }, []);
-
   const changeUserState = async () => {
+    setisAuthChecked(false);
     await onAuthStateChanged(auth, (getAuthUser: User | null) => {
       if (getAuthUser) {
         const current_User: userType = {
@@ -54,6 +49,7 @@ export const useAuthUser = () => {
         setUser(current_User);
         setisLoggined(false);
       }
+      setisAuthChecked(true);
     });
   };
 

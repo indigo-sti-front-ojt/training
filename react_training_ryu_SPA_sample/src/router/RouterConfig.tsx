@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { SampleDBContainer } from "../provider/SampleDBProvider";
 import { AboutPage } from "../views/AboutPage";
 import { HomePage } from "../views/HomePage";
 import { ItemLayout } from "../views/ItemLayout";
