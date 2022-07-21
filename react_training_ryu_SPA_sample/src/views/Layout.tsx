@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
+import { useAuthUser } from "../hocks/AuthUser";
 
 export const Layout = () => {
+  const { changeUserState } = useAuthUser();
+  useEffect(() => {
+    changeUserState();
+  }, []);
   return (
     <>
       <div>layout</div>
