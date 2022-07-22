@@ -17,9 +17,9 @@ import { OwnerUserEditPage } from "../views/OwnerUserEditPage";
 import { OwnerUserLayout } from "../views/OwnerUserLayout";
 import { OwnerUserPage } from "../views/OwnerUserPage";
 import { TestView } from "../views/TestView";
-import { UserLayout } from "../views/UserLayout";
+// import { UserLayout } from "../views/UserLayout";
 import { UserListPage } from "../views/UserListPage";
-import { UserPage } from "../views/UserPage";
+// import { UserPage } from "../views/UserPage";
 import { RouteAuthGate } from "./RouteAuthGate";
 import { RouteAuthGateReverse } from "./RouteAuthGateReverse";
 
@@ -36,12 +36,13 @@ export const RouterConfig = () => {
               <Route index element={<ItemListPage />} />
               <Route path=":id" element={<ItemPage />} />
             </Route>
-            <Route path="users" element={<UserLayout />}>
+            {/* <Route path="users" element={<UserLayout />}>
               <Route index element={<UserListPage />} />
               <Route path=":id" element={<UserPage />} />
-            </Route>
+            </Route> */}
+            <Route path="users" element={<UserListPage />} />
 
-            <Route path="test" element={<TestView />} />
+            {/* <Route path="test" element={<TestView />} /> */}
 
             <Route
               path="login"

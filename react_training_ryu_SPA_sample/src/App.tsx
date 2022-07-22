@@ -1,20 +1,15 @@
 import React from "react";
 import "./App.css";
-import { AuthUserContainer } from "./provider/AuthUserProvider";
-import { SampleDBContainer } from "./provider/SampleDBProvider";
-import { UserDBContainer } from "./provider/UserDBProvider";
+import { Providers } from "./provider/Providers";
+
 import { RouterConfig } from "./router/RouterConfig";
 
 function App() {
   return (
     <div className="App">
-      <UserDBContainer.Provider>
-        <SampleDBContainer.Provider>
-          <AuthUserContainer.Provider>
-            <RouterConfig />
-          </AuthUserContainer.Provider>
-        </SampleDBContainer.Provider>
-      </UserDBContainer.Provider>
+      <Providers>
+        <RouterConfig />
+      </Providers>
     </div>
   );
 }

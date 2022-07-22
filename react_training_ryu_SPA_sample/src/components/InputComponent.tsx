@@ -3,7 +3,7 @@ type Props = {
   text: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
 };
-export const UserDBInput = (props: Props) => {
+export const InputComponent = (props: Props) => {
   const { text, setText } = props;
   const onChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
