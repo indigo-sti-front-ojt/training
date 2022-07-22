@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
+import { ListChildMapComponent } from "../components/ListChildMapComponent";
 import { useAuthUser } from "../hocks/AuthUser";
 import { useUserDB } from "../hocks/UserDB";
 import { AuthUserContainer } from "../provider/AuthUserProvider";
@@ -24,7 +25,7 @@ export const Layout = () => {
     <>
       <div>layout</div>
       <ul>
-        <li>
+        {/* <li>
           <Link to="/">home</Link>
         </li>
         <li>
@@ -34,8 +35,18 @@ export const Layout = () => {
           <Link to="/pages">pages</Link>
         </li>
         <li>
-          <Link to="/login">login</Link>
+          <Link to="/users">users</Link>
         </li>
+        <li>
+          <Link to="/login">login</Link>
+        </li> */}
+        <ListChildMapComponent>
+          <Link to="/">home</Link>
+          <Link to="/about">about</Link>
+          <Link to="/pages">pages</Link>
+          <Link to="/users">users</Link>
+          <Link to="/login">login</Link>
+        </ListChildMapComponent>
       </ul>
 
       <Outlet />

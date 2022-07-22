@@ -7,7 +7,7 @@ import { UserDBType } from "../types/UserDBType";
 // 単一階層の情報の場合
 export const useUserDB = () => {
   const { user } = AuthUserContainer.useContainer();
-  const { setUserData, setChangeFlag, changeFlag } =
+  const { setUserData, setChangeFlag, changeFlag, setUserDataList } =
     UserDBContainer.useContainer();
 
   const targetTableName = "users";
@@ -37,6 +37,7 @@ export const useUserDB = () => {
       };
       tempDatas.push(tempData);
     });
+    setUserDataList(tempDatas);
   };
   const UserDataRead = async (uid: string) => {
     const target = doc(db, targetTableName, uid);

@@ -12,6 +12,9 @@ const useUserDBProvider = () => {
   const [changeFlag, setChangeFlag] = useState<boolean>(false);
 
   const [userData, setUserData] = useState<UserDBType>(initialzeuser);
+  const [userDataList, setUserDataList] = useState<UserDBType[]>([
+    initialzeuser,
+  ]);
   const [editFlag, setEditFlag] = useState<boolean>(false);
 
   return {
@@ -21,6 +24,8 @@ const useUserDBProvider = () => {
     setEditFlag,
     userData,
     setUserData,
+    userDataList,
+    setUserDataList,
   };
 };
 

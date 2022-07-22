@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserDBInput } from "../components/UserDBinput";
+import { InputComponent } from "../components/InputComponent";
 import { useUserDB } from "../hocks/UserDB";
 import { UserDBContainer } from "../provider/UserDBProvider";
 import { UserDBType } from "../types/UserDBType";
@@ -30,8 +30,8 @@ export const OwnerUserEditPage = () => {
       <div>
         <img src={img_url} alt="" />
       </div>
-      <UserDBInput text={nickName} setText={setNickname} />
-      <UserDBInput text={singleBio} setText={setSingleBio} />
+      <InputComponent text={nickName} setText={setNickname} />
+      <InputComponent text={singleBio} setText={setSingleBio} />
       <button onClick={OnSendButton}>送信</button>
     </>
   );
