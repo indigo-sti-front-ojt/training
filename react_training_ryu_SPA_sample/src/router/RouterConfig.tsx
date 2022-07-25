@@ -13,10 +13,11 @@ import { OwnerItemLayout } from "../views/OwnerItemLayout";
 import { OwnerItemListPage } from "../views/OwnerItemListPage";
 import { OwnerItemPage } from "../views/OwnerItemPage";
 import { OwnerLayout } from "../views/OwnerLayout";
+import { OwnerTagPage } from "../views/OwnerTagPage";
 import { OwnerUserEditPage } from "../views/OwnerUserEditPage";
 import { OwnerUserLayout } from "../views/OwnerUserLayout";
 import { OwnerUserPage } from "../views/OwnerUserPage";
-import { TestView } from "../views/TestView";
+// import { TestView } from "../views/TestView";
 // import { UserLayout } from "../views/UserLayout";
 import { UserListPage } from "../views/UserListPage";
 // import { UserPage } from "../views/UserPage";
@@ -71,6 +72,7 @@ export const RouterConfig = () => {
                 <Route index element={<OwnerUserPage />} />
                 <Route path="edit" element={<OwnerUserEditPage />} />
               </Route>
+              <Route path="tags" element={<OwnerTagPage />} />
             </Route>
 
             <Route path="*" element={<NotFoundPage />} />

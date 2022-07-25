@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { ListChildMapComponent } from "../components/ListChildMapComponent";
 import { useAuthUser } from "../hocks/AuthUser";
 
 export const OwnerLayout = () => {
@@ -16,12 +17,11 @@ export const OwnerLayout = () => {
         <button onClick={ClickLogout}>logout</button>
       </div>
       <ul>
-        <li>
+        <ListChildMapComponent>
           <Link to="user">user</Link>
-        </li>
-        <li>
           <Link to="pages">pages</Link>
-        </li>
+          <Link to="tags">tags</Link>
+        </ListChildMapComponent>
       </ul>
       <Outlet />
     </>
