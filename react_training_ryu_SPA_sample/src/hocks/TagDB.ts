@@ -12,12 +12,12 @@ export const useTagDB = () => {
   const AreaDataEdit = async (data: TagDBType[]) => {
     const target = doc(db, targetTableName, "Area");
     await setDoc(target, { data });
-    setTagChangeFlag(!TagChangeFlag);
+    await setTagChangeFlag(!TagChangeFlag);
   };
   const FreeDataEdit = async (data: TagDBType[]) => {
     const target = doc(db, targetTableName, "Free");
     await setDoc(target, { data });
-    setTagChangeFlag(!TagChangeFlag);
+    await setTagChangeFlag(!TagChangeFlag);
   };
 
   const TagDataReads = async () => {
