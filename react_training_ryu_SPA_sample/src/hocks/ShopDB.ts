@@ -5,7 +5,9 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   setDoc,
+  where,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { ShopDBContainer } from "../provider/ShopDBProvider";
@@ -49,10 +51,14 @@ export const useShopDB = () => {
     setChangeFlag(!changeFlag);
   };
 
-  const ShopDataReads_AfterLogin = async () => {
-    const target = collection(db, targetTableName);
+  const ShopDataReads_AfterLogin = async (user_uid: string) => {
+    const target = query(
+      collection(db, targetTableName),
+      where("writer", "==", user_uid)
+    );
     const dataResults = await getDocs(target);
     const tempDatas: ShopDBType[] = [];
+
     dataResults.forEach((doc) => {
       console.log(doc.id, ":", doc.data());
       const tempData: ShopDBType = {
