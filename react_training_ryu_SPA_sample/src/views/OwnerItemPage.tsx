@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 
 export const OwnerItemPage = () => {
   const { id } = useParams();
@@ -8,6 +8,8 @@ export const OwnerItemPage = () => {
   return (
     <>
       <div>{id}</div>
+      <Link to={"edit"}>edit</Link>
+      <Outlet />
     </>
   );
 };

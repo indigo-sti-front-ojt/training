@@ -8,6 +8,7 @@ import { ItemPage } from "../views/ItemPage";
 import { Layout } from "../views/Layout";
 import { LoginPage } from "../views/LoginPage";
 import { NotFoundPage } from "../views/NotFoundPage";
+import { OwnerItemCreatePage } from "../views/OwnerItemCreatePage";
 import { OwnerItemEditPage } from "../views/OwnerItemEditPage";
 import { OwnerItemLayout } from "../views/OwnerItemLayout";
 import { OwnerItemListPage } from "../views/OwnerItemListPage";
@@ -68,6 +69,7 @@ export const RouterConfig = () => {
                   <Route path="edit" element={<OwnerItemEditPage />} />
                 </Route>
               </Route>
+              <Route path="pages-create" element={<OwnerItemCreatePage />} />
               <Route path="user" element={<OwnerUserLayout />}>
                 <Route index element={<OwnerUserPage />} />
                 <Route path="edit" element={<OwnerUserEditPage />} />

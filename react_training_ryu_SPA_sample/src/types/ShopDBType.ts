@@ -1,6 +1,9 @@
+import { TagTextObject } from "./TagTextObject";
+
 export type ShopDBType = {
   uid: string;
   name: string;
+  access?: string;
   price?: string;
   closingDay?: number[];
   fromOpenToCleseTime?: {
@@ -15,9 +18,5 @@ export type ShopDBType = {
   contents?: TagTextObject[];
   areaTag?: number[];
   freeTag?: number[];
-};
-
-type TagTextObject = {
-  tag: string;
-  text: string;
+  writer?: string;
 };
