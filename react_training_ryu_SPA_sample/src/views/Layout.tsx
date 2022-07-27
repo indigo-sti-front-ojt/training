@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { ListChildMapComponent } from "../components/ListChildMapComponent";
 import { useAuthUser } from "../hocks/AuthUser";
+import { useShopDB } from "../hocks/ShopDB";
 import { useTagDB } from "../hocks/TagDB";
 import { useUserDB } from "../hocks/UserDB";
 import { AuthUserContainer } from "../provider/AuthUserProvider";
@@ -15,9 +16,11 @@ export const Layout = () => {
   const { isLoggined, user } = AuthUserContainer.useContainer();
   const { changeFlag } = UserDBContainer.useContainer();
   const { TagChangeFlag } = TagDBContainer.useContainer();
+  const { ShopDataReads_ALL } = useShopDB();
   useEffect(() => {
     changeUserState();
     UserDataReads();
+    ShopDataReads_ALL();
   }, []);
   useEffect(() => {
     TagDataReads();

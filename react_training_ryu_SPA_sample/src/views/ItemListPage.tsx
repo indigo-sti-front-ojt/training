@@ -1,13 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ShopDBContainer } from "../provider/ShopDBProvider";
 export const ItemListPage = () => {
-  const numbers = [...Array(5)].map((_: undefined, idx: number) => idx);
+  const { shopDataAll } = ShopDBContainer.useContainer();
   return (
     <>
       <div>pages</div>
-      {numbers.map((number) => (
-        <li key={number}>
-          <Link to={`/pages/${number}`}>{number}</Link>
+      {shopDataAll.map((data) => (
+        <li key={data.uid}>
+          <Link to={`/pages/${data.uid}`}>{data.name}</Link>
         </li>
       ))}
     </>

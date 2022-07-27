@@ -18,5 +18,5 @@ export type ShopDBType = {
   contents?: TagTextObject[];
   areaTag?: number[];
   freeTag?: number[];
-  writer?: string;
+  writer: string;
 };

@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AboutPage } from "../views/AboutPage";
 import { HomePage } from "../views/HomePage";
-import { ItemLayout } from "../views/ItemLayout";
 import { ItemListPage } from "../views/ItemListPage";
 import { ItemPage } from "../views/ItemPage";
 import { Layout } from "../views/Layout";
@@ -16,7 +15,7 @@ import { OwnerItemPage } from "../views/OwnerItemPage";
 import { OwnerLayout } from "../views/OwnerLayout";
 import { OwnerTagPage } from "../views/OwnerTagPage";
 import { OwnerUserEditPage } from "../views/OwnerUserEditPage";
-import { OwnerUserLayout } from "../views/OwnerUserLayout";
+import { OutletLayout } from "../views/OutletLayout";
 import { OwnerUserPage } from "../views/OwnerUserPage";
 // import { TestView } from "../views/TestView";
 // import { UserLayout } from "../views/UserLayout";
@@ -34,7 +33,7 @@ export const RouterConfig = () => {
             {/* 一般ページ */}
             <Route path="/" element={<HomePage />} />
             <Route path="about" element={<AboutPage />} />
-            <Route path="pages" element={<ItemLayout />}>
+            <Route path="pages" element={<OutletLayout />}>
               <Route index element={<ItemListPage />} />
               <Route path=":id" element={<ItemPage />} />
             </Route>
@@ -65,12 +64,13 @@ export const RouterConfig = () => {
             >
               <Route path="pages" element={<OwnerItemLayout />}>
                 <Route index element={<OwnerItemListPage />} />
-                <Route path=":id" element={<OwnerItemPage />}>
+                <Route path=":id" element={<OutletLayout />}>
+                  <Route index element={<OwnerItemPage />} />
                   <Route path="edit" element={<OwnerItemEditPage />} />
                 </Route>
               </Route>
               <Route path="pages-create" element={<OwnerItemCreatePage />} />
-              <Route path="user" element={<OwnerUserLayout />}>
+              <Route path="user" element={<OutletLayout />}>
                 <Route index element={<OwnerUserPage />} />
                 <Route path="edit" element={<OwnerUserEditPage />} />
               </Route>

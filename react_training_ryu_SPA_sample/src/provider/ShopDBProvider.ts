@@ -4,12 +4,13 @@ import { ShopDBType } from "../types/ShopDBType";
 const initialzeshop: ShopDBType = {
   uid: "",
   name: "",
+  writer: "",
 };
 
 const useShopDBProvider = () => {
   const [changeFlag, setChangeFlag] = useState<boolean>(false);
 
-  const [shoDataAll, setShopDataAll] = useState<ShopDBType[]>([]);
+  const [shopDataAll, setShopDataAll] = useState<ShopDBType[]>([]);
   const [shopData, setShopData] = useState<ShopDBType>(initialzeshop);
   const [shopDataList, setShopDataList] = useState<ShopDBType[]>([]);
   const [editFlag, setEditFlag] = useState<boolean>(false);
@@ -23,7 +24,7 @@ const useShopDBProvider = () => {
     setShopData,
     shopDataList,
     setShopDataList,
-    shoDataAll,
+    shopDataAll,
     setShopDataAll,
   };
 };

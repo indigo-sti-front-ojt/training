@@ -4,10 +4,12 @@ import { ListChildMapComponent } from "../components/ListChildMapComponent";
 import { useAuthUser } from "../hocks/AuthUser";
 import { useShopDB } from "../hocks/ShopDB";
 import { AuthUserContainer } from "../provider/AuthUserProvider";
+import { ShopDBContainer } from "../provider/ShopDBProvider";
 
 export const OwnerLayout = () => {
   const { logout } = useAuthUser();
   const { user } = AuthUserContainer.useContainer();
+  const { changeFlag } = ShopDBContainer.useContainer();
   const navigate = useNavigate();
 
   const ClickLogout = async () => {
@@ -18,7 +20,7 @@ export const OwnerLayout = () => {
   const { ShopDataReads_AfterLogin } = useShopDB();
   useEffect(() => {
     ShopDataReads_AfterLogin(user.uid);
-  }, []);
+  }, [changeFlag]);
 
   return (
     <>

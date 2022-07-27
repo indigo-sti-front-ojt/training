@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { InputComponent } from "../components/InputComponent";
 import { useShopDB } from "../hocks/ShopDB";
 import { AuthUserContainer } from "../provider/AuthUserProvider";
@@ -6,8 +7,6 @@ import { ShopDBType } from "../types/ShopDBType";
 import { TagTextObject } from "../types/TagTextObject";
 
 export const OwnerItemCreatePage = () => {
-  const [ShopData, setShopData] = useState<ShopDBType>();
-
   const [name, setName] = useState<string>("");
   const [access, setAccess] = useState<string>("");
   const [price, setPrice] = useState<string>("");
@@ -28,6 +27,8 @@ export const OwnerItemCreatePage = () => {
   const { ShopDataCreate } = useShopDB();
   const { user } = AuthUserContainer.useContainer();
 
+  const navigate = useNavigate();
+
   const onClickSendData = () => {
     const temp: ShopDBType = {
       uid: "",
@@ -47,6 +48,7 @@ export const OwnerItemCreatePage = () => {
       writer: user.uid,
     };
     ShopDataCreate(temp);
+    navigate("/owner/pages", { replace: true });
   };
 
   return (

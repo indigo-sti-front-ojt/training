@@ -58,6 +58,7 @@ export const useShopDB = () => {
       const tempData: ShopDBType = {
         uid: doc.id,
         name: doc.data().name,
+        writer: doc.data().writer,
       };
       tempDatas.push(tempData);
     });
@@ -89,6 +90,7 @@ export const useShopDB = () => {
           contents: data.contents,
           areaTag: data.areaTag,
           freeTag: data.freeTag,
+          writer: data.writer,
         };
         tempDatas.push(tempData);
       });
@@ -115,6 +117,7 @@ export const useShopDB = () => {
       contents: data?.contents,
       areaTag: data?.areaTag,
       freeTag: data?.freeTag,
+      writer: data?.writer,
     };
     setShopData(tempData);
   };
