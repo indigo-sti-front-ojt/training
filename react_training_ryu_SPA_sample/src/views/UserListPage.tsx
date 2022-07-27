@@ -1,13 +1,9 @@
-import React, { useEffect } from "react";
-import { useUserDB } from "../hocks/UserDB";
+import React from "react";
 import { UserDBContainer } from "../provider/UserDBProvider";
 
 export const UserListPage = () => {
   const { userDataList } = UserDBContainer.useContainer();
-  const { UserDataReads } = useUserDB();
-  useEffect(() => {
-    UserDataReads();
-  }, []);
+
   return (
     <>
       <div>mypage user list</div>

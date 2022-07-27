@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InputComponent } from "../components/InputComponent";
 import { useShopDB } from "../hocks/ShopDB";
-import { ShopDBContainer } from "../provider/ShopDBProvider";
+import { AuthUserContainer } from "../provider/AuthUserProvider";
 import { ShopDBType } from "../types/ShopDBType";
 import { TagTextObject } from "../types/TagTextObject";
 
-export const OwnerItemEditPage = () => {
-  const [writer, setWriter] = useState<string>("");
-  const [uid, setUid] = useState<string>("");
+export const OwnerItemCreatePage = () => {
   const [name, setName] = useState<string>("");
   const [access, setAccess] = useState<string>("");
   const [price, setPrice] = useState<string>("");
@@ -26,34 +24,14 @@ export const OwnerItemEditPage = () => {
   const [areaTag, setAreaTag] = useState<number[]>([]);
   const [freeTag, setFreeTag] = useState<number[]>([]);
 
-  const { shopData } = ShopDBContainer.useContainer();
-  const { ShopDataDelete, ShopDataEdit } = useShopDB();
+  const { ShopDataCreate } = useShopDB();
+  const { user } = AuthUserContainer.useContainer();
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setWriter(shopData.writer);
-    setUid(shopData.uid);
-    setName(shopData.name);
-    setAccess(shopData.access ?? "");
-    setPrice(shopData.price ?? "");
-    setClosingday(shopData.closingDay ?? []);
-    setFromOpenToCloseTime(
-      shopData.fromOpenToCleseTime ?? { open: "", close: "" }
-    );
-    setPhoneNumber(shopData.phoneNumber ?? "");
-    setShopLink(shopData.ShopLink ?? "");
-    setLinks(shopData.links ?? []);
-    setInstagramLink(shopData.instagramLink ?? "");
-    setPhotoData(shopData.photoData ?? []);
-    setContents(shopData.contents ?? []);
-    setAreaTag(shopData.areaTag ?? []);
-    setFreeTag(shopData.freeTag ?? []);
-  }, []);
-
   const onClickSendData = () => {
     const temp: ShopDBType = {
-      uid: uid,
+      uid: "",
       name: name,
       access: access,
       price: price,
@@ -67,18 +45,15 @@ export const OwnerItemEditPage = () => {
       contents: contents,
       areaTag: areaTag,
       freeTag: freeTag,
-      writer: writer,
+      writer: user.uid,
     };
-    ShopDataEdit(temp);
+    ShopDataCreate(temp);
     navigate("/owner/pages", { replace: true });
   };
-  const onClickDeleteData = () => {
-    ShopDataDelete(uid);
-    navigate("/owner/pages", { replace: true });
-  };
+
   return (
     <>
-      <div>edit</div>
+      <div>create</div>
       <div>
         <span>name</span>
         <InputComponent text={name} setText={setName} />
@@ -136,7 +111,6 @@ export const OwnerItemEditPage = () => {
       </div>
       <div>
         <button onClick={onClickSendData}>送信</button>
-        <button onClick={onClickDeleteData}>削除</button>
       </div>
     </>
   );
