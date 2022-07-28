@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useShopDB } from "../hocks/ShopDB";
 import { ShopDBContainer } from "../provider/ShopDBProvider";
-import { ShopDBType } from "../types/ShopDBType";
 
 export const ItemPage = () => {
   const { id } = useParams();
