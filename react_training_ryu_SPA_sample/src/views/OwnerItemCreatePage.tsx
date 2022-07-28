@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InputComponent } from "../components/InputComponent";
 import { InputHolidayComponet } from "../components/InputHolidayComponent";
+import { InputOpenCloseComponent } from "../components/InputOpenCloseComponent";
 import { useShopDB } from "../hocks/ShopDB";
 import { AuthUserContainer } from "../provider/AuthUserProvider";
 import { ShopDBType } from "../types/ShopDBType";
@@ -73,7 +74,10 @@ export const OwnerItemCreatePage = () => {
       </div>
       <div>
         <span>fromopentoclosetime</span>
-        {/* 営業時間開始終了コンポーネント */}
+        <InputOpenCloseComponent
+          target={fromOpenToCloseTime}
+          setTarget={setFromOpenToCloseTime}
+        />
       </div>
       <div>
         <span>phoneNumber</span>
