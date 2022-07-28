@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { firebaseApp } from "../firebase/firebaseConfig";
-import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, signOut,getAdditionalUserInfo } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const fireauth = firebaseApp.fireauth;
@@ -14,13 +14,15 @@ export const useLoginWithGoogle = () => {
 
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({
+      hd: 'sios.com'
+    });
     try {
       setError(false);
-      await signInWithPopup(fireauth, provider);
+      const res = await signInWithPopup(fireauth, provider);
+      const isNewUser = getAdditionalUserInfo(res)?.isNewUser
+      isNewUser ? navigate("/welcome") : navigate("/");
       setSuccess(true);
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
     } catch {
       console.log("ログインに失敗しました");
       setError(true);

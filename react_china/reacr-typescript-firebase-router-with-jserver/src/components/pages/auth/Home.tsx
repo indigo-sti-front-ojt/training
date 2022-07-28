@@ -41,6 +41,10 @@ export const Home = () => {
     setAnchorEl(null);
     setOpen(false);
   };
+
+  const handleMyPage = () => {
+    navigate("user/mypage")
+  }
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -73,7 +77,7 @@ export const Home = () => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <MenuItem onClick={handleClose}>プロフィール</MenuItem>
+                  <MenuItem onClick={handleMyPage}>プロフィール</MenuItem>
                   <MenuItem onClick={handleLogout}>ログアウト</MenuItem>
                 </Menu>
               </div>
@@ -100,15 +104,7 @@ export const Home = () => {
             alignItems: "left",
           }}
         >
-          <Link href="/mypage" variant="body2">
-            マイページ(自分だけが閲覧可)
-          </Link>
-          <Link href="/privatepage" variant="body2">
-            権限が必要なページ(特定のユーザーだけが閲覧可)
-          </Link>
-          <Link href="/normal" variant="body2">
-            通常ページ(ログインしているユーザー全員が閲覧可)
-          </Link>
+          <p>ここにコンテンツが入ります</p>
         </Box>
       </Container>
     </>
