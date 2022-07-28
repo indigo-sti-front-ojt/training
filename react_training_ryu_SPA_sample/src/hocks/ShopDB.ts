@@ -47,7 +47,22 @@ export const useShopDB = () => {
   };
   const ShopDataEdit = async (data: ShopDBType) => {
     const target = doc(db, targetTableName, data.uid);
-    await setDoc(target, {});
+    await setDoc(target, {
+      name: data.name,
+      access: data.access,
+      price: data.price,
+      closingDay: data.closingDay,
+      fromOpenToCleseTime: data.fromOpenToCleseTime,
+      phoneNumber: data.phoneNumber,
+      links: data.links,
+      ShopLink: data.ShopLink,
+      instagramLink: data.instagramLink,
+      photoData: data.photoData,
+      contents: data.contents,
+      areaTag: data.areaTag,
+      freeTag: data.freeTag,
+      writer: data.writer,
+    });
     setChangeFlag(!changeFlag);
   };
 
@@ -116,6 +131,7 @@ export const useShopDB = () => {
       contents: data?.contents,
       areaTag: data?.areaTag,
       freeTag: data?.freeTag,
+      access: data?.access,
       writer: data?.writer,
     };
     setShopData(tempData);
