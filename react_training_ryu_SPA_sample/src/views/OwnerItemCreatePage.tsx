@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InputComponent } from "../components/InputComponent";
+import { InputHolidayComponet } from "../components/InputHolidayComponent";
 import { useShopDB } from "../hocks/ShopDB";
 import { AuthUserContainer } from "../provider/AuthUserProvider";
 import { ShopDBType } from "../types/ShopDBType";
@@ -68,7 +69,7 @@ export const OwnerItemCreatePage = () => {
       </div>
       <div>
         <span>closingDay</span>
-        {/* 日付選択コンポーネント */}
+        <InputHolidayComponet target={closingDay} setTarget={setClosingday} />
       </div>
       <div>
         <span>fromopentoclosetime</span>
