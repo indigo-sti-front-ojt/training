@@ -5,7 +5,7 @@ export type Event = {
   event_owner: string;
   event_owner_icon:string;
   event_left_date: number;
-  event_imgurl: string,
+  event_imgurl: string;
   event_name: string;
   event_note: string;
   event_deadline: string;

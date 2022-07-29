@@ -1,11 +1,11 @@
 import React, { useEffect, FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserAndTags } from "../../../hooks/useUserAndTags";
+import { MyEventCard } from "../../organisms/layouts/mypage/event/MyEventCatd";
 
 export const MyPage: FC = () => {
-  const { getUserAndTags, loading, user,tags } = useUserAndTags();
+  const { getUserAndTags, loading, user, tags } = useUserAndTags();
   useEffect(() => getUserAndTags(), []);
-  
 
   const navigate = useNavigate();
   const onClickButtonToEdit = () => {
@@ -23,7 +23,7 @@ export const MyPage: FC = () => {
         user_twitterid: user?.user_twitterid,
         user_facebookid: user?.user_facebookid,
         user_lineqr: user?.user_lineqr,
-        tags: tags
+        tags: tags,
       },
     });
   };
@@ -40,40 +40,38 @@ export const MyPage: FC = () => {
           <hr />
           {user?.join_event.map((event, i) => (
             <>
-              <div key={i}>
-                <p>あと{event.event_left_date}日</p>
-                <img src={event.event_imgurl} alt="イベント画像" />
-                <p>{event.event_created_date}</p>
-                <p>{event.event_name}</p>
-                <p>{event.event_owner_icon}</p>
-                <p>主催：{event.event_owner}</p>
-                <p>場所：{event.event_place}</p>
-                <p>予算：{event.event_budget}円</p>
-                <p>
-                  人数：{event.event_guest_id.length}/{event.event_max_guest}
-                </p>
-              </div>
-              <hr />
+              <MyEventCard
+                key={i}
+                event_left_date={event.event_left_date}
+                event_imgurl={event.event_imgurl}
+                event_created_date={event.event_created_date}
+                event_name={event.event_name}
+                event_owner_icon={event.event_owner_icon}
+                event_owner={event.event_owner}
+                event_place={event.event_place}
+                event_budget={event.event_budget}
+                event_guest_length={event.event_guest_id.length}
+                event_max_guest={event.event_max_guest}
+              />
             </>
           ))}
           <h2>主催イベント</h2>
           <hr />
           {user?.host_event.map((event, i) => (
             <>
-              <div key={i}>
-                <p>あと{event.event_left_date}日</p>
-                <img src={event.event_imgurl} alt="イベント画像" />
-                <p>{event.event_created_date}</p>
-                <p>{event.event_name}</p>
-                <p>{event.event_owner_icon}</p>
-                <p>主催：{event.event_owner}</p>
-                <p>場所：{event.event_place}</p>
-                <p>予算：{event.event_budget}円</p>
-                <p>
-                  人数：{event.event_guest_id.length}/{event.event_max_guest}
-                </p>
-              </div>
-              <hr />
+              <MyEventCard
+                key={i}
+                event_left_date={event.event_left_date}
+                event_imgurl={event.event_imgurl}
+                event_created_date={event.event_created_date}
+                event_name={event.event_name}
+                event_owner_icon={event.event_owner_icon}
+                event_owner={event.event_owner}
+                event_place={event.event_place}
+                event_budget={event.event_budget}
+                event_guest_length={event.event_guest_id.length}
+                event_max_guest={event.event_max_guest}
+              />
             </>
           ))}
           <h2>個人設定</h2>
@@ -88,7 +86,9 @@ export const MyPage: FC = () => {
             {tags.map((tag, i) => (
               <>
                 <div key={i}>
-                {user?.user_tags.includes(tag.id) ? <span style={{ color: tag.color }}>{tag.value}</span>: false}
+                  {user?.user_tags.includes(tag.id) && (
+                    <span style={{ color: tag.color }}>{tag.value}</span>
+                  )}
                 </div>
               </>
             ))}
@@ -107,20 +107,19 @@ export const MyPage: FC = () => {
           <hr />
           {user?.past_event.map((event, i) => (
             <>
-              <div key={i}>
-                <p>あと{event.event_left_date}日</p>
-                <img src={event.event_imgurl} alt="イベント画像" />
-                <p>{event.event_created_date}</p>
-                <p>{event.event_name}</p>
-                <p>{event.event_owner_icon}</p>
-                <p>主催：{event.event_owner}</p>
-                <p>場所：{event.event_place}</p>
-                <p>予算：{event.event_budget}円</p>
-                <p>
-                  人数：{event.event_guest_id.length}/{event.event_max_guest}
-                </p>
-              </div>
-              <hr />
+              <MyEventCard
+                key={i}
+                event_left_date={event.event_left_date}
+                event_imgurl={event.event_imgurl}
+                event_created_date={event.event_created_date}
+                event_name={event.event_name}
+                event_owner_icon={event.event_owner_icon}
+                event_owner={event.event_owner}
+                event_place={event.event_place}
+                event_budget={event.event_budget}
+                event_guest_length={event.event_guest_id.length}
+                event_max_guest={event.event_max_guest}
+              />
             </>
           ))}
         </>

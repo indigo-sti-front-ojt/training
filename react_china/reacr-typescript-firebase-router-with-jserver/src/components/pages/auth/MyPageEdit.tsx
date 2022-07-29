@@ -2,35 +2,19 @@ import React, { FC } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 
-import { Tag } from "../../../types/api/Tag";
-
-type UserState = {
-  user_icon: string;
-  user_nickname: string;
-  user_name: string;
-  user_coe: string;
-  user_sl: string;
-  user_bio: string;
-  user_tags: Array<number>;
-  user_email: string;
-  user_instagramid: string;
-  user_twitterid: string;
-  user_facebookid: string;
-  user_lineqr: string;
-  tags: Array<Tag>;
-};
+import { MyPageState } from "../../../types/MyPageState";
 
 export const MyPageEdit: FC = () => {
   const location = useLocation();
-  const user = location.state as UserState;
+  const user = location.state as MyPageState;
 
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<UserState>();
-  const onSubmit: SubmitHandler<UserState> = (data) => {
+  } = useForm<MyPageState>();
+  const onSubmit: SubmitHandler<MyPageState> = (data) => {
     console.log("onSubmit", data);
     console.log("watch:", watch("user_name"));
   };
