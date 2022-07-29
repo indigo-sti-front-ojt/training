@@ -17,6 +17,7 @@ import { OwnerTagPage } from "../views/OwnerTagPage";
 import { OwnerUserEditPage } from "../views/OwnerUserEditPage";
 import { OutletLayout } from "../views/OutletLayout";
 import { OwnerUserPage } from "../views/OwnerUserPage";
+import { TestComponentView } from "../views/TestComponentView";
 // import { TestView } from "../views/TestView";
 // import { UserLayout } from "../views/UserLayout";
 import { UserListPage } from "../views/UserListPage";
@@ -44,6 +45,7 @@ export const RouterConfig = () => {
             <Route path="users" element={<UserListPage />} />
 
             {/* <Route path="test" element={<TestView />} /> */}
+            <Route path="test" element={<TestComponentView />} />
 
             <Route
               path="login"
