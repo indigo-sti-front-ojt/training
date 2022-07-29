@@ -17,6 +17,7 @@ import { Event } from "../components/pages/auth/Event";
 import { EventEdit } from "../components/pages/auth/EventEdit";
 import { EventCreate } from "../components/pages/auth/EventCreate";
 import { Profile } from "../components/pages/auth/Profile";
+import { HeaderLayout } from "../components/templates/HeaderLayout";
 
 export const Router = () => {
   return (
@@ -28,65 +29,34 @@ export const Router = () => {
             element={<LoginRoute component={<Login />} redirect="/" />}
           />
           <Route path="logout" element={<Logout />} />
-          <Route path="/" element={<Layout />}>
-            <Route
-              index
-              element={<AuthRoute component={<Home />} redirect="/login" />}
-            />
-            <Route
-              path="welcome"
-              element={
-                <AuthRoute component={<FirstLogin />} redirect="/login" />
-              }
-            />
-            <Route path="user" element={<Layout />}>
-              <Route
-                index
-                element={
-                  <AuthRoute component={<Profile />} redirect="/login" />
+          <Route
+            path="/"
+            element={
+              <AuthRoute
+                component={
+                  <HeaderLayout>
+                    <Layout />
+                  </HeaderLayout>
                 }
+                redirect="/login"
               />
+            }
+          >
+            <Route index element={<Home />} />
+            <Route path="welcome" element={<FirstLogin />} />
+            <Route path="user" element={<Layout />}>
+              <Route index element={<Profile />} />
               <Route path="mypage" element={<Layout />}>
-                <Route
-                  index
-                  element={
-                    <AuthRoute component={<MyPage />} redirect="/login" />
-                  }
-                />
-                <Route
-                  path="edit"
-                  element={
-                    <AuthRoute component={<MyPageEdit />} redirect="/login" />
-                  }
-                />
+                <Route index element={<MyPage />} />
+                <Route path="edit" element={<MyPageEdit />} />
               </Route>
             </Route>
             <Route path="events" element={<Layout />}>
-              <Route
-                index
-                element={
-                  <AuthRoute component={<EventList />} redirect="/login" />
-                }
-              />
+              <Route index element={<EventList />} />
               <Route path="event" element={<Layout />}>
-                <Route
-                  index
-                  element={
-                    <AuthRoute component={<Event />} redirect="/login" />
-                  }
-                />
-                <Route
-                  path="create"
-                  element={
-                    <AuthRoute component={<EventCreate />} redirect="/login" />
-                  }
-                />
-                <Route
-                  path="edit"
-                  element={
-                    <AuthRoute component={<EventEdit />} redirect="/login" />
-                  }
-                />
+                <Route index element={<Event />} />
+                <Route path="create" element={<EventCreate />} />
+                <Route path="edit" element={<EventEdit />} />
               </Route>
             </Route>
           </Route>
