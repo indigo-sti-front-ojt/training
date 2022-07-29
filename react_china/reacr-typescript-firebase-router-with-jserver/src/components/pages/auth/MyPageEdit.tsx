@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState, ChangeEvent } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 
@@ -11,13 +11,19 @@ export const MyPageEdit: FC = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<MyPageState>();
   const onSubmit: SubmitHandler<MyPageState> = (data) => {
     console.log("onSubmit", data);
-    console.log("watch:", watch("user_name"));
   };
+
+  const [file, setFile] = useState("");
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files);
+    setFile(URL.createObjectURL(e.target.files[0]));
+  };
+
+  
 
   return (
     <>
@@ -25,7 +31,15 @@ export const MyPageEdit: FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           アイコン
-          <textarea defaultValue={user?.user_icon} {...register("user_icon")} />
+          {/* <textarea defaultValue={user?.user_icon} {...register("user_icon")} /> */}
+          <input
+          
+            type="file"
+            accept="image/*"
+            name="user_icon"
+            onChange={handleChange}
+          />
+          <img src={file} alt="" />
         </label>
         <label>
           名前
