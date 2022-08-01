@@ -2,10 +2,10 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Child } from "./Child";
 
-export interface IFormValues {
-  "First Name": string;
+export type IFormValues = {
+  FirstName: string;
   Age: number;
-}
+};
 
 export const InputTest2 = () => {
   const { register, handleSubmit } = useForm<IFormValues>();
@@ -15,7 +15,7 @@ export const InputTest2 = () => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Child label="First Name" register={register} required />
+        <Child label="FirstName" register={register} required />
         <Child label="Age" register={register} required={false} />
         <input type="submit" />
       </form>

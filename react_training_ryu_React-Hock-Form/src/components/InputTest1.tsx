@@ -1,17 +1,19 @@
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-enum GenderEnum {
-  female = "female",
-  male = "male",
-  other = "other",
-}
-interface IFormInput {
+const GenderEnum = {
+  female: "female",
+  male: "male",
+  other: "other",
+};
+type GenderEnum = typeof GenderEnum[keyof typeof GenderEnum];
+
+type IFormInput = {
   firstName: string;
   gender: GenderEnum;
   lastName: string;
   age: number;
-}
+};
 
 export const InputTest1 = () => {
   const {
