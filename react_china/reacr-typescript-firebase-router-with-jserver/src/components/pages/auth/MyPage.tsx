@@ -4,7 +4,7 @@ import { useUserAndTags } from "../../../hooks/useUserAndTags";
 import { MyEventCard } from "../../organisms/layouts/mypage/event/MyEventCatd";
 
 export const MyPage: FC = () => {
-  const { getUserAndTags, loading, user, tags } = useUserAndTags();
+  const { getUserAndTags, loading, user,all_tag } = useUserAndTags();
   useEffect(() => getUserAndTags(), []);
 
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export const MyPage: FC = () => {
         user_twitterid: user?.user_twitterid,
         user_facebookid: user?.user_facebookid,
         user_lineqr: user?.user_lineqr,
-        tags: tags,
+        all_tag: all_tag,
       },
     });
   };
@@ -83,12 +83,10 @@ export const MyPage: FC = () => {
           <p>自己紹介: {user?.user_bio}</p>
           <p>
             興味あるタグ:
-            {tags.map((tag, i) => (
+            {user?.user_tags.map((tag, i) => (
               <>
                 <div key={i}>
-                  {user?.user_tags.includes(tag.id) && (
-                    <span style={{ color: tag.color }}>{tag.value}</span>
-                  )}
+                  <span style={{ color: tag.color }}>{tag.value}</span>
                 </div>
               </>
             ))}

@@ -10,7 +10,7 @@ export const useUserAndTags = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<User>();
   const mydataurl = "http://localhost:5000/users?" + loginuser?.uid;
-  const [tags, setTags] = useState<Array<Tag>>([]);
+  const [all_tag, setAllTag] = useState<Array<Tag>>([]);
   const tagsurl = "http://localhost:5000/tags"
 
 
@@ -20,7 +20,7 @@ export const useUserAndTags = () => {
         const res_user = await axios.get<User>(mydataurl);
         setUser(res_user.data);
         const res_tags = await axios.get<Array<Tag>>(tagsurl);
-        setTags(res_tags.data);
+        setAllTag(res_tags.data);
       } catch (error) {
         console.log("ユーザーまたはタグが取得できません");
       } finally {
@@ -28,5 +28,5 @@ export const useUserAndTags = () => {
       }
     })();
   }, []);
-  return { getUserAndTags, loading, user,tags };
+  return { getUserAndTags, loading, user,all_tag };
 };

@@ -1,4 +1,5 @@
 import { Event } from "../../types/api/Event";
+import { Tag } from "../../types/api/Tag";
 
 export type User = {
   user_id: string;
@@ -9,7 +10,7 @@ export type User = {
   user_coe: string;
   user_sl: string;
   user_bio: string;
-  user_tags: Array<number>;
+  user_tags: Tag[];
   user_lineqr: string;
   user_twitterid: string;
   user_instagramid: string;
@@ -17,4 +18,5 @@ export type User = {
   host_event: Event[];
   join_event: Event[];
   past_event: Event[];
+  all_tag:Tag[];
 };

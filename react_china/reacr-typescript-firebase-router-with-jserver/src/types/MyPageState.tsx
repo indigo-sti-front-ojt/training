@@ -7,11 +7,11 @@ export type MyPageState = {
   user_coe: string;
   user_sl: string;
   user_bio: string;
-  user_tags: Array<number>;
+  user_tags: Tag[];
   user_email: string;
   user_instagramid: string;
   user_twitterid: string;
   user_facebookid: string;
   user_lineqr: string;
-  tags: Array<Tag>;
+  all_tag: Array<Tag>;
 };
