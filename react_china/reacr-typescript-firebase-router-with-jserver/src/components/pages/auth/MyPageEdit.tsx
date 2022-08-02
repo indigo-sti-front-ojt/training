@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { FC, useState, ChangeEvent } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useLocation } from "react-router-dom";
@@ -11,19 +12,41 @@ export const MyPageEdit: FC = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<MyPageState>();
   const onSubmit: SubmitHandler<MyPageState> = (data) => {
     console.log("onSubmit", data);
   };
 
-  const [file, setFile] = useState("");
+  const [tmpFile, setTmpFile] = useState<File>();
+  const [tmpUrl, setTmpUrl] = useState(user?.user_icon);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files);
-    setFile(URL.createObjectURL(e.target.files[0]));
+    if (!e.target.files) return;
+    setTmpUrl(URL.createObjectURL(e.target.files[0]));
+    setTmpFile(e.target.files[0]);
   };
 
-  
+  const onClickImageUp = async () => {
+    console.log(tmpFile);
+    try {
+      // 以下postリクエスト
+      // await axios({
+      //   url: "/upload/image/",
+      //   method: "post",
+      //   data: tmpFile,
+      //   headers: {
+      //     "content-type": "multipart/form-data",
+      //   },
+      // });
+      const res = await axios.get("http://localhost:5000/image");
+      const icon_data = res.data;
+      setValue("user_icon", icon_data?.url);
+    } catch {
+      console.log("error");
+    }
+  };
 
   return (
     <>
@@ -33,13 +56,19 @@ export const MyPageEdit: FC = () => {
           アイコン
           {/* <textarea defaultValue={user?.user_icon} {...register("user_icon")} /> */}
           <input
-          
             type="file"
             accept="image/*"
             name="user_icon"
             onChange={handleChange}
           />
-          <img src={file} alt="" />
+          <img src={tmpUrl} alt="アイコン画像" />
+        </label>
+        <span style={{cursor:"pointer",border:"solid 1px"}} onClick={onClickImageUp}>UpLoad</span>
+        <label>
+          <input
+            defaultValue={user?.user_icon}
+            {...register("user_icon", { required: true })}
+          />
         </label>
         <label>
           名前
