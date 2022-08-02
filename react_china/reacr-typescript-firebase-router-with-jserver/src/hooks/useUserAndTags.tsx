@@ -2,17 +2,15 @@ import { useCallback, useState } from "react";
 import axios from "axios";
 
 import { User } from "../types/api/User";
-import { Tag } from "../types/api/Tag"
-import { useLoginUserContext } from "../context/LoginUserContext";
+import { Tag } from "../types/api/Tag";
 
-export const useUserAndTags = () => {
-  const { loginuser } = useLoginUserContext();
+
+export const useUserAndTags = (userID:string|undefined) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<User>();
-  const mydataurl = "http://localhost:5000/users?" + loginuser?.uid;
+  const mydataurl = "http://localhost:5000/users?" + userID;
   const [all_tag, setAllTag] = useState<Array<Tag>>([]);
-  const tagsurl = "http://localhost:5000/tags"
-
+  const tagsurl = "http://localhost:5000/tags";
 
   const getUserAndTags = useCallback(() => {
     (async () => {
@@ -28,5 +26,5 @@ export const useUserAndTags = () => {
       }
     })();
   }, []);
-  return { getUserAndTags, loading, user,all_tag };
+  return { getUserAndTags, loading, user, all_tag };
 };

@@ -1,6 +1,7 @@
-import { Tag } from "./api/Tag" 
+import { Tag } from "./api/Tag";
 
 export type MyPageState = {
+  user_id?: string;
   user_icon: string;
   user_nickname: string;
   user_name: string;

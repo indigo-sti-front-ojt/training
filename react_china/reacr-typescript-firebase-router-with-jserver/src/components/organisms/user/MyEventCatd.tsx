@@ -2,17 +2,17 @@ import React from "react";
 import { FC } from "react";
 
 type Props = {
-  key: number;
-  event_left_date: number;
-  event_imgurl: string;
-  event_created_date: string;
-  event_name: string;
-  event_owner_icon: string;
-  event_owner: string;
-  event_place: string;
-  event_budget: number;
-  event_guest_length: number;
-  event_max_guest: number;
+  key?: number;
+  event_left_date?: number;
+  event_imgurl?: string;
+  event_created_date?: string;
+  event_name?: string;
+  event_owner_icon?: string;
+  event_owner?: string;
+  event_place?: string;
+  event_budget?: number;
+  event_guest_length?: number;
+  event_max_guest?: number;
 };
 
 export const MyEventCard: FC<Props> = (props: Props) => {

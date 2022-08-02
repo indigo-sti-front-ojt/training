@@ -8,7 +8,7 @@ import { MyPageState } from "../../../types/MyPageState";
 export const MyPageEdit: FC = () => {
   const location = useLocation();
   const user = location.state as MyPageState;
-  const checkedTag: Array<number> = user?.user_tags.map(
+  const checkedTag: Array<number | undefined> = user?.user_tags.map(
     (checkd_tag) => checkd_tag.id
   );
 
