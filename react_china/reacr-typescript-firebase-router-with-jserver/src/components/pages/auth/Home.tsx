@@ -1,21 +1,16 @@
 import React from "react";
-import { Container, CssBaseline, Box } from "@mui/material";
+import { Link } from "react-router-dom";
+
 export const Home = () => {
   return (
     <>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "left",
-          }}
-        >
-          <p>ここにコンテンツが入ります</p>
-        </Box>
-      </Container>
+      <div>
+        <Link to={"/events"}>イベント検索する</Link>
+      </div>
+      <Link to={"/events"}>お酒 </Link>
+      <Link to={"/events"}>ゲーム </Link>
+      <Link to={"/events"}>アウトドア </Link>
+      <Link to={"/events"}>勉強</Link>
     </>
   );
 };
