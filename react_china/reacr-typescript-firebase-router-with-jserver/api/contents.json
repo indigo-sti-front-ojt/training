@@ -8,7 +8,11 @@
     "user_coe": "エンジニアCoE",
     "user_sl": "PS",
     "user_bio": "こんにちは",
-    "user_tags": [2, 4, 8],
+    "user_tags": [
+      { "id": 1, "value": "アウトドア", "color": "#73FBD3" },
+      { "id": 2, "value": "飲み会", "color": "#44E5E7" },
+      { "id": 3, "value": "勉強", "color": "#59D2FE" }
+    ],
     "user_lineqr": "https://placehold.jp/150x150.png",
     "user_twitterid": "aaaa",
     "user_instagramid": "aaaa",
@@ -181,7 +185,11 @@
     "user_coe": "エンジニアCoE",
     "user_sl": "PS",
     "user_bio": "こんにちは",
-    "user_tags": [2, 4, 6],
+    "user_tags": [
+      { "id": 1, "value": "アウトドア", "color": "#73FBD3" },
+      { "id": 2, "value": "飲み会", "color": "#44E5E7" },
+      { "id": 3, "value": "勉強", "color": "#59D2FE" }
+    ],
     "user_lineqr": "https://placehold.jp/150x150.png",
     "user_twitterid": "aaaa",
     "user_instagramid": "aaaa",
@@ -698,7 +706,7 @@
       "comment_text": "aaaaaaaaaaaaaa"
     }
   ],
-  "image":{
-    "url":"https://placehold.jp/3d4070/ffffff/150x150.png?text=%E6%88%90%E5%8A%9F"
+  "image": {
+    "url": "https://placehold.jp/3d4070/ffffff/150x150.png?text=%E6%88%90%E5%8A%9F"
   }
 }

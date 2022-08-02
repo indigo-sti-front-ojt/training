@@ -7,9 +7,8 @@ import {
   SetStateAction,
   ReactNode,
 } from "react";
-import { UserCredential, onAuthStateChanged, getAuth } from "firebase/auth";
-
-type LoginUser = UserCredential["user"];
+import { getAuth,onAuthStateChanged } from "firebase/auth";
+import { LoginUser } from "../types/firebase/LoginUser";
 
 export type LoginUserContextType = {
   loginuser: LoginUser | null;

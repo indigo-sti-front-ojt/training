@@ -8,6 +8,9 @@ import { MyPageState } from "../../../types/MyPageState";
 export const MyPageEdit: FC = () => {
   const location = useLocation();
   const user = location.state as MyPageState;
+  const checkedTag: Array<number | undefined> = user?.user_tags.map(
+    (checkd_tag) => checkd_tag.id
+  );
 
   const {
     register,
@@ -63,7 +66,12 @@ export const MyPageEdit: FC = () => {
           />
           <img src={tmpUrl} alt="アイコン画像" />
         </label>
-        <span style={{cursor:"pointer",border:"solid 1px"}} onClick={onClickImageUp}>UpLoad</span>
+        <span
+          style={{ cursor: "pointer", border: "solid 1px" }}
+          onClick={onClickImageUp}
+        >
+          UpLoad
+        </span>
         <label>
           <input
             defaultValue={user?.user_icon}
@@ -98,11 +106,11 @@ export const MyPageEdit: FC = () => {
         </label>
 
         <h3>タグ</h3>
-        {user.tags.map((tag, i) => (
-          <>
+        {user?.all_tag?.map(function (tag, i) {
+          return (
             <div key={i}>
               <label>
-                {user?.user_tags.includes(tag.id) ? (
+                {checkedTag.includes(tag.id) ? (
                   <>
                     <input
                       {...register("user_tags")}
@@ -124,8 +132,8 @@ export const MyPageEdit: FC = () => {
                 )}
               </label>
             </div>
-          </>
-        ))}
+          );
+        })}
 
         <h3>SNS</h3>
         <label>
