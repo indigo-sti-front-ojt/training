@@ -1,9 +1,8 @@
-import { JSONSchema7 } from "json-schema";
-import React, { useState } from "react";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type ruleObject = {
-  [key: string]: any;
+  [key: string]: string | boolean;
 };
 
 export const JsonSchemaComponent = (props: {
@@ -40,6 +39,7 @@ export const JsonSchemaComponent = (props: {
       return options;
     }
   };
+
   const RuleReturn = (key: string) => {
     const rule: ruleObject = {};
     if (jsonSchema.properties[key]?.minimum)
@@ -58,8 +58,6 @@ export const JsonSchemaComponent = (props: {
     const title: string = jsonSchema.properties[key].description;
     const options = OptionReturn(key);
     const rule = RuleReturn(key);
-    console.log(rule);
-
     // type pattern
     switch (UIFlag) {
       case "input":
@@ -68,6 +66,7 @@ export const JsonSchemaComponent = (props: {
             <label htmlFor="">
               {title}
               <input type="text" {...register(key, rule)} />
+              <>{errors[key] ? "error" : ""}</>
             </label>
           </>
         );
@@ -77,6 +76,7 @@ export const JsonSchemaComponent = (props: {
             <label htmlFor="">
               {title}
               <textarea id="" {...register(key, rule)} />
+              <>{errors[key] ? "error" : ""}</>
             </label>
           </>
         );
@@ -86,6 +86,7 @@ export const JsonSchemaComponent = (props: {
             <label htmlFor="">
               {title}
               <input type="number" id="" {...register(key, rule)} />
+              <>{errors[key] ? "error" : ""}</>
             </label>
           </>
         );
@@ -104,6 +105,7 @@ export const JsonSchemaComponent = (props: {
                 />
               </label>
             ))}
+            <>{errors[key] ? "error" : ""}</>
           </>
         );
       case "checkbox":
@@ -121,6 +123,7 @@ export const JsonSchemaComponent = (props: {
                 />
               </label>
             ))}
+            <>{errors[key] ? "error" : ""}</>
           </>
         );
       default:
