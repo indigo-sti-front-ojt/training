@@ -3,7 +3,7 @@ import React, { FC, useState, ChangeEvent } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 
-import { MyPageState } from "../../../types/MyPageState";
+import { MyPageState } from "../../../types/react-hook-form/MyPageState";
 
 export const MyPageEdit: FC = () => {
   const location = useLocation();

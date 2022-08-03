@@ -12,7 +12,7 @@ export const useEventHome = () => {
   const tagEventsUrl = "http://localhost:5000/events";
   // http://localhost:5000/events?tagid=1+2
 
-  const getEvents = useCallback(() => {
+  const getHomeEvents = useCallback(() => {
     (async () => {
       try {
         const resNearEvents = await axios.get<Event[]>(latastEventsUrl);
@@ -26,5 +26,5 @@ export const useEventHome = () => {
       }
     })();
   }, []);
-  return { getEvents, loading, nearEvents,tagEvents };
+  return { getHomeEvents, loading, nearEvents,tagEvents };
 };

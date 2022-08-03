@@ -8,7 +8,7 @@ import { Tag } from "../types/api/Tag";
 export const useUserAndTags = (userID:string|undefined) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<User>();
-  const mydataurl = "http://localhost:5000/users?" + userID;
+  const mydataurl = "http://localhost:5000/users?userid=" + userID;
   const [all_tag, setAllTag] = useState<Array<Tag>>([]);
   const tagsurl = "http://localhost:5000/tags";
 

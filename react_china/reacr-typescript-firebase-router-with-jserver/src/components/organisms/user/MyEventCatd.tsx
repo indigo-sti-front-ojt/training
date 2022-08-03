@@ -7,6 +7,7 @@ type Props = {
   event_imgurl?: string;
   event_created_date?: string;
   event_name?: string;
+  event_owner_name?: string;
   event_owner_icon?: string;
   event_owner?: string;
   event_place?: string;
@@ -22,8 +23,8 @@ export const MyEventCard: FC<Props> = (props: Props) => {
     event_imgurl,
     event_created_date,
     event_name,
+    event_owner_name,
     event_owner_icon,
-    event_owner,
     event_place,
     event_budget,
     event_guest_length,
@@ -37,7 +38,7 @@ export const MyEventCard: FC<Props> = (props: Props) => {
         <p>{event_created_date}</p>
         <p>{event_name}</p>
         <p>{event_owner_icon}</p>
-        <p>主催：{event_owner}</p>
+        <p>主催：{event_owner_name}</p>
         <p>場所：{event_place}</p>
         <p>予算：{event_budget}円</p>
         <p>

@@ -47,10 +47,10 @@ export const Profile = () => {
                 event_created_date={event.event_created_date}
                 event_name={event.event_name}
                 event_owner_icon={event.event_owner_icon}
-                event_owner={event.event_owner}
+                event_owner_name={event.event_owner_name}
                 event_place={event.event_place}
                 event_budget={event.event_budget}
-                event_guest_length={event.event_guest_id.length}
+                event_guest_length={event.event_guests?.length}
                 event_max_guest={event.event_max_guest}
               />
             </>
@@ -66,10 +66,10 @@ export const Profile = () => {
                 event_created_date={event.event_created_date}
                 event_name={event.event_name}
                 event_owner_icon={event.event_owner_icon}
-                event_owner={event.event_owner}
+                event_owner_name={event.event_owner_name}
                 event_place={event.event_place}
                 event_budget={event.event_budget}
-                event_guest_length={event.event_guest_id.length}
+                event_guest_length={event.event_guests?.length}
                 event_max_guest={event.event_max_guest}
               />
             </>
@@ -85,10 +85,10 @@ export const Profile = () => {
                 event_created_date={event.event_created_date}
                 event_name={event.event_name}
                 event_owner_icon={event.event_owner_icon}
-                event_owner={event.event_owner}
+                event_owner_name={event.event_owner_name}
                 event_place={event.event_place}
                 event_budget={event.event_budget}
-                event_guest_length={event.event_guest_id.length}
+                event_guest_length={event.event_guests?.length}
                 event_max_guest={event.event_max_guest}
               />
             </>
