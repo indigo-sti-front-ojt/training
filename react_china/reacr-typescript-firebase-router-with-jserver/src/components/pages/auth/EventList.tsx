@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { MyEventCard } from "../../organisms/user/MyEventCatd";
+import { EventCard } from "../../organisms/EventCatd";
 import { EventSerchForm } from "../../organisms/EventsSearchForm";
 import { useEventSearch } from "../../../hooks/api/useEventSearch";
 
@@ -15,8 +15,9 @@ export const EventList = () => {
       <div>
         {events?.map((event, i) => (
           <>
-            <MyEventCard
+            <EventCard
               key={i}
+              id={event.id}
               event_left_date={event.event_left_date}
               event_imgurl={event.event_imgurl}
               event_created_date={event.event_created_date}

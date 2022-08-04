@@ -46,6 +46,7 @@ export const MyPage: FC = () => {
             <>
               <MyEventCard
                 key={i}
+                id={event.id}
                 event_left_date={event.event_left_date}
                 event_imgurl={event.event_imgurl}
                 event_created_date={event.event_created_date}
@@ -65,6 +66,7 @@ export const MyPage: FC = () => {
             <>
               <MyEventCard
                 key={i}
+                id={event.id}
                 event_left_date={event.event_left_date}
                 event_imgurl={event.event_imgurl}
                 event_created_date={event.event_created_date}
@@ -100,6 +102,7 @@ export const MyPage: FC = () => {
             <>
               <MyEventCard
                 key={i}
+                id={event.id}
                 event_left_date={event.event_left_date}
                 event_imgurl={event.event_imgurl}
                 event_created_date={event.event_created_date}
