@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import { useAllTags } from "../../../hooks/useAllTags";
+import { useAllTags } from "../../../hooks/api/useAllTags";
 import { formAllTags } from "../../../types/react-hook-form/formAllTags";
 
 export const FirstLogin = () => {
@@ -20,7 +20,7 @@ export const FirstLogin = () => {
   const onSubmit: SubmitHandler<formAllTags> = (data) => {
     console.log("onSubmit", data);
     //ここにpostの処理も追加?
-    navigate("/")
+    navigate("/");
   };
 
   return (
@@ -46,7 +46,7 @@ export const FirstLogin = () => {
                 </div>
               </>
             ))}
-            <input type="submit" />
+            <button type="submit">決定</button>
           </form>
         </>
       )}

@@ -1,11 +1,15 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { useEvent } from "../../../hooks/useEvent";
+import { useLoginUserContext } from "../../../context/LoginUserContext";
+import { useEvent } from "../../../hooks/api/useEvent";
 import { CommentPost } from "../../../types/react-hook-form/CommentPost";
 import { Comment } from "../../organisms/comment/Comment";
+import { LinkToEventSearch } from "../../organisms/LinkToEventSearch";
 
 export const Event = () => {
+  const { loginuser } = useLoginUserContext();
   const { getEvent, event, loading } = useEvent();
   useEffect(() => getEvent(), []);
 
@@ -19,6 +23,24 @@ export const Event = () => {
     console.log("onSubmit", data);
   };
 
+  const navigate = useNavigate();
+  const onClickButtonToEdit = () => {
+    navigate("edit", {
+      state: {
+        event_imgurl: event?.event_imgurl,
+        event_name: event?.event_name,
+        event_note: event?.event_note,
+        event_deadline: event?.event_deadline,
+        event_date: event?.event_date,
+        event_place: event?.event_place,
+        event_budget: event?.event_budget,
+        event_tags: event?.event_tags,
+        event_min_guest: event?.event_min_guest,
+        event_max_guest: event?.event_max_guest,
+      },
+    });
+  };
+
   const onClickApply = () => {
     alert("参加登録しました。");
   };
@@ -26,6 +48,15 @@ export const Event = () => {
   return (
     <>
       <h2>イベント</h2>
+      {loginuser?.uid === event?.event_owner?.user_id ? (
+        <>
+          <button type="button" onClick={onClickButtonToEdit}>
+            編集
+          </button>
+        </>
+      ) : (
+        ""
+      )}
       <p>応募締め切り</p>
       <img src={event?.event_imgurl} alt="イベントヘッダー画像" />
       {event?.event_tags?.map((tag, i) => (
@@ -84,6 +115,7 @@ export const Event = () => {
         )}
         <input type="submit" />
       </form>
+      <LinkToEventSearch />
     </>
   );
 };

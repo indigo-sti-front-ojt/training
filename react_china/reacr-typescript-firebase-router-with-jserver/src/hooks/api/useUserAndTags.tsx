@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import axios from "axios";
 
-import { User } from "../types/api/User";
-import { Tag } from "../types/api/Tag";
+import { User } from "../../types/api/User";
+import { Tag } from "../../types/api/Tag";
 
 
 export const useUserAndTags = (userID:string|undefined) => {

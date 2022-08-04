@@ -1,6 +1,6 @@
 import React, { useEffect, FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserAndTags } from "../../../hooks/useUserAndTags";
+import { useUserAndTags } from "../../../hooks/api/useUserAndTags";
 import { MyEventCard } from "../../organisms/user/MyEventCatd";
 import { PersonalInfo } from "../../organisms/user/PersonalInfo";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
@@ -40,7 +40,6 @@ export const MyPage: FC = () => {
         </>
       ) : (
         <>
-          <h1>MyPageページです。</h1>
           <h2>参加予定のイベント</h2>
           <hr />
           {user?.join_event?.map((event, i) => (

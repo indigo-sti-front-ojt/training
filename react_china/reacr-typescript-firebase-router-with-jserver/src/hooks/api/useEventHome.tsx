@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import axios from "axios";
 
-import { Event } from "../types/api/Event";
+import { Event } from "../../types/api/Event";
 
 export const useEventHome = () => {
   const [loading, setLoading] = useState<boolean>(false);

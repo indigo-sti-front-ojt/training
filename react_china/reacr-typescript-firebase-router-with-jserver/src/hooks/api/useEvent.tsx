@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import axios from "axios";
 
-import { Event } from "../types/api/Event";
+import { Event } from "../../types/api/Event";
 //import { SearchEventList } from "../types/react-hook-form/SearchEventList";
 
 export const useEvent = () => {
