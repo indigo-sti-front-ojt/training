@@ -1,9 +1,16 @@
 import { Tag } from "./Tag";
-import { User } from "./User"
+
+type UserInfo = {
+  user_id?: string;
+  user_name?: string;
+  user_icon?: string;
+  user_nickname?: string;
+  user_email?: string;
+}
 
 export type Event = {
   id: number;
-  event_owner?: User;
+  event_owner: UserInfo;
   event_owner_name?:string;
   event_owner_icon?:string;
   event_left_date?: number;
@@ -17,6 +24,6 @@ export type Event = {
   event_min_guest?: number;
   event_max_guest?: number;
   event_created_date?: string;
-  event_guests?: User[];
+  event_guests?: UserInfo[];
   event_tags?: Tag[];
 };

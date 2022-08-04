@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import axios from "axios";
 
-import { Comment } from "../types/api/Comment";
+import { Comment } from "../../types/api/Comment";
 
 export const useComments = () => {
   const [loading, setLoading] = useState<boolean>(false);

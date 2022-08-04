@@ -3,9 +3,13 @@ import React, { FC, useState, ChangeEvent } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 
+// import { useImageUp } from "../../../hooks/useImageUp";
+
 import { MyPageState } from "../../../types/react-hook-form/MyPageState";
 
 export const MyPageEdit: FC = () => {
+  // const { onClickImageUp, icondata } = useImageUp(tmpFile);
+
   const location = useLocation();
   const user = location.state as MyPageState;
   const checkedTag: Array<number | undefined> = user?.user_tags.map(
@@ -57,7 +61,6 @@ export const MyPageEdit: FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           アイコン
-          {/* <textarea defaultValue={user?.user_icon} {...register("user_icon")} /> */}
           <input
             type="file"
             accept="image/*"

@@ -1,8 +1,10 @@
 import React, { FC, useEffect } from "react";
-import { Link } from "react-router-dom";
 
-import { useEventHome } from "../../../hooks/useEventHome";
-import { EventCard } from "../../organisms/events/EventCatd";
+import { useEventHome } from "../../../hooks/api/useEventHome";
+import { EventCard } from "../../organisms/EventCatd";
+import { LinkToEventSearch } from "../../organisms/LinkToEventSearch";
+import { GenreSearchCard } from "../../organisms/GenreSearchCard";
+import { CreateNewEventButton } from "../../atoms/buttons/CreateNewEventButton";
 
 export const Home: FC = () => {
   const { getHomeEvents, nearEvents, tagEvents, loading } = useEventHome();
@@ -17,14 +19,15 @@ export const Home: FC = () => {
         </>
       ) : (
         <>
-          <div>
-            <Link to={"/events"}>イベント検索する</Link>
-          </div>
+          <CreateNewEventButton />
+
+          <LinkToEventSearch />
           <h2>ジャンルから探す</h2>
-          <Link to={"/events"}>お酒 </Link>
-          <Link to={"/events"}>ゲーム </Link>
-          <Link to={"/events"}>アウトドア </Link>
-          <Link to={"/events"}>勉強</Link>
+          <GenreSearchCard tag_id="2" tag_name="飲み会" />
+          <GenreSearchCard tag_id="4" tag_name="ゲーム" />
+          <GenreSearchCard tag_id="1" tag_name="アウトドア" />
+          <GenreSearchCard tag_id="3" tag_name="勉強" />
+
           <h2>締め切りが近いイベント</h2>
           <hr />
           {nearEvents?.map((event, i) => (

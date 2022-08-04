@@ -1,7 +1,12 @@
-import React from "react";
+import React, { FC } from "react";
 
-export const EventCreate = () => {
-  return(
-    <p>Event Createページです。</p>
+import { EventCreateEditForm } from "../../organisms/EventCreateEditForm";
+
+export const EventCreate: FC = () => {
+  return (
+    <>
+      <h2>イベント作成</h2>
+      <EventCreateEditForm />
+    </>
   );
-}
+};

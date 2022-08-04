@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useUserAndTags } from "../../../hooks/useUserAndTags";
+import { useUserAndTags } from "../../../hooks/api/useUserAndTags";
 import { MyEventCard } from "../../organisms/user/MyEventCatd";
 import { PersonalInfo } from "../../organisms/user/PersonalInfo";
 

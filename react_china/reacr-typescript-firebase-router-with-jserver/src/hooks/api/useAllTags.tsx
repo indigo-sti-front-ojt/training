@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import axios from "axios";
 
-import { Tag } from "../types/api/Tag";
+import { Tag } from "../../types/api/Tag";
 
 export const useAllTags = () => {
   const [loading, setLoading] = useState<boolean>(false);

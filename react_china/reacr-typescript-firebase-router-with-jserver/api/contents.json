@@ -714,15 +714,15 @@
     "event_deadline": "1111/02/30",
     "event_imgurl": "https://placehold.jp/150x150.png",
     "event_tags": [
-      { "id": 0, "value": "飲み会", "color": "#1234545" },
-      { "id": 1, "value": "野球", "color": "#123456" }
+      { "id": 1, "value": "アウトドア", "color": "#1234545" },
+      { "id": 2, "value": "飲み会", "color": "#123456" }
     ],
     "event_name": "イベント名",
     "event_note": "サンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキスト",
     "event_min_guest": "3",
     "event_max_guest": "6",
     "event_owner": {
-      "user_id": "000",
+      "user_id": "DLUeQFA859OUmLXT3JwiJlGQM9N2",
       "user_name": "鈴木太郎",
       "user_icon": "https://placehold.jp/150x150.png",
       "user_nickname": "aaa",
