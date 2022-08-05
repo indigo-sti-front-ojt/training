@@ -75,7 +75,7 @@ export const useShopDB = () => {
     const tempDatas: ShopDBType[] = [];
 
     dataResults.forEach((doc) => {
-      console.log(doc.id, ":", doc.data());
+      // console.log(doc.id, ":", doc.data());
       const tempData: ShopDBType = {
         uid: doc.id,
         name: doc.data().name,
@@ -115,7 +115,7 @@ export const useShopDB = () => {
   const ShopDataRead = async (uid: string) => {
     const target = doc(db, targetTableName, uid);
     const dataResult = await getDoc(target);
-    console.log(typeof dataResult);
+    console.log("shopDataRead");
     const data = dataResult.data();
     const tempData: ShopDBType = {
       uid: uid,

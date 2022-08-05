@@ -11,10 +11,10 @@ export type ShopDBType = {
     close: string;
   };
   phoneNumber?: string;
-  links?: TagTextObject[];
   ShopLink?: string;
   instagramLink?: string;
   photoData?: string[];
+  links?: TagTextObject[];
   contents?: TagTextObject[];
   areaTag?: number[];
   freeTag?: number[];
