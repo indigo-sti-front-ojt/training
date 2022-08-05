@@ -3,41 +3,19 @@ import axios from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Event } from "../../types/api/Event";
-import { Tag } from "../../types/api/Tag";
 import { useAllTags } from "../../hooks/api/useAllTags";
 
 type Props = {
-  event_imgurl?: string;
-  event_name?: string;
-  event_note?: string;
-  event_deadline?: string;
-  event_date?: string;
-  event_place?: string;
-  event_budget?: number;
-  event_tags?: Tag[];
-  event_min_guest?: number;
-  event_max_guest?: number;
+  event?: Event;
 };
 
 export const EventCreateEditForm: FC<Props> = (props) => {
-  const {
-    event_imgurl,
-    event_name,
-    event_note,
-    event_deadline,
-    event_date,
-    event_place,
-    event_budget,
-    event_tags,
-    event_min_guest,
-    event_max_guest,
-  } = props;
+  const { event } = props;
   const { getAllTags, loading, all_tag } = useAllTags();
   useEffect(() => getAllTags(), []);
 
-  const checkedTag: Array<number | undefined> | undefined = event_tags?.map(
-    (checkd_tag) => checkd_tag.id
-  );
+  const checkedTag: Array<number | undefined> | undefined =
+    event?.event_tags?.map((checkd_tag) => checkd_tag.id);
 
   const {
     register,
@@ -50,7 +28,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   };
 
   const [tmpFile, setTmpFile] = useState<File>();
-  const [tmpUrl, setTmpUrl] = useState(event_imgurl);
+  const [tmpUrl, setTmpUrl] = useState(event?.event_imgurl);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files);
     if (!e.target.files) return;
@@ -88,12 +66,15 @@ export const EventCreateEditForm: FC<Props> = (props) => {
           UpLoad
         </span>
         <label>
-          <input defaultValue={event_imgurl} {...register("event_imgurl")} />
+          <input
+            defaultValue={event?.event_imgurl}
+            {...register("event_imgurl")}
+          />
         </label>
         <label>
           イベント名
           <input
-            defaultValue={event_name}
+            defaultValue={event?.event_name}
             {...register("event_name", { required: true })}
           />
         </label>
@@ -102,26 +83,35 @@ export const EventCreateEditForm: FC<Props> = (props) => {
         )}
         <label>
           募集文章
-          <textarea defaultValue={event_note} {...register("event_note")} />
+          <textarea
+            defaultValue={event?.event_note}
+            {...register("event_note")}
+          />
         </label>
         <label>
           募集締め切り
           <input
-            defaultValue={event_deadline}
+            defaultValue={event?.event_deadline}
             {...register("event_deadline")}
           />
         </label>
         <label>
           開催日時
-          <input defaultValue={event_date} {...register("event_date")} />
+          <input defaultValue={event?.event_date} {...register("event_date")} />
         </label>
         <label>
           開催場所
-          <input defaultValue={event_place} {...register("event_place")} />
+          <input
+            defaultValue={event?.event_place}
+            {...register("event_place")}
+          />
         </label>
         <label>
           予算
-          <input defaultValue={event_budget} {...register("event_budget")} />
+          <input
+            defaultValue={event?.event_budget}
+            {...register("event_budget")}
+          />
           <span>円</span>
         </label>
 
@@ -157,12 +147,12 @@ export const EventCreateEditForm: FC<Props> = (props) => {
         <label>
           募集人数
           <input
-            defaultValue={event_min_guest}
+            defaultValue={event?.event_min_guest}
             {...register("event_min_guest")}
           />
           <span>~</span>
           <input
-            defaultValue={event_max_guest}
+            defaultValue={event?.event_max_guest}
             {...register("event_max_guest")}
           />
         </label>
