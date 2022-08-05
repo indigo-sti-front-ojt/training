@@ -9,7 +9,7 @@ export type User = {
   user_icon?: string;
   user_coe?: string;
   user_sl?: string;
-  user_bio?: string;
+  user_comment?: string;
   user_tags?: Tag[];
   user_lineqr?: string;
   user_twitterid?: string;
@@ -18,5 +18,6 @@ export type User = {
   host_event?: Event[];
   join_event?: Event[];
   past_event?: Event[];
-  all_tag?:Tag[];
+  all_tag?: Tag[];
+  user_tags_id?: Array<number>;
 };

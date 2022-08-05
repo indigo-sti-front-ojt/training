@@ -32,40 +32,18 @@ export const Home: FC = () => {
           <hr />
           {nearEvents?.map((event, i) => (
             <>
-              <EventCard
-                key={i}
-                id={event.id}
-                event_left_date={event.event_left_date}
-                event_imgurl={event.event_imgurl}
-                event_created_date={event.event_created_date}
-                event_name={event.event_name}
-                event_owner_icon={event.event_owner_icon}
-                event_owner_name={event.event_owner_name}
-                event_place={event.event_place}
-                event_budget={event.event_budget}
-                event_guest_length={event.event_guests?.length}
-                event_max_guest={event.event_max_guest}
-              />
+              <div key={i}>
+                <EventCard event={event} />
+              </div>
             </>
           ))}
           <h2>あなたが関心ありそうなイベント</h2>
           <hr />
           {tagEvents?.map((event, i) => (
             <>
-              <EventCard
-                key={i}
-                id={event.id}
-                event_left_date={event.event_left_date}
-                event_imgurl={event.event_imgurl}
-                event_created_date={event.event_created_date}
-                event_name={event.event_name}
-                event_owner_icon={event.event_owner_icon}
-                event_owner_name={event.event_owner_name}
-                event_place={event.event_place}
-                event_budget={event.event_budget}
-                event_guest_length={event.event_guests?.length}
-                event_max_guest={event.event_max_guest}
-              />
+              <div key={i}>
+                <EventCard event={event} />
+              </div>
             </>
           ))}
         </>

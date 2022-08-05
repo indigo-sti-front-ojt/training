@@ -2,41 +2,43 @@ import axios from "axios";
 import React, { FC, useState, ChangeEvent } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useLocation } from "react-router-dom";
+import { User } from "../../../types/api/User";
 
 // import { useImageUp } from "../../../hooks/useImageUp";
 
-import { MyPageState } from "../../../types/react-hook-form/MyPageState";
+import { MyPageState } from "../../../types/states/MyPageState";
 
 export const MyPageEdit: FC = () => {
   // const { onClickImageUp, icondata } = useImageUp(tmpFile);
 
   const location = useLocation();
-  const user = location.state as MyPageState;
-  const checkedTag: Array<number | undefined> = user?.user_tags.map(
-    (checkd_tag) => checkd_tag.id
-  );
+  const state = location.state as MyPageState;
+
+  const checkedTag: Array<number | undefined> | undefined =
+    state?.user?.user_tags?.map((checkd_tag) => checkd_tag.id);
 
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<MyPageState>();
-  const onSubmit: SubmitHandler<MyPageState> = (data) => {
+  } = useForm<User>();
+
+  setValue("user_id", state?.user.user_id);
+
+  const onSubmit: SubmitHandler<User> = (data) => {
     console.log("onSubmit", data);
   };
 
   const [tmpFile, setTmpFile] = useState<File>();
-  const [tmpUrl, setTmpUrl] = useState(user?.user_icon);
+  const [tmpUrl, setTmpUrl] = useState(state?.user?.user_icon);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
     if (!e.target.files) return;
     setTmpUrl(URL.createObjectURL(e.target.files[0]));
     setTmpFile(e.target.files[0]);
   };
 
   const onClickImageUp = async () => {
-    console.log(tmpFile);
     try {
       // 以下postリクエスト
       // await axios({
@@ -77,15 +79,15 @@ export const MyPageEdit: FC = () => {
         </span>
         <label>
           <input
-            defaultValue={user?.user_icon}
+            defaultValue={state?.user?.user_icon}
             {...register("user_icon", { required: true })}
           />
         </label>
         <label>
           名前
           <input
-            defaultValue={user?.user_nickname}
-            {...register("user_name", { required: true })}
+            defaultValue={state?.user?.user_nickname}
+            {...register("user_nickname", { required: true })}
           />
         </label>
         {errors.user_name && (
@@ -93,30 +95,36 @@ export const MyPageEdit: FC = () => {
         )}
         <label>
           本名
-          <input defaultValue={user?.user_name} readOnly />
+          <input value={state?.user?.user_name} readOnly />
         </label>
         <label>
           所属CoE
-          <input defaultValue={user?.user_coe} {...register("user_coe")} />
+          <input
+            defaultValue={state?.user?.user_coe}
+            {...register("user_coe")}
+          />
         </label>
         <label>
           所属SL
-          <input defaultValue={user?.user_sl} {...register("user_sl")} />
+          <input defaultValue={state?.user?.user_sl} {...register("user_sl")} />
         </label>
         <label>
           一言自己紹介
-          <textarea defaultValue={user?.user_bio} {...register("user_bio")} />
+          <textarea
+            defaultValue={state?.user?.user_comment}
+            {...register("user_comment")}
+          />
         </label>
 
         <h3>タグ</h3>
-        {user?.all_tag?.map(function (tag, i) {
+        {state?.all_tag?.map(function (tag, i) {
           return (
             <div key={i}>
               <label>
-                {checkedTag.includes(tag.id) ? (
+                {checkedTag?.includes(tag.id) ? (
                   <>
                     <input
-                      {...register("user_tags")}
+                      {...register("user_tags_id")}
                       type="checkbox"
                       value={tag.id}
                       checked
@@ -126,7 +134,7 @@ export const MyPageEdit: FC = () => {
                 ) : (
                   <>
                     <input
-                      {...register("user_tags")}
+                      {...register("user_tags_id")}
                       type="checkbox"
                       value={tag.id}
                     />
@@ -142,7 +150,7 @@ export const MyPageEdit: FC = () => {
         <label>
           メール
           <input
-            defaultValue={user?.user_email}
+            defaultValue={state?.user?.user_email}
             {...register("user_email", { required: true })}
           />
         </label>
@@ -152,28 +160,28 @@ export const MyPageEdit: FC = () => {
         <label>
           instagram
           <input
-            defaultValue={user?.user_instagramid}
+            defaultValue={state?.user?.user_instagramid}
             {...register("user_instagramid")}
           />
         </label>
         <label>
           twitter
           <input
-            defaultValue={user?.user_twitterid}
+            defaultValue={state?.user?.user_twitterid}
             {...register("user_twitterid")}
           />
         </label>
         <label>
           facebook
           <input
-            defaultValue={user?.user_facebookid}
+            defaultValue={state?.user?.user_facebookid}
             {...register("user_facebookid")}
           />
         </label>
         <label>
           LINE QRコード
           <textarea
-            defaultValue={user?.user_lineqr}
+            defaultValue={state?.user?.user_lineqr}
             {...register("user_lineqr")}
           />
         </label>
