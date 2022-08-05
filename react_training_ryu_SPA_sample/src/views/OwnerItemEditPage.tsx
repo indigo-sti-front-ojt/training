@@ -21,7 +21,6 @@ export const OwnerItemEditPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("edit", shopData);
     if (shopData.uid == "") navigate("/owner/pages", { replace: true });
     setViewShopData(shopData);
   }, []);

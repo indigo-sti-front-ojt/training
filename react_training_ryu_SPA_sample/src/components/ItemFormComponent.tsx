@@ -8,7 +8,9 @@ import {
   UseFormSetValue,
 } from "react-hook-form";
 import { ShopDBType } from "../types/ShopDBType";
+import { TagTextObject } from "../types/TagTextObject";
 import { InputHolidayComponet } from "./InputHolidayComponent";
+import { InputLinksComponent } from "./InputLinksComponent";
 import { InputOpenCloseComponent } from "./InputOpenCloseComponent";
 
 type Props = {
@@ -19,17 +21,54 @@ type Props = {
   setValue: UseFormSetValue<ShopDBType>;
   onClickDeleteData?: () => void;
   onClickEditData?: (temp: ShopDBType) => void;
-  editFlag: boolean;
   onClickSendData?: (temp: ShopDBType) => void;
+  editFlag: boolean;
 };
+
 export const ItemFormComponent = (props: Props) => {
-  const { data, register, handleSubmit, errors, setValue, editFlag } = props;
-  const onSubmit: SubmitHandler<ShopDBType> = (data: ShopDBType) => {
-    console.log(data);
-    if (editFlag) {
+  const {
+    data,
+    register,
+    handleSubmit,
+    errors,
+    setValue,
+    editFlag,
+    onClickEditData,
+    onClickDeleteData,
+    onClickSendData,
+  } = props;
+
+  const onSubmit: SubmitHandler<ShopDBType> = (formData: ShopDBType) => {
+    if (editFlag && data?.uid && onClickEditData) {
       // edit
+      const temp: ShopDBType = {
+        uid: data.uid,
+        name: formData.name,
+        access: formData.access,
+        price: formData.price,
+        closingDay: Holiday,
+        fromOpenToCleseTime: FromOpenToCloseTime,
+        phoneNumber: formData.phoneNumber,
+        links: [],
+        ShopLink: formData.ShopLink,
+        instagramLink: formData.instagramLink,
+        photoData: [],
+        contents: [],
+        areaTag: [],
+        freeTag: [],
+        writer: data.writer,
+      };
+      onClickEditData(temp);
     } else {
       // create
+      if (onClickSendData) {
+        console.log("onclicksend");
+      }
+    }
+  };
+  const onSubmitDelete = () => {
+    if (onClickDeleteData) {
+      onClickDeleteData();
     }
   };
 
@@ -38,6 +77,7 @@ export const ItemFormComponent = (props: Props) => {
     open: string;
     close: string;
   }>({ open: "0:00", close: "0:00" });
+  const [Links, setLinks] = useState<TagTextObject[]>([]);
 
   useEffect(() => {
     if (data != undefined) {
@@ -81,7 +121,7 @@ export const ItemFormComponent = (props: Props) => {
           <span>電話番号</span>
           <input {...register("phoneNumber")} />
         </div>
-        {/* linksComponent */}
+        <InputLinksComponent target={Links} setTarget={setLinks} />
         <div>
           <span>お店のURL</span>
           <input {...register("ShopLink")} />
@@ -93,9 +133,10 @@ export const ItemFormComponent = (props: Props) => {
         {/* photoDataComponent */}
         {/* contentsComponent */}
         {/* areaTagComponent */}
+        {/* freeTagComponent */}
         <input type="submit" value="編集" />
       </form>
-      <button>削除</button>
+      <button onClick={onSubmitDelete}>削除</button>
     </>
   );
 };
