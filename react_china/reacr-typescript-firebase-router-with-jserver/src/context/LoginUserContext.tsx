@@ -7,7 +7,7 @@ import {
   SetStateAction,
   ReactNode,
 } from "react";
-import { getAuth,onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { LoginUser } from "../types/firebase/LoginUser";
 
 export type LoginUserContextType = {
@@ -24,27 +24,19 @@ export function useLoginUserContext() {
 export function LoginUserProvider(props: { children: ReactNode }) {
   const { children } = props;
   const [loginuser, setLoginUser] = useState<LoginUser | null>(null);
-  const [signInCheck, setSignInCheck] = useState(false);
 
   useEffect(() => {
     const auth = getAuth();
     onAuthStateChanged(auth, async (loginUser) => {
       if (loginUser) {
         setLoginUser(loginUser);
-        setSignInCheck(true);
-      } else {
-        setSignInCheck(true);
       }
     });
-  });
+  }, []);
 
-  if (signInCheck) {
-    return (
-      <LoginUserContext.Provider value={{ loginuser, setLoginUser }}>
-        {children}
-      </LoginUserContext.Provider>
-    );
-  } else {
-    return <p>ローディング...</p>;
-  }
+  return (
+    <LoginUserContext.Provider value={{ loginuser, setLoginUser }}>
+      {children}
+    </LoginUserContext.Provider>
+  );
 }

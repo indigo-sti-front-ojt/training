@@ -11,12 +11,12 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useLoginWithGoogle } from "../../hooks/useAuth";
 
+
 export const Login = () => {
-  const { loginWithGoogle,error,success } = useLoginWithGoogle();
+  const { loginWithGoogle, error, success } = useLoginWithGoogle();
 
   const onClickGoogleLogin = () => {
     loginWithGoogle();
-    console.log("googleログインボタン押下");
   };
 
   return (

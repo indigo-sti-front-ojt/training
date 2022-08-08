@@ -10,7 +10,6 @@ type Props = {
 export const LoginRoute = (props: Props) => {
   const { component, redirect } = props;
   const { loginuser } = useLoginUserContext();
-
   if (loginuser) {
     return (
       <Navigate to={redirect} state={{ from: useLocation() }} replace={false} />
