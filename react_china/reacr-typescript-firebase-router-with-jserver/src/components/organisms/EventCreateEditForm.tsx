@@ -4,12 +4,14 @@ import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Event } from "../../types/api/Event";
 import { useAllTags } from "../../hooks/api/useAllTags";
+import { useLoginUserContext } from "../../context/LoginUserContext";
 
 type Props = {
   event?: Event;
 };
 
 export const EventCreateEditForm: FC<Props> = (props) => {
+  const { loginuser } = useLoginUserContext();
   const { event } = props;
   const { getAllTags, loading, all_tag } = useAllTags();
   useEffect(() => getAllTags(), []);
@@ -23,6 +25,10 @@ export const EventCreateEditForm: FC<Props> = (props) => {
     setValue,
     formState: { errors },
   } = useForm<Event>();
+
+  setValue("user_id", loginuser?.uid);
+  if (event) setValue("id", event?.id);
+
   const onSubmit: SubmitHandler<Event> = (data) => {
     console.log("onSubmit", data);
   };
@@ -123,7 +129,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                 {checkedTag?.includes(tag.id) ? (
                   <>
                     <input
-                      {...register("event_tags")}
+                      {...register("event_tags_id")}
                       type="checkbox"
                       value={tag.id}
                       checked
@@ -133,7 +139,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                 ) : (
                   <>
                     <input
-                      {...register("event_tags")}
+                      {...register("event_tags_id")}
                       type="checkbox"
                       value={tag.id}
                     />

@@ -21,12 +21,14 @@ export const EventDetail: FC<Props> = (props) => {
 
   const [applyEvent, setApplyEvent] = useState<ApplyEventPost>({});
 
-  if (loginuser && event_id) {
-    setApplyEvent({
-      event_id: event_id,
-      user_id: loginuser?.uid,
-    });
-  }
+  useEffect(() => {
+    if (loginuser && event_id) {
+      setApplyEvent({
+        event_id: event_id,
+        user_id: loginuser?.uid,
+      });
+    }
+  }, [loginuser, event_id]);
 
   const { getEvent, event, loading } = useEvent();
   useEffect(() => getEvent(), []);
@@ -41,9 +43,7 @@ export const EventDetail: FC<Props> = (props) => {
   };
 
   const onClickApply = () => {
-    //console.log(applyEvent);
-    console.log("a");
-    alert("参加登録しました。");
+    console.log(applyEvent);
   };
 
   return (
