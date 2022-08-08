@@ -17,6 +17,19 @@ export const InputLinksComponent = memo((props: Props) => {
   useEffect(() => {
     if (!firstFlag) {
       console.log(target);
+      target.map((data: TagTextObject) => {
+        switch (data.tag) {
+          case "食べログ":
+            setEatBlog1(data.text);
+            break;
+          case "ぐるなび":
+            setEatBlog2(data.text);
+            break;
+          case "instagram":
+            setEatBlog3(data.text);
+            break;
+        }
+      });
     } else {
       setTarget([
         {

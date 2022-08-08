@@ -42,7 +42,6 @@ export const OwnerItemCreatePage = () => {
       phoneNumber: phoneNumber,
       links: links,
       ShopLink: shopLink,
-      instagramLink: instagramLink,
       photoData: photoData,
       contents: contents,
       areaTag: areaTag,

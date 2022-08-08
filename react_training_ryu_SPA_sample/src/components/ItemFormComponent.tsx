@@ -12,6 +12,7 @@ import { TagTextObject } from "../types/TagTextObject";
 import { InputHolidayComponet } from "./InputHolidayComponent";
 import { InputLinksComponent } from "./InputLinksComponent";
 import { InputOpenCloseComponent } from "./InputOpenCloseComponent";
+import { InputPhotoDataComponent } from "./InputPhotoDataComponent";
 
 type Props = {
   data: ShopDBType | undefined;
@@ -49,10 +50,9 @@ export const ItemFormComponent = (props: Props) => {
         closingDay: Holiday,
         fromOpenToCleseTime: FromOpenToCloseTime,
         phoneNumber: formData.phoneNumber,
-        links: [],
+        links: Links,
         ShopLink: formData.ShopLink,
-        instagramLink: formData.instagramLink,
-        photoData: [],
+        photoData: photoData,
         contents: [],
         areaTag: [],
         freeTag: [],
@@ -78,6 +78,7 @@ export const ItemFormComponent = (props: Props) => {
     close: string;
   }>({ open: "0:00", close: "0:00" });
   const [Links, setLinks] = useState<TagTextObject[]>([]);
+  const [photoData, setPhotoData] = useState<string[]>([]);
 
   useEffect(() => {
     if (data != undefined) {
@@ -86,12 +87,12 @@ export const ItemFormComponent = (props: Props) => {
       setValue("price", data?.price);
       setValue("phoneNumber", data?.phoneNumber);
       setValue("ShopLink", data?.ShopLink);
-      setValue("instagramLink", data?.instagramLink);
 
       setHoliday(data.closingDay ?? []);
       setFromOpenToCloseTime(
         data.fromOpenToCleseTime ?? { open: "00:00", close: "00:00" }
       );
+      setPhotoData(data.photoData ?? []);
     }
   }, [data]);
   return (
@@ -127,14 +128,19 @@ export const ItemFormComponent = (props: Props) => {
           <input {...register("ShopLink")} />
         </div>
         <div>
-          <span>お店のInstagram</span>
-          <input {...register("instagramLink")} />
+          <span>Google map</span>
+          <input {...register("map")} />
         </div>
-        {/* photoDataComponent */}
+        <InputPhotoDataComponent target={photoData} setTarget={setPhotoData} />
         {/* contentsComponent */}
         {/* areaTagComponent */}
         {/* freeTagComponent */}
-        <input type="submit" value="編集" />
+
+        {editFlag ? (
+          <input type="submit" value="編集" />
+        ) : (
+          <input type="submit" value="送信" />
+        )}
       </form>
       <button onClick={onSubmitDelete}>削除</button>
     </>

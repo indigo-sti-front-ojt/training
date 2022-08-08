@@ -4,6 +4,7 @@ export type ShopDBType = {
   uid: string;
   name: string;
   access?: string;
+  map?: string;
   price?: string;
   closingDay?: number[];
   fromOpenToCleseTime?: {
@@ -12,7 +13,6 @@ export type ShopDBType = {
   };
   phoneNumber?: string;
   ShopLink?: string;
-  instagramLink?: string;
   photoData?: string[];
   links?: TagTextObject[];
   contents?: TagTextObject[];
