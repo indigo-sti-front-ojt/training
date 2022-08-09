@@ -1,9 +1,9 @@
-import React, { useState, ChangeEvent, FC, useEffect } from "react";
+import React, { useState, ChangeEvent, FC } from "react";
 import axios from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Event } from "../../types/api/Event";
-import { useAllTags } from "../../hooks/api/useAllTags";
+import { useAllTagsContext } from "../../context/AllTagsContext";
 import { useLoginUserContext } from "../../context/LoginUserContext";
 
 type Props = {
@@ -13,8 +13,7 @@ type Props = {
 export const EventCreateEditForm: FC<Props> = (props) => {
   const { loginuser } = useLoginUserContext();
   const { event } = props;
-  const { getAllTags, loading, all_tag } = useAllTags();
-  useEffect(() => getAllTags(), []);
+  const { allTags } = useAllTagsContext();
 
   const checkedTag: Array<number | undefined> | undefined =
     event?.event_tags?.map((checkd_tag) => checkd_tag.id);
@@ -122,7 +121,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
         </label>
 
         <p>タグ</p>
-        {all_tag?.map(function (tag, i) {
+        {allTags?.map(function (tag, i) {
           return (
             <div key={i}>
               <label>

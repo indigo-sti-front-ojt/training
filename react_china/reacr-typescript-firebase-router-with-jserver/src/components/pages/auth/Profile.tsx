@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useUserAndTags } from "../../../hooks/api/useUserAndTags";
+import { useUser } from "../../../hooks/api/get/useUser";
 import { MyEventCard } from "../../organisms/user/MyEventCatd";
 import { PersonalInfo } from "../../organisms/user/PersonalInfo";
 
@@ -12,12 +12,13 @@ export const Profile = () => {
   const location = useLocation();
   const { user_id } = location.state as State;
 
-  const { getUserAndTags, loading, user } = useUserAndTags(user_id);
-  useEffect(() => getUserAndTags(), []);
+  const { getUser, userLoading, user } = useUser(user_id);
+
+  useEffect(() => getUser(), []);
 
   return (
     <>
-      {loading ? (
+      {userLoading ? (
         <>
           <p>ローディング...</p>
         </>

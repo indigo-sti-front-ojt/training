@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useComments } from "../../../hooks/api/useComment";
+import { useComments } from "../../../hooks/api/get/useComment";
 
 export const Comment = () => {
   const { getComments, comments, loading } = useComments();
