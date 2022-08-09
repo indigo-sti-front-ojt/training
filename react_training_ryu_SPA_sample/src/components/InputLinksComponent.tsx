@@ -16,7 +16,7 @@ export const InputLinksComponent = memo((props: Props) => {
 
   useEffect(() => {
     if (!firstFlag) {
-      console.log(value);
+      // console.log(value);
       value?.map((data: TagTextObject) => {
         switch (data.tag) {
           case "食べログ":

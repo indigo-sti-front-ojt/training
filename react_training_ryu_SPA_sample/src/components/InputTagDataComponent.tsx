@@ -19,8 +19,8 @@ export const InputTagDataComponent = memo((props: Props) => {
   const [editData, setEditData] = useState<EditDataType[]>([]);
 
   useEffect(() => {
-    console.log(data);
-    console.log(value);
+    // console.log(data);
+    // console.log(value);
 
     if (!firstFlag && value) {
       const temp = data.map((tempData: TagDBType) => {

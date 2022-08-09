@@ -43,7 +43,7 @@ export const InputPhotoDataComponent = memo((props: Props) => {
         ? onChange(value.filter((value: string) => value != data.text))
         : onChange([...value, data.text]);
     }
-    console.log("photo", value);
+    // console.log("photo", value);
 
     setEditData(temp);
   };

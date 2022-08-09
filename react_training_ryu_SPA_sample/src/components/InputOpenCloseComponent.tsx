@@ -65,6 +65,27 @@ export const InputOpenCloseComponent = memo((props: Props) => {
     }
   };
   useEffect(() => {
+    if (editFlag) {
+      console.log("chnage data");
+      onChange({
+        open: open.h + ":" + open.m,
+        close: close.h + ":" + close.m,
+      });
+    } else if (value) {
+      console.log("initialize");
+      const tempOpen = value.open.split(":");
+      const tempClose = value.close.split(":");
+      console.log(tempOpen, tempClose);
+
+      tempOpen.length > 0
+        ? setOpen({ h: tempOpen[0], m: tempOpen[1] })
+        : setOpen({ h: "01", m: "00" });
+      tempClose.length > 0
+        ? setClose({ h: tempClose[0], m: tempClose[1] })
+        : setClose({ h: "00", m: "00" });
+    }
+  }, [flag]);
+  useEffect(() => {
     if (!editFlag && value) {
       console.log("initialize");
       const tempOpen = value.open.split(":");
@@ -77,14 +98,9 @@ export const InputOpenCloseComponent = memo((props: Props) => {
       tempClose.length > 0
         ? setClose({ h: tempClose[0], m: tempClose[1] })
         : setClose({ h: "00", m: "00" });
-    } else {
-      console.log("chnage data");
-      onChange({
-        open: open.h + ":" + open.m,
-        close: close.h + ":" + close.m,
-      });
     }
-  }, [flag]);
+  }, [value]);
+
   return (
     <>
       <div>input open close component</div>

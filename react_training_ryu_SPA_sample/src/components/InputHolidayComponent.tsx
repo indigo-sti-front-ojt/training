@@ -31,7 +31,7 @@ export const InputHolidayComponet = memo((props: Props) => {
       .map((data) => data.id);
 
     setDays(tempDays);
-    console.log("holiday", tempResult);
+    // console.log("holiday", tempResult);
 
     onChange(tempResult);
     // setTarget(tempResult);
