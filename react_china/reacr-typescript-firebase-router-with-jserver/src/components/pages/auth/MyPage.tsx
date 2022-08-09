@@ -1,31 +1,30 @@
 import React, { useEffect, FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserAndTags } from "../../../hooks/api/useUserAndTags";
+import { useUser } from "../../../hooks/api/get/useUser";
 import { MyEventCard } from "../../organisms/user/MyEventCatd";
 import { PersonalInfo } from "../../organisms/user/PersonalInfo";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
+import { useAllTagsContext } from "../../../context/AllTagsContext";
 
 export const MyPage: FC = () => {
   const { loginuser } = useLoginUserContext();
+  const { allTags } = useAllTagsContext();
+  const { getUser, userLoading, user } = useUser(loginuser?.uid);
 
-  const { getUserAndTags, loading, user, all_tag } = useUserAndTags(
-    loginuser?.uid
-  );
-  
-  useEffect(() => getUserAndTags(), []);
+  useEffect(() => getUser(), []);
 
   const navigate = useNavigate();
   const onClickButtonToEdit = () => {
     navigate("edit", {
       state: {
         user,
-        all_tag,
+        allTags,
       },
     });
   };
   return (
     <>
-      {loading ? (
+      {userLoading ? (
         <>
           <p>ローディング...</p>
         </>

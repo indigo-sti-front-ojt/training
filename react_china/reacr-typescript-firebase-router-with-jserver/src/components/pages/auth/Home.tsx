@@ -1,19 +1,23 @@
 import React, { FC, useEffect } from "react";
 
-import { useEventHome } from "../../../hooks/api/useEventHome";
+import { useEventHome } from "../../../hooks/api/get/useEventHome";
 import { EventCard } from "../../organisms/EventCatd";
 import { LinkToEventSearch } from "../../organisms/LinkToEventSearch";
 import { GenreSearchCard } from "../../organisms/GenreSearchCard";
 import { CreateNewEventButton } from "../../atoms/buttons/CreateNewEventButton";
+import { useLoginUserContext } from "../../../context/LoginUserContext";
 
 export const Home: FC = () => {
-  const { getHomeEvents, nearEvents, tagEvents, loading } = useEventHome();
+  const { loginuser } = useLoginUserContext();
+
+
+  const { getHomeEvents, nearEvents, tagEvents, homeEventsLoading } = useEventHome();
 
   useEffect(() => getHomeEvents(), []);
 
   return (
     <>
-      {loading ? (
+      {homeEventsLoading ? (
         <>
           <p>ローディング...</p>
         </>

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useLoginUserContext } from "../../context/LoginUserContext";
 import { LinkToUserButton } from "../atoms/buttons/LinkToUserButton";
-import { useEvent } from "../../hooks/api/useEvent";
+import { useEvent } from "../../hooks/api/get/useEvent";
 
 type Props = {
   event_id: number;

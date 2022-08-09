@@ -1,5 +1,5 @@
 import axios from "axios";
-import { UserMinInfo } from "../../types/api/UserMinInfo";
+import { UserMinInfo } from "../../../types/api/UserMinInfo";
 
 export const usePostCreate = () => {
   const postCreate = async (url: string, obj: UserMinInfo) => {

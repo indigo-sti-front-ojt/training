@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-
-import { useAllTags } from "../../hooks/api/useAllTags";
+import { EventCard } from "../organisms/EventCatd";
 import { SearchEventList } from "../../types/react-hook-form/SearchEventList";
+import { useEventSearch } from "../../hooks/api/get/useEventSearch";
+import { useAllTagsContext } from "../../context/AllTagsContext";
 
 export const EventSerchForm = () => {
-  const { getAllTags, all_tag } = useAllTags();
-  useEffect(() => getAllTags(), []);
+  const { allTags } = useAllTagsContext();
+
+  const { getEvents, events } = useEventSearch();
 
   const {
     register,
@@ -15,12 +17,13 @@ export const EventSerchForm = () => {
   } = useForm<SearchEventList>();
   const onSubmit: SubmitHandler<SearchEventList> = (data) => {
     console.log("onSubmit", data);
+    getEvents(data);
   };
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <p>イベントタグ</p>
-        {all_tag?.map((tag, i) => (
+        {allTags?.map((tag, i) => (
           <div key={i}>
             <label>
               <input type="checkbox" {...register("tags")} value={tag.id} />
@@ -54,6 +57,16 @@ export const EventSerchForm = () => {
         </div>
         <input type="submit" />
       </form>
+      <h2>検索結果</h2>
+      <div>
+        {events?.map((event, i) => (
+          <>
+            <div key={i}>
+              <EventCard event={event} />
+            </div>
+          </>
+        ))}
+      </div>
     </div>
   );
 };

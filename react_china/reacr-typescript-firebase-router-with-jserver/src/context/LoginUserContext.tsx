@@ -10,10 +10,12 @@ import {
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { LoginUser } from "../types/firebase/LoginUser";
 
+// typeの宣言
 export type LoginUserContextType = {
   loginuser: LoginUser | null;
   setLoginUser: Dispatch<SetStateAction<LoginUser | null>>;
 };
+
 
 const LoginUserContext = createContext({} as LoginUserContextType);
 

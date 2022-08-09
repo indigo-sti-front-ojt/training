@@ -8,7 +8,7 @@ import {
   getAdditionalUserInfo,
 } from "firebase/auth";
 
-import { usePostCreate } from "./api/usePostCreate";
+import { usePostCreate } from "./api/post/usePostCreate";
 import { UserMinInfo } from "../types/api/UserMinInfo";
 
 const fireauth = firebaseApp.fireauth;
