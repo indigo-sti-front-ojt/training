@@ -29,6 +29,8 @@ export const useShopDB = () => {
     const dataDoc = collection(db, targetTableName);
     await addDoc(dataDoc, {
       name: data.name,
+      title: data.title,
+      mainImage: data.mainImage,
       access: data.access,
       map: data.map,
       price: data.price,
@@ -49,6 +51,8 @@ export const useShopDB = () => {
     const target = doc(db, targetTableName, data.uid);
     await setDoc(target, {
       name: data.name,
+      title: data.title,
+      mainImage: data.mainImage,
       access: data.access,
       map: data.map,
       price: data.price,
@@ -79,6 +83,8 @@ export const useShopDB = () => {
       const tempData: ShopDBType = {
         uid: doc.id,
         name: doc.data().name,
+        title: doc.data().title,
+        mainImage: doc.data().mainImage,
         writer: doc.data().writer,
       };
       tempDatas.push(tempData);
@@ -94,6 +100,8 @@ export const useShopDB = () => {
       const tempData: ShopDBType = {
         uid: doc.id,
         name: data.name,
+        title: data.title,
+        mainImage: data.mainImage,
         map: data.map,
         price: data.price,
         closingDay: data.closingDay,
@@ -120,6 +128,8 @@ export const useShopDB = () => {
     const tempData: ShopDBType = {
       uid: uid,
       name: data?.name,
+      title: data?.title,
+      mainImage: data?.mainImage,
       map: data?.map,
       price: data?.price,
       closingDay: data?.closingDay,

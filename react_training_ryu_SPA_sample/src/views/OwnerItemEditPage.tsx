@@ -12,6 +12,7 @@ export const OwnerItemEditPage = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    control,
   } = useForm<ShopDBType>();
 
   const { shopData } = ShopDBContainer.useContainer();
@@ -44,6 +45,7 @@ export const OwnerItemEditPage = () => {
         handleSubmit={handleSubmit}
         errors={errors}
         setValue={setValue}
+        control={control}
         onClickDeleteData={onClickDeleteData}
         onClickEditData={onClickSendData}
         editFlag={true}

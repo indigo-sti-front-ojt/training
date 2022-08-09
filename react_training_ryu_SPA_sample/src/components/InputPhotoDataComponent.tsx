@@ -1,8 +1,8 @@
 import React, { memo, useEffect, useState } from "react";
 
 type Props = {
-  target: string[];
-  setTarget: React.Dispatch<React.SetStateAction<string[]>>;
+  value: string[] | undefined;
+  onChange: (value: string[]) => void;
 };
 
 type EditDataType = {
@@ -11,7 +11,7 @@ type EditDataType = {
   editFlag: boolean;
 };
 export const InputPhotoDataComponent = memo((props: Props) => {
-  const { target, setTarget } = props;
+  const { value, onChange } = props;
   const [firstFlag, setFirstFlag] = useState<boolean>(false);
 
   const [editData, setEditData] = useState<EditDataType[]>([
@@ -21,15 +21,15 @@ export const InputPhotoDataComponent = memo((props: Props) => {
     { id: 3, text: "dddd", editFlag: false },
   ]);
   useEffect(() => {
-    if (!firstFlag) {
+    if (!firstFlag && value) {
       const temp = editData.map((tempData: EditDataType) => {
-        return target.includes(tempData.text)
+        return value.includes(tempData.text)
           ? { ...tempData, editFlag: true }
           : tempData;
       });
       setEditData(temp);
     }
-  }, []);
+  }, [value]);
 
   const onClickEditData = (data: EditDataType) => {
     setFirstFlag(true);
@@ -38,9 +38,12 @@ export const InputPhotoDataComponent = memo((props: Props) => {
         ? { ...tempData, editFlag: !data.editFlag }
         : tempData;
     });
-    data.editFlag
-      ? setTarget(target.filter((value: string) => value != data.text))
-      : setTarget([...target, data.text]);
+    if (value) {
+      data.editFlag
+        ? onChange(value.filter((value: string) => value != data.text))
+        : onChange([...value, data.text]);
+    }
+    console.log("photo", value);
 
     setEditData(temp);
   };
@@ -49,7 +52,7 @@ export const InputPhotoDataComponent = memo((props: Props) => {
       <div>InputPhotoDataObject</div>
       <div>
         <span>view data</span>
-        {target.map((data: string) => (
+        {value?.map((data: string) => (
           <div key={data}>{data}</div>
         ))}
       </div>

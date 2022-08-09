@@ -20,19 +20,19 @@ export const TestComponentView = () => {
     <>
       <div>test view</div>
       <div>
-        <InputHolidayComponet target={closingDay} setTarget={setClosingday} />
+        {/* <InputHolidayComponet target={closingDay} setTarget={setClosingday} /> */}
       </div>
       <div>
-        <InputOpenCloseComponent
+        {/* <InputOpenCloseComponent
           target={fromOpenToCloseTime}
           setTarget={setFromOpenToCloseTime}
-        />
+        /> */}
       </div>
       <div>
-        <InputLinksComponent target={links} setTarget={setLinks} />
+        {/* <InputLinksComponent target={links} setTarget={setLinks} /> */}
       </div>
       <div>
-        <InputPhotoDataComponent target={photoData} setTarget={setPhotoData} />
+        {/* <InputPhotoDataComponent target={photoData} setTarget={setPhotoData} /> */}
       </div>
       <div>{/* <TagFormComponent /> */}</div>
     </>

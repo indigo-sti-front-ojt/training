@@ -6,15 +6,16 @@ import {
   useForm,
 } from "react-hook-form";
 import { TagDBType } from "../types/TagDBType";
-import { InputColorsNewComponent } from "./InputColorsNewComponet";
+import { InputColorsComponent } from "./InputColorsComponet";
 
 type Props = {
   data: TagDBType[];
   sendData: (data: TagDBType[]) => void;
+  setVisibleFlag: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const TagFormComponent = memo((props: Props) => {
-  const { data, sendData } = props;
+  const { data, sendData, setVisibleFlag } = props;
   const { register, control, handleSubmit, reset } = useForm<{
     tag: { text: string; color: string }[];
   }>({
@@ -34,6 +35,7 @@ export const TagFormComponent = memo((props: Props) => {
       }
     );
     sendData(tempList);
+    setVisibleFlag(false);
   };
   const onPlus = () => {
     append({ text: "", color: "" });
@@ -59,7 +61,7 @@ export const TagFormComponent = memo((props: Props) => {
               control={control}
               name={`tag.${index}.color`}
               render={({ field }) => (
-                <InputColorsNewComponent
+                <InputColorsComponent
                   value={field.value}
                   onChange={field.onChange}
                 />

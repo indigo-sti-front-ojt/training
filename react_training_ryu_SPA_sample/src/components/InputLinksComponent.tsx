@@ -3,12 +3,12 @@ import { TagTextObject } from "../types/TagTextObject";
 import { InputComponent } from "./InputComponent";
 
 type Props = {
-  target: TagTextObject[];
-  setTarget: React.Dispatch<React.SetStateAction<TagTextObject[]>>;
+  value: TagTextObject[] | undefined;
+  onChange: (value: TagTextObject[]) => void;
 };
 
 export const InputLinksComponent = memo((props: Props) => {
-  const { target, setTarget } = props;
+  const { value, onChange } = props;
   const [firstFlag, setFirstFlag] = useState<boolean>(false);
   const [eatBlog1, setEatBlog1] = useState<string>("");
   const [eatBlog2, setEatBlog2] = useState<string>("");
@@ -16,8 +16,8 @@ export const InputLinksComponent = memo((props: Props) => {
 
   useEffect(() => {
     if (!firstFlag) {
-      console.log(target);
-      target.map((data: TagTextObject) => {
+      console.log(value);
+      value?.map((data: TagTextObject) => {
         switch (data.tag) {
           case "食べログ":
             setEatBlog1(data.text);
@@ -31,7 +31,7 @@ export const InputLinksComponent = memo((props: Props) => {
         }
       });
     } else {
-      setTarget([
+      onChange([
         {
           tag: "食べログ",
           text: eatBlog1,
@@ -46,7 +46,7 @@ export const InputLinksComponent = memo((props: Props) => {
         },
       ]);
     }
-  }, [eatBlog1, eatBlog2, eatBlog3]);
+  }, [eatBlog1, eatBlog2, eatBlog3, value]);
   return (
     <>
       <div>input links componet</div>

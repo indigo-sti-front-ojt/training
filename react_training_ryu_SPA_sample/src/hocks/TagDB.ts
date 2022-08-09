@@ -1,5 +1,6 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { LodingContainer } from "../provider/LoadingProvider";
 import { TagDBContainer } from "../provider/TagDBProvider";
 import { TagDBType } from "../types/TagDBType";
 
@@ -7,17 +8,22 @@ import { TagDBType } from "../types/TagDBType";
 export const useTagDB = () => {
   const { setAreaDataList, setFreeDataList, setTagChangeFlag, TagChangeFlag } =
     TagDBContainer.useContainer();
+  const { setLoging } = LodingContainer.useContainer();
   const targetTableName = "tags";
 
   const AreaDataEdit = async (data: TagDBType[]) => {
+    await setLoging(true);
     const target = doc(db, targetTableName, "Area");
     await setDoc(target, { data });
     await setTagChangeFlag(!TagChangeFlag);
+    await setLoging(false);
   };
   const FreeDataEdit = async (data: TagDBType[]) => {
+    await setLoging(true);
     const target = doc(db, targetTableName, "Free");
     await setDoc(target, { data });
     await setTagChangeFlag(!TagChangeFlag);
+    await setLoging(false);
   };
 
   const TagDataReads = async () => {

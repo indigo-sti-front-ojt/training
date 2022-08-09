@@ -2,6 +2,8 @@ import { TagTextObject } from "./TagTextObject";
 
 export type ShopDBType = {
   uid: string;
+  title: string;
+  mainImage: string;
   name: string;
   access?: string;
   map?: string;

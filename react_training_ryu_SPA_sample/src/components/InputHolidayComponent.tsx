@@ -6,12 +6,13 @@ type DaysTag = {
 };
 
 type Props = {
-  target: number[];
-  setTarget: React.Dispatch<React.SetStateAction<number[]>>;
+  value: number[] | undefined;
+  onChange: (value: number[]) => void;
 };
 
 export const InputHolidayComponet = memo((props: Props) => {
-  const { target, setTarget } = props;
+  const { value, onChange } = props;
+
   const [Days, setDays] = useState<DaysTag[]>([
     { id: 0, text: "日曜日", click: false },
     { id: 1, text: "月曜日", click: false },
@@ -30,17 +31,18 @@ export const InputHolidayComponet = memo((props: Props) => {
       .map((data) => data.id);
 
     setDays(tempDays);
-    setTarget(tempResult);
+    console.log("holiday", tempResult);
+
+    onChange(tempResult);
+    // setTarget(tempResult);
   };
   useEffect(() => {
-    console.log(target);
-    if (target.length != 0) {
-      const tempDays = Days.map((temp: DaysTag) => {
-        return target.includes(temp.id) ? { ...temp, click: true } : temp;
-      });
-      setDays(tempDays);
-    }
-  }, []);
+    // console.log("holiday", value);
+    const tempDays = Days.map((temp: DaysTag) => {
+      return value?.includes(temp.id) ? { ...temp, click: true } : temp;
+    });
+    setDays(tempDays);
+  }, [value]);
   return (
     <>
       <div>inputDasysCompnents</div>

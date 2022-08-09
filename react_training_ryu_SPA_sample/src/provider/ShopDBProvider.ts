@@ -4,6 +4,8 @@ import { ShopDBType } from "../types/ShopDBType";
 const initialzeshop: ShopDBType = {
   uid: "",
   name: "",
+  title: "",
+  mainImage: "",
   writer: "",
 };
 

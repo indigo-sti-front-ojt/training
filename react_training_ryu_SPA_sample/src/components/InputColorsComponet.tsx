@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
 type Props = {
-  text: string;
-  setText: React.Dispatch<React.SetStateAction<string>>;
+  onChange: (value: string) => void;
+  value: string;
 };
-export const InputColorsComponent = (props: Props) => {
-  const { text, setText } = props;
+
+export const InputColorsComponent = memo((props: Props) => {
+  const { value, onChange } = props;
+
   const [nowId, setNowId] = useState<string>("#FFFFFF");
   const colorPallet = [
     { id: 0, text: "black", color: "#000000" },
@@ -17,13 +19,14 @@ export const InputColorsComponent = (props: Props) => {
   const onClickColorPallet = (id: number) => {
     const temp =
       colorPallet.find((element) => element.id == id)?.color ?? "#000000";
-    setText(temp);
+    setNowId(temp);
+    onChange(temp);
   };
   useEffect(() => {
     const temp =
-      colorPallet.find((element) => element.color == text)?.color ?? "#FF0000";
+      colorPallet.find((element) => element.color == value)?.color ?? "#000000";
     setNowId(temp);
-  }, [text]);
+  }, []);
   return (
     <>
       <div>
@@ -36,4 +39,6 @@ export const InputColorsComponent = (props: Props) => {
       </div>
     </>
   );
-};
+});
+
+InputColorsComponent.displayName = "InputColorsComponent";
