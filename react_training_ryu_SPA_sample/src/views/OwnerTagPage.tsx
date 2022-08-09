@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { TagFormComponent } from "../components/TagFormComponent";
 import { useTagDB } from "../hocks/TagDB";
-import { LodingContainer } from "../provider/LoadingProvider";
+
 import { TagDBContainer } from "../provider/TagDBProvider";
 
 export const OwnerTagPage = () => {
   const { areaDataList, freeDataList } = TagDBContainer.useContainer();
-  const { loading } = LodingContainer.useContainer();
   const { AreaDataEdit, FreeDataEdit } = useTagDB();
 
   const [viewFlagFree, setviewFlagFree] = useState<boolean>(false);
@@ -14,7 +13,6 @@ export const OwnerTagPage = () => {
 
   return (
     <>
-      <div>{loading ? <h1>loading</h1> : ""}</div>
       <div>
         <h1>input area</h1>
         <button onClick={() => setviewFlagArea(true)}>編集</button>

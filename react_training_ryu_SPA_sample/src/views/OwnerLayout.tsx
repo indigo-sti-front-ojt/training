@@ -33,6 +33,7 @@ export const OwnerLayout = () => {
           <Link to="user">user</Link>
           <Link to="pages">pages</Link>
           <Link to="tags">tags</Link>
+          <Link to="images">images</Link>
         </ListChildMapComponent>
       </ul>
       <Outlet />

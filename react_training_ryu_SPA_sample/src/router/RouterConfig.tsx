@@ -17,13 +17,13 @@ import { OwnerTagPage } from "../views/OwnerTagPage";
 import { OwnerUserEditPage } from "../views/OwnerUserEditPage";
 import { OutletLayout } from "../views/OutletLayout";
 import { OwnerUserPage } from "../views/OwnerUserPage";
-import { TestComponentView } from "../views/TestComponentView";
 // import { TestView } from "../views/TestView";
 // import { UserLayout } from "../views/UserLayout";
 import { UserListPage } from "../views/UserListPage";
 // import { UserPage } from "../views/UserPage";
 import { RouteAuthGate } from "./RouteAuthGate";
 import { RouteAuthGateReverse } from "./RouteAuthGateReverse";
+import { OwnerImageUp } from "../views/OwnerImageUp";
 
 export const RouterConfig = () => {
   return (
@@ -38,14 +38,7 @@ export const RouterConfig = () => {
               <Route index element={<ItemListPage />} />
               <Route path=":id" element={<ItemPage />} />
             </Route>
-            {/* <Route path="users" element={<UserLayout />}>
-              <Route index element={<UserListPage />} />
-              <Route path=":id" element={<UserPage />} />
-            </Route> */}
             <Route path="users" element={<UserListPage />} />
-
-            {/* <Route path="test" element={<TestView />} /> */}
-            <Route path="test" element={<TestComponentView />} />
 
             <Route
               path="login"
@@ -77,6 +70,7 @@ export const RouterConfig = () => {
                 <Route path="edit" element={<OwnerUserEditPage />} />
               </Route>
               <Route path="tags" element={<OwnerTagPage />} />
+              <Route path="images" element={<OwnerImageUp />} />
             </Route>
 
             <Route path="*" element={<NotFoundPage />} />
