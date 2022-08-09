@@ -2,8 +2,11 @@ import { TagTextObject } from "./TagTextObject";
 
 export type ShopDBType = {
   uid: string;
+  title: string;
+  mainImage: string;
   name: string;
   access?: string;
+  map?: string;
   price?: string;
   closingDay?: number[];
   fromOpenToCleseTime?: {
@@ -11,10 +14,9 @@ export type ShopDBType = {
     close: string;
   };
   phoneNumber?: string;
-  links?: TagTextObject[];
   ShopLink?: string;
-  instagramLink?: string;
   photoData?: string[];
+  links?: TagTextObject[];
   contents?: TagTextObject[];
   areaTag?: number[];
   freeTag?: number[];

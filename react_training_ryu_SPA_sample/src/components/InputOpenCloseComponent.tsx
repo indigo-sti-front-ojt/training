@@ -1,14 +1,12 @@
 import React, { memo, useEffect, useState } from "react";
 
 type Props = {
-  target: { open: string; close: string };
-  setTarget: React.Dispatch<
-    React.SetStateAction<{ open: string; close: string }>
-  >;
+  value: { open: string; close: string } | undefined;
+  onChange: (value: { open: string; close: string }) => void;
 };
 
 export const InputOpenCloseComponent = memo((props: Props) => {
-  const { target, setTarget } = props;
+  const { value, onChange } = props;
   const [open, setOpen] = useState<{ h: string; m: string }>({
     h: "00",
     m: "00",
@@ -67,10 +65,16 @@ export const InputOpenCloseComponent = memo((props: Props) => {
     }
   };
   useEffect(() => {
-    if (!editFlag) {
+    if (editFlag) {
+      console.log("chnage data");
+      onChange({
+        open: open.h + ":" + open.m,
+        close: close.h + ":" + close.m,
+      });
+    } else if (value) {
       console.log("initialize");
-      const tempOpen = target.open.split(":");
-      const tempClose = target.close.split(":");
+      const tempOpen = value.open.split(":");
+      const tempClose = value.close.split(":");
       console.log(tempOpen, tempClose);
 
       tempOpen.length > 0
@@ -79,14 +83,24 @@ export const InputOpenCloseComponent = memo((props: Props) => {
       tempClose.length > 0
         ? setClose({ h: tempClose[0], m: tempClose[1] })
         : setClose({ h: "00", m: "00" });
-    } else {
-      console.log("chnage data");
-      setTarget({
-        open: open.h + ":" + open.m,
-        close: close.h + ":" + close.m,
-      });
     }
   }, [flag]);
+  useEffect(() => {
+    if (!editFlag && value) {
+      console.log("initialize");
+      const tempOpen = value.open.split(":");
+      const tempClose = value.close.split(":");
+      console.log(tempOpen, tempClose);
+
+      tempOpen.length > 0
+        ? setOpen({ h: tempOpen[0], m: tempOpen[1] })
+        : setOpen({ h: "01", m: "00" });
+      tempClose.length > 0
+        ? setClose({ h: tempClose[0], m: tempClose[1] })
+        : setClose({ h: "00", m: "00" });
+    }
+  }, [value]);
+
   return (
     <>
       <div>input open close component</div>

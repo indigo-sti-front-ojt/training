@@ -29,14 +29,16 @@ export const useShopDB = () => {
     const dataDoc = collection(db, targetTableName);
     await addDoc(dataDoc, {
       name: data.name,
+      title: data.title,
+      mainImage: data.mainImage,
       access: data.access,
+      map: data.map,
       price: data.price,
       closingDay: data.closingDay,
       fromOpenToCleseTime: data.fromOpenToCleseTime,
       phoneNumber: data.phoneNumber,
       links: data.links,
       ShopLink: data.ShopLink,
-      instagramLink: data.instagramLink,
       photoData: data.photoData,
       contents: data.contents,
       areaTag: data.areaTag,
@@ -49,14 +51,16 @@ export const useShopDB = () => {
     const target = doc(db, targetTableName, data.uid);
     await setDoc(target, {
       name: data.name,
+      title: data.title,
+      mainImage: data.mainImage,
       access: data.access,
+      map: data.map,
       price: data.price,
       closingDay: data.closingDay,
       fromOpenToCleseTime: data.fromOpenToCleseTime,
       phoneNumber: data.phoneNumber,
       links: data.links,
       ShopLink: data.ShopLink,
-      instagramLink: data.instagramLink,
       photoData: data.photoData,
       contents: data.contents,
       areaTag: data.areaTag,
@@ -75,10 +79,12 @@ export const useShopDB = () => {
     const tempDatas: ShopDBType[] = [];
 
     dataResults.forEach((doc) => {
-      console.log(doc.id, ":", doc.data());
+      // console.log(doc.id, ":", doc.data());
       const tempData: ShopDBType = {
         uid: doc.id,
         name: doc.data().name,
+        title: doc.data().title,
+        mainImage: doc.data().mainImage,
         writer: doc.data().writer,
       };
       tempDatas.push(tempData);
@@ -94,13 +100,15 @@ export const useShopDB = () => {
       const tempData: ShopDBType = {
         uid: doc.id,
         name: data.name,
+        title: data.title,
+        mainImage: data.mainImage,
+        map: data.map,
         price: data.price,
         closingDay: data.closingDay,
         fromOpenToCleseTime: data.fromOpenToCleseTime,
         phoneNumber: data.phoneNumber,
         links: data.links,
         ShopLink: data.ShopLink,
-        instagramLink: data.instagramLink,
         photoData: data.photoData,
         contents: data.contents,
         areaTag: data.areaTag,
@@ -115,18 +123,20 @@ export const useShopDB = () => {
   const ShopDataRead = async (uid: string) => {
     const target = doc(db, targetTableName, uid);
     const dataResult = await getDoc(target);
-    console.log(typeof dataResult);
+    console.log("shopDataRead");
     const data = dataResult.data();
     const tempData: ShopDBType = {
       uid: uid,
       name: data?.name,
+      title: data?.title,
+      mainImage: data?.mainImage,
+      map: data?.map,
       price: data?.price,
       closingDay: data?.closingDay,
       fromOpenToCleseTime: data?.fromOpenToCleseTime,
       phoneNumber: data?.phoneNumber,
       links: data?.links,
       ShopLink: data?.ShopLink,
-      instagramLink: data?.instagramLink,
       photoData: data?.photoData,
       contents: data?.contents,
       areaTag: data?.areaTag,
