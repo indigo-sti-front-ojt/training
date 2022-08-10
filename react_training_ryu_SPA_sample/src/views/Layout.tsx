@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { ListChildMapComponent } from "../components/ListChildMapComponent";
 import { useAuthUser } from "../hocks/AuthUser";
 import { useImage } from "../hocks/Image";
@@ -42,18 +42,70 @@ export const Layout = () => {
     }
   }, [isLoggined, changeFlag]);
 
+  const location = useLocation();
+
   return (
     <>
-      <div>layout</div>
-      <ul>
-        <ListChildMapComponent>
-          <Link to="/">home</Link>
-          <Link to="/about">about</Link>
-          <Link to="/pages">pages</Link>
-          <Link to="/users">users</Link>
-          <Link to="/login">login</Link>
-        </ListChildMapComponent>
-      </ul>
+      <header
+        className={
+          "flex justify-between items-center w-full h-10 px-4 bg-gray-500/75" +
+          (isLoggined ? " bg-blue-700" : "")
+        }
+      >
+        <div className="h-full flex justify-center items-center">layout</div>
+        <ul className="flex flex-row gap-4">
+          <ListChildMapComponent>
+            <Link
+              className={
+                "w-full h-8 rounded-xl text-white flex justify-center items-center px-8 border border-black transition ease-in-out " +
+                (location.pathname == "/" ? " bg-black" : "")
+              }
+              to="/"
+            >
+              home
+            </Link>
+            <Link
+              className={
+                "w-full h-8 rounded-xl text-white flex justify-center items-center px-8 border border-black transition ease-in-out " +
+                (location.pathname == "/about" ? " bg-black" : "")
+              }
+              to="/about"
+            >
+              about
+            </Link>
+            <Link
+              className={
+                "w-full h-8 rounded-xl text-white flex justify-center items-center px-8 border border-black transition ease-in-out " +
+                (location.pathname.includes("/pages") ? " bg-black" : "")
+              }
+              to="/pages"
+            >
+              pages
+            </Link>
+            <Link
+              className={
+                "w-full h-8 rounded-xl text-white flex justify-center items-center px-8 border border-black transition ease-in-out " +
+                (location.pathname == "/users" ? " bg-black" : "")
+              }
+              to="/users"
+            >
+              users
+            </Link>
+            <Link
+              className={
+                "w-full h-8 rounded-xl text-white flex justify-center items-center px-8 border border-black transition ease-in-out " +
+                (location.pathname == "/login" ||
+                location.pathname.includes("owner")
+                  ? " bg-black"
+                  : "")
+              }
+              to="/login"
+            >
+              login
+            </Link>
+          </ListChildMapComponent>
+        </ul>
+      </header>
 
       <Outlet />
     </>
