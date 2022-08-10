@@ -1,21 +1,21 @@
 import axios from "axios";
 import React, { FC, useState, ChangeEvent } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useLocation } from "react-router-dom";
 import { User } from "../../../types/api/User";
+import { useAllTagsContext } from "../../../context/AllTagsContext";
+import { useUserInfoContext } from "../../../context/UserInfoContext";
 
 // import { useImageUp } from "../../../hooks/useImageUp";
 
-import { MyPageState } from "../../../types/states/MyPageState";
 
 export const MyPageEdit: FC = () => {
   // const { onClickImageUp, icondata } = useImageUp(tmpFile);
 
-  const location = useLocation();
-  const state = location.state as MyPageState;
+  const { allTags } = useAllTagsContext();
+  const { userInfo } = useUserInfoContext();
 
   const checkedTag: Array<number | undefined> | undefined =
-    state?.user?.user_tags?.map((checkd_tag) => checkd_tag.id);
+    userInfo?.user_tags?.map((checkd_tag) => checkd_tag.id);
 
   const {
     register,
@@ -24,14 +24,14 @@ export const MyPageEdit: FC = () => {
     formState: { errors },
   } = useForm<User>();
 
-  setValue("user_id", state?.user.user_id);
+  setValue("user_id", userInfo?.user_id);
 
   const onSubmit: SubmitHandler<User> = (data) => {
     console.log("onSubmit", data);
   };
 
   const [tmpFile, setTmpFile] = useState<File>();
-  const [tmpUrl, setTmpUrl] = useState(state?.user?.user_icon);
+  const [tmpUrl, setTmpUrl] = useState(userInfo?.user_icon);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     setTmpUrl(URL.createObjectURL(e.target.files[0]));
@@ -79,14 +79,14 @@ export const MyPageEdit: FC = () => {
         </span>
         <label>
           <input
-            defaultValue={state?.user?.user_icon}
+            defaultValue={userInfo?.user_icon}
             {...register("user_icon", { required: true })}
           />
         </label>
         <label>
           名前
           <input
-            defaultValue={state?.user?.user_nickname}
+            defaultValue={userInfo?.user_nickname}
             {...register("user_nickname", { required: true })}
           />
         </label>
@@ -95,29 +95,29 @@ export const MyPageEdit: FC = () => {
         )}
         <label>
           本名
-          <input value={state?.user?.user_name} readOnly />
+          <input value={userInfo?.user_name} readOnly />
         </label>
         <label>
           所属CoE
           <input
-            defaultValue={state?.user?.user_coe}
+            defaultValue={userInfo?.user_coe}
             {...register("user_coe")}
           />
         </label>
         <label>
           所属SL
-          <input defaultValue={state?.user?.user_sl} {...register("user_sl")} />
+          <input defaultValue={userInfo?.user_sl} {...register("user_sl")} />
         </label>
         <label>
           一言自己紹介
           <textarea
-            defaultValue={state?.user?.user_comment}
+            defaultValue={userInfo?.user_comment}
             {...register("user_comment")}
           />
         </label>
 
         <h3>タグ</h3>
-        {state?.all_tag?.map(function (tag, i) {
+        {allTags?.map(function (tag, i) {
           return (
             <div key={i}>
               <label>
@@ -150,7 +150,7 @@ export const MyPageEdit: FC = () => {
         <label>
           メール
           <input
-            defaultValue={state?.user?.user_email}
+            defaultValue={userInfo?.user_email}
             {...register("user_email", { required: true })}
           />
         </label>
@@ -160,28 +160,28 @@ export const MyPageEdit: FC = () => {
         <label>
           instagram
           <input
-            defaultValue={state?.user?.user_instagramid}
+            defaultValue={userInfo?.user_instagramid}
             {...register("user_instagramid")}
           />
         </label>
         <label>
           twitter
           <input
-            defaultValue={state?.user?.user_twitterid}
+            defaultValue={userInfo?.user_twitterid}
             {...register("user_twitterid")}
           />
         </label>
         <label>
           facebook
           <input
-            defaultValue={state?.user?.user_facebookid}
+            defaultValue={userInfo?.user_facebookid}
             {...register("user_facebookid")}
           />
         </label>
         <label>
           LINE QRコード
           <textarea
-            defaultValue={state?.user?.user_lineqr}
+            defaultValue={userInfo?.user_lineqr}
             {...register("user_lineqr")}
           />
         </label>

@@ -5,15 +5,20 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Event } from "../../types/api/Event";
 import { useAllTagsContext } from "../../context/AllTagsContext";
 import { useLoginUserContext } from "../../context/LoginUserContext";
+import { useEventCreateEdit } from "../../hooks/api/postPutDelete/useEventCreateEdit";
 
 type Props = {
   event?: Event;
+  method: string;
 };
 
 export const EventCreateEditForm: FC<Props> = (props) => {
-  const { loginuser } = useLoginUserContext();
-  const { event } = props;
+  const { event, method } = props;
+
+  const { loginUser } = useLoginUserContext();
   const { allTags } = useAllTagsContext();
+
+  const { eventCreateEdit } = useEventCreateEdit();
 
   const checkedTag: Array<number | undefined> | undefined =
     event?.event_tags?.map((checkd_tag) => checkd_tag.id);
@@ -25,11 +30,12 @@ export const EventCreateEditForm: FC<Props> = (props) => {
     formState: { errors },
   } = useForm<Event>();
 
-  setValue("user_id", loginuser?.uid);
+  setValue("user_id", loginUser?.uid);
   if (event) setValue("id", event?.id);
 
-  const onSubmit: SubmitHandler<Event> = (data) => {
+  const onSubmit: SubmitHandler<Event> = async(data) => {
     console.log("onSubmit", data);
+    await eventCreateEdit(method,data);
   };
 
   const [tmpFile, setTmpFile] = useState<File>();

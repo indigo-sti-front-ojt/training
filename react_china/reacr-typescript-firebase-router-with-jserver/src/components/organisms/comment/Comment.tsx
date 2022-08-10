@@ -1,9 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, FC } from "react";
 import { useComments } from "../../../hooks/api/get/useComment";
 
-export const Comment = () => {
-  const { getComments, comments, loading } = useComments();
-  useEffect(() => getComments(), []);
+type Props = {
+  event_id: number;
+};
+
+export const Comment: FC<Props> = (props) => {
+  const { getComments, comments } = useComments();
+  const { event_id } = props;
+  useEffect(() => getComments(event_id), []);
   return (
     <>
       <div>

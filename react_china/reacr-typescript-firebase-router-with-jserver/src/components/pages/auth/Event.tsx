@@ -13,7 +13,7 @@ type State = {
 };
 
 export const Event = () => {
-  const { loginuser } = useLoginUserContext();
+  const { loginUser } = useLoginUserContext();
   const location = useLocation();
   const state = location.state as State;
 
@@ -24,8 +24,8 @@ export const Event = () => {
     formState: { errors },
   } = useForm<CommentPost>();
 
-  if (loginuser) {
-    setValue("user_id", loginuser?.uid);
+  if (loginUser) {
+    setValue("user_id", loginUser?.uid);
   }
   if (state?.event_id) setValue("event_id", state?.event_id);
 
@@ -39,7 +39,7 @@ export const Event = () => {
       <h2>イベント</h2>
       <EventDetail event_id={state?.event_id}/>
       <h2>コメント</h2>
-      <Comment />
+      <Comment event_id={state?.event_id} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <input {...register("comment_text", { required: true })} />
         {errors.comment_text && (

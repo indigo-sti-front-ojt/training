@@ -13,7 +13,7 @@ export const EventEdit: FC = () => {
   return (
     <>
       <h2>イベント編集</h2>
-      <EventCreateEditForm event={event} />
+      <EventCreateEditForm event={event} method={"put"} />
     </>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useUser } from "../../../hooks/api/get/useUser";
+import { useOthers } from "../../../hooks/api/get/useProfile";
 import { MyEventCard } from "../../organisms/user/MyEventCatd";
 import { PersonalInfo } from "../../organisms/user/PersonalInfo";
 
@@ -12,49 +12,41 @@ export const Profile = () => {
   const location = useLocation();
   const { user_id } = location.state as State;
 
-  const { getUser, userLoading, user } = useUser(user_id);
+  const { getOthers, othersInfo } = useOthers(user_id);
 
-  useEffect(() => getUser(), []);
+  useEffect(() => getOthers(), []);
 
   return (
     <>
-      {userLoading ? (
+      <h1>Profileページです</h1>
+      <PersonalInfo user={othersInfo} />
+      <h2>参加予定のイベント</h2>
+      <hr />
+      {othersInfo?.join_event?.map((event, i) => (
         <>
-          <p>ローディング...</p>
+          <div key={i}>
+            <MyEventCard event={event} />
+          </div>
         </>
-      ) : (
+      ))}
+      <h2>主催イベント</h2>
+      <hr />
+      {othersInfo?.host_event?.map((event, i) => (
         <>
-          <h1>Profileページです</h1>
-          <PersonalInfo user={user} />
-          <h2>参加予定のイベント</h2>
-          <hr />
-          {user?.join_event?.map((event, i) => (
-            <>
-              <div key={i}>
-                <MyEventCard event={event} />
-              </div>
-            </>
-          ))}
-          <h2>主催イベント</h2>
-          <hr />
-          {user?.host_event?.map((event, i) => (
-            <>
-              <div key={i}>
-                <MyEventCard event={event} />
-              </div>
-            </>
-          ))}
-          <h2>過去に参加したイベント</h2>
-          <hr />
-          {user?.past_event?.map((event, i) => (
-            <>
-              <div key={i}>
-                <MyEventCard event={event} />
-              </div>
-            </>
-          ))}
+          <div key={i}>
+            <MyEventCard event={event} />
+          </div>
         </>
-      )}
+      ))}
+      <h2>過去に参加したイベント</h2>
+      <hr />
+      {othersInfo?.past_event?.map((event, i) => (
+        <>
+          <div key={i}>
+            <MyEventCard event={event} />
+          </div>
+        </>
+      ))}
     </>
   );
 };

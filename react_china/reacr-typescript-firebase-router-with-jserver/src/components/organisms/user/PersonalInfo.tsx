@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const PersonalInfo: FC<Props> = (props: Props) => {
-  const { loginuser } = useLoginUserContext();
+  const { loginUser } = useLoginUserContext();
   const { user, onClickButtonToEdit } = props;
   return (
     <>
@@ -39,7 +39,7 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
       <p>facebook:{user?.user_facebookid}</p>
       <img src={user?.user_lineqr} alt="ラインQRコード" />
 
-      {loginuser?.uid === user?.user_id ? (
+      {loginUser?.uid === user?.user_id ? (
         <>
           <button type="button" onClick={onClickButtonToEdit}>
             編集する

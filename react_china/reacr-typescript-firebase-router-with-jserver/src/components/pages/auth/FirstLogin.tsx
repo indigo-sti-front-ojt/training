@@ -7,7 +7,7 @@ import { useLoginUserContext } from "../../../context/LoginUserContext";
 import { useAllTagsContext } from "../../../context/AllTagsContext";
 
 export const FirstLogin = () => {
-  const { loginuser } = useLoginUserContext();
+  const { loginUser } = useLoginUserContext();
   const { allTags } = useAllTagsContext();
 
   const {
@@ -17,7 +17,7 @@ export const FirstLogin = () => {
     //formState: { errors },
   } = useForm<User>();
 
-  setValue("user_id", loginuser?.uid);
+  setValue("user_id", loginUser?.uid);
 
   const navigate = useNavigate();
 

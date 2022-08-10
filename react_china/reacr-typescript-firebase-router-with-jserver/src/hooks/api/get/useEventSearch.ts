@@ -1,43 +1,76 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import axios from "axios";
 
 import { Event } from "../../../types/api/Event";
 import { SearchEventList } from "../../../types/react-hook-form/SearchEventList";
 
 export const useEventSearch = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [events, setEvents] = useState<Event[]>();
-
-  const getEvents = useCallback((data?: SearchEventList) => {
-    const tags_query: Array<number | undefined> | undefined = data?.tags?.map(
+  const getEvents = useCallback(async (data?: SearchEventList) => {
+    const tags_arr: Array<number | undefined> | undefined = data?.tags?.map(
       (value) => value.id
     );
-    const eventsUrl =
-      "http://localhost:5000/events?tagid=" +
-      tags_query +
-      "?badget=" +
-      data?.badget +
-      "?minguest=" +
-      data?.minguest +
-      "?maxguest=" +
-      data?.maxguest +
-      "?fromdate=" +
-      data?.fromdate +
-      "?todate=" +
-      data?.todate +
-      "?num=" +
-      data?.num ?? "";
-    console.log(eventsUrl);
-    (async () => {
-      try {
-        const resNearEvents = await axios.get<Event[]>(eventsUrl);
-        setEvents(resNearEvents.data);
-      } catch (error) {
-        console.log("イベントが取得できません。");
-      } finally {
-        setLoading(false);
+
+    let tags = "";
+    if (tags_arr) {
+      tags = "?tagid=" + tags_arr[0];
+      for (let i = 1; i < tags_arr.length; i++) {
+        tags = tags + "+" + tags_arr[i];
       }
-    })();
+    }
+
+    let tagsQuery = "";
+    if (data?.tags) {
+      tagsQuery = `?tagid=${tags}`;
+    }
+
+    let budgetQuery = "";
+    if (data?.badget) {
+      budgetQuery = `?budget=${data?.badget}`;
+    }
+
+    let minguestQuery = "";
+    if (data?.minguest) {
+      minguestQuery = `?minguest=${data?.minguest}`;
+    }
+
+    let maxguestQuery = "";
+    if (data?.maxguest) {
+      maxguestQuery = `?minguest=${data?.maxguest}`;
+    }
+
+    let fromdateQuery = "";
+    if (data?.fromdate) {
+      fromdateQuery = `?fromdate=${data?.fromdate}`;
+    }
+
+    let todateQuery = "";
+    if (data?.todate) {
+      todateQuery = `?todate=${data?.todate}`;
+    }
+
+    let numQuery = "";
+    if (data?.num) {
+      numQuery = `?num=${data?.num}`;
+    }
+
+    const eventsUrl =
+      "http://localhost:5000/events" +
+      tagsQuery +
+      budgetQuery +
+      minguestQuery +
+      maxguestQuery +
+      fromdateQuery +
+      todateQuery +
+      numQuery;
+    console.log(eventsUrl);
+
+    try {
+      const resNearEvents = await axios.get<Event[]>(eventsUrl);
+      return resNearEvents.data;
+    } catch (error) {
+      console.log("イベントが取得できません。");
+    }
   }, []);
-  return { getEvents, loading, events };
+
+  return { getEvents };
 };

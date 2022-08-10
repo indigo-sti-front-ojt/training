@@ -6,13 +6,14 @@ import { Comment } from "../../../types/api/Comment";
 export const useComments = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>();
-  const eventUrl = "http://localhost:5000/comments";
 
-  const getComments = useCallback(() => {
+  const getComments = useCallback((event_id: number) => {
     (async () => {
+      const commentUrl = `http://localhost:5000/comments?eventid=${event_id}`;
       try {
-        const res = await axios.get<Comment[]>(eventUrl);
+        const res = await axios.get<Comment[]>(commentUrl);
         setComments(res.data);
+        
       } catch (error) {
         console.log("コメントが取得できません。");
       } finally {
