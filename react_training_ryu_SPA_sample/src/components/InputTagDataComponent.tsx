@@ -30,7 +30,7 @@ export const InputTagDataComponent = memo((props: Props) => {
       });
       setEditData(temp);
     }
-  }, [value]);
+  }, [value, data]);
 
   const onClickEditData = (d: EditDataType) => {
     setFirstFlag(true);

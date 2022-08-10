@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Control,
   Controller,
@@ -9,11 +9,13 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from "react-hook-form";
+import { ImageContainer } from "../provider/ImageProvider";
 import { TagDBContainer } from "../provider/TagDBProvider";
 import { ShopDBType } from "../types/ShopDBType";
 import { InputHolidayComponet } from "./InputHolidayComponent";
 import { InputLinksComponent } from "./InputLinksComponent";
 import { InputOpenCloseComponent } from "./InputOpenCloseComponent";
+import { InputPhotoComponent } from "./InputPhotoComponent";
 import { InputPhotoDataComponent } from "./InputPhotoDataComponent";
 import { InputSimpleComponent } from "./InputSimpleComponent";
 import { InputTagDataComponent } from "./InputTagDataComponent";
@@ -47,6 +49,8 @@ export const ItemFormComponent = (props: Props) => {
   } = props;
 
   const { areaDataList, freeDataList } = TagDBContainer.useContainer();
+  const { imageDataList } = ImageContainer.useContainer();
+  const [focusFlag, setFocusFlag] = useState<boolean>(false);
 
   const onSubmit: SubmitHandler<ShopDBType> = (formData: ShopDBType) => {
     if (editFlag && data?.uid && onClickEditData) {
@@ -112,7 +116,7 @@ export const ItemFormComponent = (props: Props) => {
   };
 
   useEffect(() => {
-    if (data != undefined && editFlag) {
+    if (data != undefined && editFlag && !focusFlag) {
       setValue("name", data.name);
       setValue("title", data.title);
       setValue("mainImage", data.mainImage);
@@ -127,12 +131,30 @@ export const ItemFormComponent = (props: Props) => {
       setValue("fromOpenToCleseTime", data?.fromOpenToCleseTime);
       setValue("freeTag", data?.freeTag);
       setValue("areaTag", data?.areaTag);
+    } else if (!focusFlag) {
+      setValue("name", "");
+      setValue("title", "");
+      setValue("mainImage", "");
+      setValue("contents", []);
+      setValue("access", "");
+      setValue("price", "");
+      setValue("phoneNumber", "");
+      setValue("ShopLink", "");
+      setValue("closingDay", []);
+      setValue("links", []);
+      setValue("photoData", []);
+      setValue("fromOpenToCleseTime", { open: "00:00", close: "00:00" });
+      setValue("freeTag", []);
+      setValue("areaTag", []);
     }
   }, [data]);
   return (
     <>
       <div>itemcomponent</div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        onFocus={() => setFocusFlag(true)}
+      >
         <div>
           <span>title</span>
           <input {...register("title", { required: true })} />
@@ -140,8 +162,18 @@ export const ItemFormComponent = (props: Props) => {
         </div>
         <div>
           <span>mainImage</span>
-          <input {...register("mainImage", { required: true })} />
-          <>{errors.mainImage?.type == "required" && "入力頼んま"}</>
+          <Controller
+            control={control}
+            name="mainImage"
+            render={({ field }) => (
+              <InputPhotoComponent
+                value={field.value}
+                onChange={field.onChange}
+                data={imageDataList}
+              />
+            )}
+          />
+          {/* <>{errors.mainImage?.type == "required" && "入力頼んま"}</> */}
         </div>
         <div>
           <Controller
@@ -223,6 +255,7 @@ export const ItemFormComponent = (props: Props) => {
             <InputPhotoDataComponent
               value={field.value}
               onChange={field.onChange}
+              data={imageDataList}
             />
           )}
         />
