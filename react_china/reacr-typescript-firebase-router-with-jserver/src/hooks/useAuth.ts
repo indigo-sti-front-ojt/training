@@ -6,10 +6,13 @@ import {
   signInWithPopup,
   signOut,
   getAdditionalUserInfo,
+  getAuth,
+  onAuthStateChanged,
 } from "firebase/auth";
 
-import { usePostCreate } from "./api/post/usePostCreate";
+import { useCreateUser } from "./api/postPutDelete/useCreateUser";
 import { UserMinInfo } from "../types/api/UserMinInfo";
+import { useLoginUserContext } from "../context/LoginUserContext";
 
 const fireauth = firebaseApp.fireauth;
 
@@ -17,7 +20,7 @@ const fireauth = firebaseApp.fireauth;
 export const useLoginWithGoogle = () => {
   const navigate = useNavigate();
 
-  const { postCreate } = usePostCreate();
+  const { postCreate } = useCreateUser();
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -32,23 +35,22 @@ export const useLoginWithGoogle = () => {
       const res = await signInWithPopup(fireauth, provider);
       const isNewUser = getAdditionalUserInfo(res)?.isNewUser;
 
-      console.log("testt");
-      
-
       if (isNewUser) {
         console.log("isNewUser");
-        
-        const userRegister:UserMinInfo = {
+
+        const userRegister: UserMinInfo = {
           user_email: res.user.email ?? "",
           user_name: res.user.displayName ?? "",
           user_icon: res.user.photoURL ?? "",
           user_id: res.user.uid ?? "",
         };
         console.log(userRegister);
-        await postCreate("https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/users",userRegister)
+        await postCreate(
+          "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/users",
+          userRegister
+        );
         navigate("/welcome");
       } else {
-        console.log("User");
         navigate("/");
       }
       setSuccess(true);
@@ -72,4 +74,21 @@ export const useLogout = () => {
   };
 
   return { logout };
+};
+
+// ログインユーザー取得hooks
+export const useLoginUser = () => {
+  const { setLoginUser, setIsAuthChecked } = useLoginUserContext();
+
+  const getLoginUser = async () => {
+    const auth = getAuth();
+    await onAuthStateChanged(auth, async (loginUser) => {
+      if (loginUser) {
+        setLoginUser(loginUser);
+      }
+      setIsAuthChecked(true);
+    });
+  };
+
+  return { getLoginUser };
 };

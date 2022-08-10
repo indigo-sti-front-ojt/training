@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useLoginUserContext } from "../../context/LoginUserContext";
 import { LinkToUserButton } from "../atoms/buttons/LinkToUserButton";
 import { useEvent } from "../../hooks/api/get/useEvent";
+import { usePostEventApply } from "../../hooks/api/postPutDelete/usePostEventApply";
 
 type Props = {
   event_id: number;
@@ -15,20 +16,22 @@ type ApplyEventPost = {
 };
 
 export const EventDetail: FC<Props> = (props) => {
-  const { loginuser } = useLoginUserContext();
+  const { loginUser } = useLoginUserContext();
 
   const { event_id } = props;
+
+  const { postEventApply } = usePostEventApply();
 
   const [applyEvent, setApplyEvent] = useState<ApplyEventPost>({});
 
   useEffect(() => {
-    if (loginuser && event_id) {
+    if (loginUser && event_id) {
       setApplyEvent({
         event_id: event_id,
-        user_id: loginuser?.uid,
+        user_id: loginUser?.uid,
       });
     }
-  }, [loginuser, event_id]);
+  }, [loginUser, event_id]);
 
   const { getEvent, event, loading } = useEvent();
   useEffect(() => getEvent(), []);
@@ -42,13 +45,15 @@ export const EventDetail: FC<Props> = (props) => {
     });
   };
 
-  const onClickApply = () => {
+  // イベント参加登録ボタン
+  const onClickApply = async () => {
     console.log(applyEvent);
+    await postEventApply(applyEvent);
   };
 
   return (
     <>
-      {loginuser?.uid === event?.event_owner?.user_id ? (
+      {loginUser?.uid === event?.event_owner?.user_id ? (
         <>
           <button type="button" onClick={onClickButtonToEdit}>
             編集

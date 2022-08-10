@@ -11,8 +11,8 @@ import { User } from "../types/api/User";
 
 // typeの宣言
 export type UserInfoContextType = {
-  allTags: User;
-  setAllTags: Dispatch<SetStateAction<User>>;
+  userInfo: User;
+  setUserInfo: Dispatch<SetStateAction<User>>;
 };
 
 const UserInfoContext = createContext({} as UserInfoContextType);
@@ -24,10 +24,10 @@ export function useUserInfoContext() {
 export function UserInfoProvider(props: { children: ReactNode }) {
   const { children } = props;
 
-  const [allTags, setAllTags] = useState<User>({});
+  const [userInfo, setUserInfo] = useState<User>({});
 
   return (
-    <UserInfoContext.Provider value={{ allTags, setAllTags }}>
+    <UserInfoContext.Provider value={{ userInfo, setUserInfo }}>
       {children}
     </UserInfoContext.Provider>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   createContext,
   useState,
@@ -7,15 +7,15 @@ import {
   SetStateAction,
   ReactNode,
 } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { LoginUser } from "../types/firebase/LoginUser";
 
 // typeの宣言
 export type LoginUserContextType = {
-  loginuser: LoginUser | null;
+  loginUser: LoginUser | null;
   setLoginUser: Dispatch<SetStateAction<LoginUser | null>>;
+  isAuthChecked: boolean;
+  setIsAuthChecked: Dispatch<SetStateAction<boolean>>;
 };
-
 
 const LoginUserContext = createContext({} as LoginUserContextType);
 
@@ -25,19 +25,13 @@ export function useLoginUserContext() {
 
 export function LoginUserProvider(props: { children: ReactNode }) {
   const { children } = props;
-  const [loginuser, setLoginUser] = useState<LoginUser | null>(null);
-
-  useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, async (loginUser) => {
-      if (loginUser) {
-        setLoginUser(loginUser);
-      }
-    });
-  }, []);
+  const [loginUser, setLoginUser] = useState<LoginUser | null>(null);
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   return (
-    <LoginUserContext.Provider value={{ loginuser, setLoginUser }}>
+    <LoginUserContext.Provider
+      value={{ loginUser, setLoginUser, isAuthChecked, setIsAuthChecked }}
+    >
       {children}
     </LoginUserContext.Provider>
   );

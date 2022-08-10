@@ -1,23 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { EventCard } from "../organisms/EventCatd";
 import { SearchEventList } from "../../types/react-hook-form/SearchEventList";
 import { useEventSearch } from "../../hooks/api/get/useEventSearch";
 import { useAllTagsContext } from "../../context/AllTagsContext";
+import { Event } from "../../types/api/Event";
 
 export const EventSerchForm = () => {
   const { allTags } = useAllTagsContext();
 
-  const { getEvents, events } = useEventSearch();
+  const { getEvents } = useEventSearch();
 
   const {
     register,
     handleSubmit,
     //formState: { errors },
   } = useForm<SearchEventList>();
-  const onSubmit: SubmitHandler<SearchEventList> = (data) => {
+
+  const [events, setEvents] = useState<Event[]>();
+
+  const onSubmit: SubmitHandler<SearchEventList> = async (data) => {
     console.log("onSubmit", data);
-    getEvents(data);
+    const eventsdata = await getEvents(data);
+    setEvents(eventsdata);
   };
   return (
     <div>

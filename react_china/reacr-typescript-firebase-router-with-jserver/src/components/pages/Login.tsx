@@ -11,7 +11,6 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useLoginWithGoogle } from "../../hooks/useAuth";
 
-
 export const Login = () => {
   const { loginWithGoogle, error, success } = useLoginWithGoogle();
 
