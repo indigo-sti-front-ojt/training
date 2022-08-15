@@ -2,7 +2,7 @@ import axios from "axios";
 import { User } from "../../../types/api/User";
 
 export const useUserCreateEdit = () => {
-  const url = "https://icy-mushroom-0e274e110.1.azurestaticapps.net/users";
+  const url = "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/users";
   const userCreateEdit = async (method: string, obj: User) => {
     if (method === "post") {
       try {

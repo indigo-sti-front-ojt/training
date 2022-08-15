@@ -10,12 +10,12 @@ type Props = {
 
 export const EventCard: FC<Props> = (props) => {
   const { event } = props;
-  const url = "/events/event?event_id=" + event?.id;
+  const url = "/events/event?event_id=" + event?.event_id;
   return (
     <>
-      <Link to={url} state={{ event_id: event?.id }}>
+      <Link to={url} state={{ event_id: event?.event_id }}>
         <p>あと{event?.event_left_date}日</p>
-        <img src={event?.event_imgurl} alt="イベント画像" />
+        <img src={event?.event_image} alt="イベント画像" />
         <p>{event?.event_created_date}</p>
         <p>{event?.event_name}</p>
         <p>{event?.event_owner_icon}</p>

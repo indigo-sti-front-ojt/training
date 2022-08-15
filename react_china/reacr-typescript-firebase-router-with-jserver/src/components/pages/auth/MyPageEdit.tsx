@@ -7,7 +7,6 @@ import { useUserInfoContext } from "../../../context/UserInfoContext";
 
 // import { useImageUp } from "../../../hooks/useImageUp";
 
-
 export const MyPageEdit: FC = () => {
   // const { onClickImageUp, icondata } = useImageUp(tmpFile);
 
@@ -15,7 +14,7 @@ export const MyPageEdit: FC = () => {
   const { userInfo } = useUserInfoContext();
 
   const checkedTag: Array<number | undefined> | undefined =
-    userInfo?.user_tags?.map((checkd_tag) => checkd_tag.id);
+    userInfo?.user_tags?.map((checkd_tag) => checkd_tag.tag_id);
 
   const {
     register,
@@ -41,14 +40,14 @@ export const MyPageEdit: FC = () => {
   const onClickImageUp = async () => {
     try {
       // 以下postリクエスト
-      // await axios({
-      //   url: "/upload/image/",
-      //   method: "post",
-      //   data: tmpFile,
-      //   headers: {
-      //     "content-type": "multipart/form-data",
-      //   },
-      // });
+      await axios({
+        url: "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/upload_image/",
+        method: "post",
+        data: tmpFile,
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
       const res = await axios.get("http://localhost:5000/image");
       const icon_data = res.data;
       setValue("user_icon", icon_data?.url);
@@ -99,10 +98,7 @@ export const MyPageEdit: FC = () => {
         </label>
         <label>
           所属CoE
-          <input
-            defaultValue={userInfo?.user_coe}
-            {...register("user_coe")}
-          />
+          <input defaultValue={userInfo?.user_coe} {...register("user_coe")} />
         </label>
         <label>
           所属SL
@@ -121,24 +117,24 @@ export const MyPageEdit: FC = () => {
           return (
             <div key={i}>
               <label>
-                {checkedTag?.includes(tag.id) ? (
+                {checkedTag?.includes(tag.tag_id) ? (
                   <>
                     <input
                       {...register("user_tags_id")}
                       type="checkbox"
-                      value={tag.id}
+                      value={tag.tag_id}
                       checked
                     />
-                    {tag.value}
+                    {tag.tag_value}
                   </>
                 ) : (
                   <>
                     <input
                       {...register("user_tags_id")}
                       type="checkbox"
-                      value={tag.id}
+                      value={tag.tag_id}
                     />
-                    {tag.value}
+                    {tag.tag_value}
                   </>
                 )}
               </label>

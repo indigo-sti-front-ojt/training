@@ -7,7 +7,7 @@ export const useEvent = () => {
   const [event, setEvent] = useState<Event>();
 
   const getEvent = useCallback((event_id: number) => {
-    const eventUrl = `https://icy-mushroom-0e274e110.1.azurestaticapps.net/events?eventid=${event_id}`;
+    const eventUrl = `https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/events?eventid=${event_id}`;
     (async () => {
       try {
         const res = await axios.get<Event>(eventUrl);

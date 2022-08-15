@@ -8,7 +8,7 @@ export const useComments = () => {
 
   const getComments = useCallback((event_id: number) => {
     (async () => {
-      const commentUrl = `https://icy-mushroom-0e274e110.1.azurestaticapps.net/comments?eventid=${event_id}`;
+      const commentUrl = `https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/comments?eventid=${event_id}`;
       try {
         const res = await axios.get<Comment[]>(commentUrl);
         setComments(res.data);

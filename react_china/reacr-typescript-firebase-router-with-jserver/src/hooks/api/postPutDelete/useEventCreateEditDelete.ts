@@ -3,8 +3,10 @@ import axios from "axios";
 import { Event } from "../../../types/api/Event";
 
 export const useEventCreateEditDelete = () => {
-  const url = "https://icy-mushroom-0e274e110.1.azurestaticapps.net/events";
+  const url = "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/events";
   const eventCreateEditDelete = async (method: string, obj: Event) => {
+    console.log("data", obj);
+
     if (method === "post") {
       try {
         await axios.post(url, obj);

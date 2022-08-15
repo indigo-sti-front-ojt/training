@@ -1,13 +1,13 @@
 import axios from "axios";
 
 export type EventApplyInfo = {
-  event_id: number;
-  user_id: string;
+  event_id?: number | null;
+  user_id?: string | null;
 };
 
 export const useEventApply = () => {
   const url =
-    "https://icy-mushroom-0e274e110.1.azurestaticapps.net/events_join";
+    "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/events_join";
   const eventApply = async (method: string, obj: EventApplyInfo) => {
     if (method === "post") {
       try {

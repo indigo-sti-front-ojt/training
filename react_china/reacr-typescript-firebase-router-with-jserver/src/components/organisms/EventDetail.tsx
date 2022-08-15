@@ -4,16 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { useLoginUserContext } from "../../context/LoginUserContext";
 import { LinkToUserButton } from "../atoms/buttons/LinkToUserButton";
 import { useEvent } from "../../hooks/api/get/useEvent";
-import { useEventApply } from "../../hooks/api/postPutDelete/useEventApply";
+import {
+  EventApplyInfo,
+  useEventApply,
+} from "../../hooks/api/postPutDelete/useEventApply";
 import { useEventCreateEditDelete } from "../../hooks/api/postPutDelete/useEventCreateEditDelete";
 
 type Props = {
   event_id: number;
-};
-
-type ApplyEventPost = {
-  event_id?: number;
-  user_id?: string;
 };
 
 export const EventDetail: FC<Props> = (props) => {
@@ -23,7 +21,10 @@ export const EventDetail: FC<Props> = (props) => {
 
   const { eventApply } = useEventApply();
 
-  const [applyEvent, setApplyEvent] = useState<ApplyEventPost>({});
+  const [applyEvent, setApplyEvent] = useState<EventApplyInfo>({
+    event_id: null,
+    user_id: null,
+  });
 
   useEffect(() => {
     if (loginUser && event_id) {
@@ -52,8 +53,8 @@ export const EventDetail: FC<Props> = (props) => {
 
   // イベント削除ボタン
   const onClickButtonToDelete = async () => {
-    console.log(event?.id);
-    await eventCreateEditDelete("delete", { id: event_id });
+    console.log(event?.event_id);
+    await eventCreateEditDelete("delete", { event_id: event_id });
   };
 
   // イベント参加登録ボタン
@@ -77,11 +78,11 @@ export const EventDetail: FC<Props> = (props) => {
         ""
       )}
       <p>応募締め切り</p>
-      <img src={event?.event_imgurl} alt="イベントヘッダー画像" />
+      <img src={event?.event_image} alt="イベントヘッダー画像" />
       {event?.event_tags?.map((tag, i) => (
         <>
           <div key={i}>
-            <span style={{ color: tag.color }}>{tag.value}</span>
+            <span style={{ color: tag.tag_color }}>{tag.tag_value}</span>
           </div>
         </>
       ))}

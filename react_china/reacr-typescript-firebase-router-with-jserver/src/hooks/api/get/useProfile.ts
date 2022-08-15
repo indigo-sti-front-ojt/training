@@ -10,7 +10,7 @@ export const useOthers = () => {
 
   const getOthers = useCallback((user_id: string) => {
     const mydataurl =
-      "https://icy-mushroom-0e274e110.1.azurestaticapps.net/users?userid=" +
+      "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/users?userid=" +
       user_id;
     (async () => {
       try {
