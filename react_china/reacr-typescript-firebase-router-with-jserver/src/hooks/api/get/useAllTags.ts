@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import axios from "axios";
 
 import { Tag } from "../../../types/api/Tag";
@@ -6,8 +6,8 @@ import { useAllTagsContext } from "../../../context/AllTagsContext";
 
 export const useAllTags = () => {
   const { setAllTags } = useAllTagsContext();
-  const [tagsLoading, setTagsLoading] = useState<boolean>(false);
-  const tagsurl = "http://localhost:5000/tags";
+  // const [tagsLoading, setTagsLoading] = useState<boolean>(false);
+  const tagsurl = "https://icy-mushroom-0e274e110.1.azurestaticapps.net/tags";
 
   const getAllTags = useCallback(() => {
     (async () => {
@@ -16,8 +16,6 @@ export const useAllTags = () => {
         setAllTags(res_tags.data);
       } catch (error) {
         console.log("タグが取得できません");
-      } finally {
-        setTagsLoading(false);
       }
     })();
   }, []);

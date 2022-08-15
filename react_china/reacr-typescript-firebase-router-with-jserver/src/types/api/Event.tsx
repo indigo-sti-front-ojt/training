@@ -4,7 +4,7 @@ import { UserMinInfo } from "./UserMinInfo";
 export type Event = {
   id?: number;
   user_id?: string;
-  event_owner: UserMinInfo;
+  event_owner?: UserMinInfo;
   event_owner_name?: string;
   event_owner_icon?: string;
   event_left_date?: number;

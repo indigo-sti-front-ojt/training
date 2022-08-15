@@ -13,7 +13,7 @@ export const useUser = () => {
     (async () => {
       try {
         const res_user = await axios.get<User>(
-          "http://localhost:5000/users?userid=" + user_id
+          "https://icy-mushroom-0e274e110.1.azurestaticapps.net/users?userid=" + user_id
         );
         setUserInfo(res_user.data);
         console.log(res_user.data);

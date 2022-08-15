@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useLoginUserContext } from "../../context/LoginUserContext";
 import { LinkToUserButton } from "../atoms/buttons/LinkToUserButton";
 import { useEvent } from "../../hooks/api/get/useEvent";
-import { usePostEventApply } from "../../hooks/api/postPutDelete/usePostEventApply";
+import { useEventApply } from "../../hooks/api/postPutDelete/useEventApply";
+import { useEventCreateEditDelete } from "../../hooks/api/postPutDelete/useEventCreateEditDelete";
 
 type Props = {
   event_id: number;
@@ -20,7 +21,7 @@ export const EventDetail: FC<Props> = (props) => {
 
   const { event_id } = props;
 
-  const { postEventApply } = usePostEventApply();
+  const { eventApply } = useEventApply();
 
   const [applyEvent, setApplyEvent] = useState<ApplyEventPost>({});
 
@@ -33,8 +34,8 @@ export const EventDetail: FC<Props> = (props) => {
     }
   }, [loginUser, event_id]);
 
-  const { getEvent, event, loading } = useEvent();
-  useEffect(() => getEvent(), []);
+  const { getEvent, event } = useEvent();
+  useEffect(() => getEvent(event_id), []);
 
   const navigate = useNavigate();
 
@@ -47,15 +48,18 @@ export const EventDetail: FC<Props> = (props) => {
     });
   };
 
+  const { eventCreateEditDelete } = useEventCreateEditDelete();
+
   // イベント削除ボタン
-  const onClickButtonToDelete = () => {
+  const onClickButtonToDelete = async () => {
     console.log(event?.id);
+    await eventCreateEditDelete("delete", { id: event_id });
   };
 
   // イベント参加登録ボタン
   const onClickApply = async () => {
     console.log(applyEvent);
-    await postEventApply(applyEvent);
+    await eventApply("post", applyEvent);
   };
 
   return (

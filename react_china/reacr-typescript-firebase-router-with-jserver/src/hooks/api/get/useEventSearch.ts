@@ -54,7 +54,7 @@ export const useEventSearch = () => {
     }
 
     const eventsUrl =
-      "http://localhost:5000/events" +
+      "https://icy-mushroom-0e274e110.1.azurestaticapps.net/events" +
       tagsQuery +
       budgetQuery +
       minguestQuery +

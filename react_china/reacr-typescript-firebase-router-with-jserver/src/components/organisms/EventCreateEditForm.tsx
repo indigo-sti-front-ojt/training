@@ -18,7 +18,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   const { loginUser } = useLoginUserContext();
   const { allTags } = useAllTagsContext();
 
-  const { eventCreateEdit } = useEventCreateEditDelete();
+  const { eventCreateEditDelete } = useEventCreateEditDelete();
 
   const checkedTag: Array<number | undefined> | undefined =
     event?.event_tags?.map((checkd_tag) => checkd_tag.id);
@@ -35,7 +35,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
 
   const onSubmit: SubmitHandler<Event> = async(data) => {
     console.log("onSubmit", data);
-    await eventCreateEdit(method,data);
+    await eventCreateEditDelete(method,data);
   };
 
   const [tmpFile, setTmpFile] = useState<File>();

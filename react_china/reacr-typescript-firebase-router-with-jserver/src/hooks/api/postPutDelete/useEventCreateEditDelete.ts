@@ -4,7 +4,7 @@ import { Event } from "../../../types/api/Event";
 
 export const useEventCreateEditDelete = () => {
   const url = "https://icy-mushroom-0e274e110.1.azurestaticapps.net/events";
-  const eventCreateEdit = async (method: string, obj: Event) => {
+  const eventCreateEditDelete = async (method: string, obj: Event) => {
     if (method === "post") {
       try {
         await axios.post(url, obj);
@@ -30,5 +30,5 @@ export const useEventCreateEditDelete = () => {
       console.log("正しいmethod(put/post/delete)を引数に入れてください");
     }
   };
-  return { eventCreateEdit };
+  return { eventCreateEditDelete };
 };
