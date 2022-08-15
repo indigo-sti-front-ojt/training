@@ -5,7 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Event } from "../../types/api/Event";
 import { useAllTagsContext } from "../../context/AllTagsContext";
 import { useLoginUserContext } from "../../context/LoginUserContext";
-import { useEventCreateEdit } from "../../hooks/api/postPutDelete/useEventCreateEdit";
+import { useEventCreateEditDelete } from "../../hooks/api/postPutDelete/useEventCreateEditDelete";
 
 type Props = {
   event?: Event;
@@ -18,7 +18,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   const { loginUser } = useLoginUserContext();
   const { allTags } = useAllTagsContext();
 
-  const { eventCreateEdit } = useEventCreateEdit();
+  const { eventCreateEdit } = useEventCreateEditDelete();
 
   const checkedTag: Array<number | undefined> | undefined =
     event?.event_tags?.map((checkd_tag) => checkd_tag.id);

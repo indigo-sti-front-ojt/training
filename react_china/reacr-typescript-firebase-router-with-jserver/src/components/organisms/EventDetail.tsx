@@ -37,12 +37,19 @@ export const EventDetail: FC<Props> = (props) => {
   useEffect(() => getEvent(), []);
 
   const navigate = useNavigate();
+
+  // イベント編集ボタン
   const onClickButtonToEdit = () => {
     navigate("edit", {
       state: {
         event,
       },
     });
+  };
+
+  // イベント削除ボタン
+  const onClickButtonToDelete = () => {
+    console.log(event?.id);
   };
 
   // イベント参加登録ボタン
@@ -57,6 +64,9 @@ export const EventDetail: FC<Props> = (props) => {
         <>
           <button type="button" onClick={onClickButtonToEdit}>
             編集
+          </button>
+          <button type="button" onClick={onClickButtonToDelete}>
+            削除
           </button>
         </>
       ) : (
