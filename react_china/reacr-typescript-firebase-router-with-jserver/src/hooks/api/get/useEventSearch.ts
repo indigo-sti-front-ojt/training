@@ -7,7 +7,7 @@ import { SearchEventList } from "../../../types/react-hook-form/SearchEventList"
 export const useEventSearch = () => {
   const getEvents = useCallback(async (data?: SearchEventList) => {
     const tags_arr: Array<number | undefined> | undefined = data?.tags?.map(
-      (value) => value.id
+      (value) => value.tag_id
     );
 
     let tags = "";
@@ -54,7 +54,7 @@ export const useEventSearch = () => {
     }
 
     const eventsUrl =
-      "http://localhost:5000/events" +
+      "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/events" +
       tagsQuery +
       budgetQuery +
       minguestQuery +

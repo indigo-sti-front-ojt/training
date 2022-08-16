@@ -10,7 +10,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-import { useCreateUser } from "./api/postPutDelete/useCreateUser";
+import { useUserCreateEdit } from "./api/postPutDelete/useUserCreateEdit";
 import { UserMinInfo } from "../types/api/UserMinInfo";
 import { useLoginUserContext } from "../context/LoginUserContext";
 
@@ -20,7 +20,7 @@ const fireauth = firebaseApp.fireauth;
 export const useLoginWithGoogle = () => {
   const navigate = useNavigate();
 
-  const { postCreate } = useCreateUser();
+  const { userCreateEdit } = useUserCreateEdit();
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -45,10 +45,7 @@ export const useLoginWithGoogle = () => {
           user_id: res.user.uid ?? "",
         };
         console.log(userRegister);
-        await postCreate(
-          "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/users",
-          userRegister
-        );
+        await userCreateEdit("post", userRegister);
         navigate("/welcome");
       } else {
         navigate("/");

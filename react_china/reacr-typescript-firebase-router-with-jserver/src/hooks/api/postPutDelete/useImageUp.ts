@@ -7,15 +7,14 @@ export const useImageUp = () => {
   const onClickImageUp = async (tmpFile?: File) => {
     console.log(tmpFile);
     try {
-      // 以下postリクエスト
-      // await axios({
-      //   url: "/upload/image/",
-      //   method: "post",
-      //   data: tmpFile,
-      //   headers: {
-      //     "content-type": "multipart/form-data",
-      //   },
-      // });
+      await axios({
+        url: "/upload/image/",
+        method: "post",
+        data: tmpFile,
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
       const res = await axios.get("http://localhost:5000/image");
       setIcondata(res.data.url);
       // setValue({ formLabel }, icon_data?.url);

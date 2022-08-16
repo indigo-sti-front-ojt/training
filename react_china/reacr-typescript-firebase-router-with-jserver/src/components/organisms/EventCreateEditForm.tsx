@@ -5,7 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Event } from "../../types/api/Event";
 import { useAllTagsContext } from "../../context/AllTagsContext";
 import { useLoginUserContext } from "../../context/LoginUserContext";
-import { useEventCreateEdit } from "../../hooks/api/postPutDelete/useEventCreateEdit";
+import { useEventCreateEditDelete } from "../../hooks/api/postPutDelete/useEventCreateEditDelete";
 
 type Props = {
   event?: Event;
@@ -18,10 +18,10 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   const { loginUser } = useLoginUserContext();
   const { allTags } = useAllTagsContext();
 
-  const { eventCreateEdit } = useEventCreateEdit();
+  const { eventCreateEditDelete } = useEventCreateEditDelete();
 
   const checkedTag: Array<number | undefined> | undefined =
-    event?.event_tags?.map((checkd_tag) => checkd_tag.id);
+    event?.event_tags?.map((checkd_tag) => checkd_tag.tag_id);
 
   const {
     register,
@@ -31,15 +31,25 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   } = useForm<Event>();
 
   setValue("user_id", loginUser?.uid);
-  if (event) setValue("id", event?.id);
+  if (event) setValue("event_id", event?.event_id);
 
-  const onSubmit: SubmitHandler<Event> = async(data) => {
+  const onSubmit: SubmitHandler<Event> = async (data: Event) => {
     console.log("onSubmit", data);
-    await eventCreateEdit(method,data);
+    const temp: Event = {
+      ...data,
+      event_budget: Number(data.event_budget),
+      event_min_guest: Number(data.event_min_guest),
+      event_max_guest: Number(data.event_max_guest),
+      event_tags_id: data.event_tags_id?.map(Number),
+    };
+    // console.log(typeof temp.event_max_guest);
+    // console.log(temp);
+
+    await eventCreateEditDelete(method, temp);
   };
 
   const [tmpFile, setTmpFile] = useState<File>();
-  const [tmpUrl, setTmpUrl] = useState(event?.event_imgurl);
+  const [tmpUrl, setTmpUrl] = useState(event?.event_image);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files);
     if (!e.target.files) return;
@@ -52,7 +62,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
     try {
       const res = await axios.get("http://localhost:5000/image");
       const icon_data = res.data;
-      setValue("event_imgurl", icon_data?.url);
+      setValue("event_image", icon_data?.url);
     } catch {
       console.log("error");
     }
@@ -78,8 +88,8 @@ export const EventCreateEditForm: FC<Props> = (props) => {
         </span>
         <label>
           <input
-            defaultValue={event?.event_imgurl}
-            {...register("event_imgurl")}
+            defaultValue={event?.event_image}
+            {...register("event_image")}
           />
         </label>
         <label>
@@ -131,24 +141,24 @@ export const EventCreateEditForm: FC<Props> = (props) => {
           return (
             <div key={i}>
               <label>
-                {checkedTag?.includes(tag.id) ? (
+                {checkedTag?.includes(tag.tag_id) ? (
                   <>
                     <input
                       {...register("event_tags_id")}
                       type="checkbox"
-                      value={tag.id}
+                      value={tag.tag_id}
                       checked
                     />
-                    {tag.value}
+                    {tag.tag_value}
                   </>
                 ) : (
                   <>
                     <input
                       {...register("event_tags_id")}
                       type="checkbox"
-                      value={tag.id}
+                      value={tag.tag_id}
                     />
-                    {tag.value}
+                    {tag.tag_value}
                   </>
                 )}
               </label>

@@ -27,7 +27,7 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
         {user?.user_tags?.map((tag, i) => (
           <>
             <div key={i}>
-              <span style={{ color: tag.color }}>{tag.value}</span>
+              <span style={{ color: tag.tag_color }}>{tag.tag_value}</span>
             </div>
           </>
         ))}

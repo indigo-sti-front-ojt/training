@@ -5,11 +5,13 @@ import { User } from "../../../types/api/User";
 
 // 他のユーザーの情報を取得
 
-export const useOthers = (user_id: string) => {
+export const useOthers = () => {
   const [othersInfo, setOthersInfo] = useState<User>();
-  const mydataurl = "http://localhost:5000/users?userid=" + user_id;
 
-  const getOthers = useCallback(() => {
+  const getOthers = useCallback((user_id: string) => {
+    const mydataurl =
+      "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/users?userid=" +
+      user_id;
     (async () => {
       try {
         const res_user = await axios.get<User>(mydataurl);

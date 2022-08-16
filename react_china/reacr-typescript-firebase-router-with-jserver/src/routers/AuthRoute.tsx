@@ -25,7 +25,7 @@ export const AuthRoute = (props: Props) => {
     getAllTags();
     if (isAuthChecked && loginUser) {
       getUser(loginUser?.uid);
-      console.log("getUser");
+      // console.log("getUser");
     }
   }, [loginUser]);
 

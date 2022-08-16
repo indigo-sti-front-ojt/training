@@ -1,5 +1,5 @@
 export type Tag = {
-  id?: number;
-  value?: string;
-  color?: string;
+  tag_id?: number;
+  tag_value?: string;
+  tag_color?: string;
 }

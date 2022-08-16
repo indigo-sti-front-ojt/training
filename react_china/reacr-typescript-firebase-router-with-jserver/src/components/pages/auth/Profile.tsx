@@ -8,13 +8,14 @@ import { PersonalInfo } from "../../organisms/user/PersonalInfo";
 type State = {
   user_id: string;
 };
+
 export const Profile = () => {
   const location = useLocation();
   const { user_id } = location.state as State;
 
-  const { getOthers, othersInfo } = useOthers(user_id);
+  const { getOthers, othersInfo } = useOthers();
 
-  useEffect(() => getOthers(), []);
+  useEffect(() => getOthers(user_id), []);
 
   return (
     <>

@@ -31,8 +31,8 @@ export const EventSerchForm = () => {
         {allTags?.map((tag, i) => (
           <div key={i}>
             <label>
-              <input type="checkbox" {...register("tags")} value={tag.id} />
-              {tag.value}
+              <input type="checkbox" {...register("tags")} value={tag.tag_id} />
+              {tag.tag_value}
             </label>
           </div>
         ))}
