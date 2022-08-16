@@ -35,8 +35,14 @@ export const EventDetail: FC<Props> = (props) => {
     }
   }, [loginUser, event_id]);
 
+  // 個別イベントの取得
   const { getEvent, event } = useEvent();
-  useEffect(() => getEvent(event_id), []);
+  useEffect(() => {
+    getEvent(event_id);
+  }, []);
+
+  // ゲストのIDを配列化
+  const gusetsID = event?.event_guests?.map((gusets) => gusets?.user_id);
 
   const navigate = useNavigate();
 
@@ -63,6 +69,12 @@ export const EventDetail: FC<Props> = (props) => {
     await eventApply("post", applyEvent);
   };
 
+  // イベント参加登録解除ボタン
+  const onClickApplyCancel = async () => {
+    console.log(applyEvent);
+    await eventApply("delete", applyEvent);
+  };
+
   return (
     <>
       {loginUser?.uid === event?.event_owner?.user_id ? (
@@ -75,7 +87,13 @@ export const EventDetail: FC<Props> = (props) => {
           </button>
         </>
       ) : (
-        ""
+        <>
+          {gusetsID?.includes(loginUser?.uid) ?? (
+            <>
+              <button onClick={onClickApplyCancel}>参加登録解除</button>
+            </>
+          )}
+        </>
       )}
       <p>応募締め切り</p>
       <img src={event?.event_image} alt="イベントヘッダー画像" />
@@ -124,8 +142,8 @@ export const EventDetail: FC<Props> = (props) => {
             </>
           ))}
         </div>
+        <button onClick={onClickApply}>参加登録</button>
       </div>
-      <button onClick={onClickApply}>参加登録</button>
     </>
   );
 };

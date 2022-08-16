@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FC } from "react";
+import React, { useState, ChangeEvent, FC, useEffect } from "react";
 import axios from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -13,10 +13,10 @@ type Props = {
 };
 
 export const EventCreateEditForm: FC<Props> = (props) => {
-  const { event, method } = props;
-
   const { loginUser } = useLoginUserContext();
   const { allTags } = useAllTagsContext();
+
+  const { event, method } = props;
 
   const { eventCreateEditDelete } = useEventCreateEditDelete();
 
@@ -30,8 +30,10 @@ export const EventCreateEditForm: FC<Props> = (props) => {
     formState: { errors },
   } = useForm<Event>();
 
-  setValue("user_id", loginUser?.uid);
-  if (event) setValue("event_id", event?.event_id);
+  useEffect(() => {
+    setValue("user_id", loginUser?.uid);
+    setValue("event_id", event?.event_id);
+  }, [event, loginUser]);
 
   const onSubmit: SubmitHandler<Event> = async (data: Event) => {
     console.log("onSubmit", data);
@@ -60,7 +62,9 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   const onClickImageUp = async () => {
     console.log(tmpFile);
     try {
-      const res = await axios.get("http://localhost:5000/image");
+      const res = await axios.get(
+        "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/upload_image/"
+      );
       const icon_data = res.data;
       setValue("event_image", icon_data?.url);
     } catch {

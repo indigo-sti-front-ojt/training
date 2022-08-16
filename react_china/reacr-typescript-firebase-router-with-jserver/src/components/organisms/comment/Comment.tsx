@@ -8,7 +8,7 @@ type Props = {
 export const Comment: FC<Props> = (props) => {
   const { getComments, comments } = useComments();
   const { event_id } = props;
-  useEffect(() => getComments(event_id), []);
+  useEffect(() => getComments(event_id), [comments]);
   return (
     <>
       <div>
