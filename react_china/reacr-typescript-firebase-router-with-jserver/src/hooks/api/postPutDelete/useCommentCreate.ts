@@ -4,7 +4,7 @@ import { CommentPost } from "../../../types/react-hook-form/CommentPost";
 
 export const useCommentCreate = () => {
   const url =
-    "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/comment";
+    "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/comments";
   const commentCreate = async (obj: CommentPost) => {
     try {
       await axios.post(url, obj);

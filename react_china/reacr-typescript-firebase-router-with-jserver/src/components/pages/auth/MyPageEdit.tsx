@@ -4,14 +4,21 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { User } from "../../../types/api/User";
 import { useAllTagsContext } from "../../../context/AllTagsContext";
 import { useUserInfoContext } from "../../../context/UserInfoContext";
-
+import { useUserCreateEdit } from "../../../hooks/api/postPutDelete/useUserCreateEdit";
+import { useUser } from "../../../hooks/api/get/useUser";
+import { useLoginUserContext } from "../../../context/LoginUserContext";
 // import { useImageUp } from "../../../hooks/useImageUp";
 
 export const MyPageEdit: FC = () => {
   // const { onClickImageUp, icondata } = useImageUp(tmpFile);
 
+  // ログインユーザーの情報を取得
+  const { loginUser } = useLoginUserContext();
   const { allTags } = useAllTagsContext();
   const { userInfo } = useUserInfoContext();
+
+  // ユーザー情報更新のためのhooksを定義
+  const { getUser } = useUser();
 
   const checkedTag: Array<number | undefined> | undefined =
     userInfo?.user_tags?.map((checkd_tag) => checkd_tag.tag_id);
@@ -25,8 +32,18 @@ export const MyPageEdit: FC = () => {
 
   setValue("user_id", userInfo?.user_id);
 
-  const onSubmit: SubmitHandler<User> = (data) => {
+  // ユーザー編集のhooksの読み込み
+  const { userCreateEdit } = useUserCreateEdit();
+
+  const onSubmit: SubmitHandler<User> = async (data: User) => {
     console.log("onSubmit", data);
+    // const temp: User = {
+    //   ...data,
+    //   user_tags_id: data.user_tags_id?.map(Number),
+    // };
+    await userCreateEdit("put", data);
+    getUser(loginUser?.uid);
+    // console.log("temp",temp);
   };
 
   const [tmpFile, setTmpFile] = useState<File>();
@@ -40,15 +57,15 @@ export const MyPageEdit: FC = () => {
   const onClickImageUp = async () => {
     try {
       // 以下postリクエスト
-      await axios({
+      const res = await axios({
         url: "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/upload_image/",
         method: "post",
         data: tmpFile,
         headers: {
-          "content-type": "multipart/form-data",
+          "Content-Type": "multipart/form-data",
         },
       });
-      const res = await axios.get("http://localhost:5000/image");
+      // const res = await axios.get("http://localhost:5000/image");
       const icon_data = res.data;
       setValue("user_icon", icon_data?.url);
     } catch {
@@ -143,16 +160,6 @@ export const MyPageEdit: FC = () => {
         })}
 
         <h3>SNS</h3>
-        <label>
-          メール
-          <input
-            defaultValue={userInfo?.user_email}
-            {...register("user_email", { required: true })}
-          />
-        </label>
-        {errors.user_email && (
-          <span style={{ color: "red" }}>メールは必ず入力してください</span>
-        )}
         <label>
           instagram
           <input
