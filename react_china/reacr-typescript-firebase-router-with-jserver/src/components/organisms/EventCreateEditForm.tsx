@@ -28,7 +28,11 @@ export const EventCreateEditForm: FC<Props> = (props) => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<Event>();
+  } = useForm<Event>({
+    defaultValues: {
+      event_tags_id: [],
+    },
+  });
 
   useEffect(() => {
     setValue("user_id", loginUser?.uid);
@@ -150,8 +154,8 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                     <input
                       {...register("event_tags_id")}
                       type="checkbox"
+                      defaultChecked={true}
                       value={tag.tag_id}
-                      checked
                     />
                     {tag.tag_value}
                   </>
@@ -160,6 +164,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                     <input
                       {...register("event_tags_id")}
                       type="checkbox"
+                      defaultChecked={false}
                       value={tag.tag_id}
                     />
                     {tag.tag_value}

@@ -39,7 +39,7 @@ export const EventSerchForm = () => {
         <div>
           <label>
             <p>予算</p>
-            <input defaultValue="" {...register("badget")} />
+            <input defaultValue="" {...register("budget")} />
           </label>
         </div>
         <div>
