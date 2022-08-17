@@ -13,7 +13,6 @@ export const Home: FC = () => {
   const { getEvents } = useEventSearch();
 
   const data = {
-    num: 3,
   };
   const data_tags = {
     tags: userInfo?.user_tags,
@@ -26,7 +25,7 @@ export const Home: FC = () => {
     const readData = async () => {
       const event1 = await getEvents(data);
       setNearEvents(event1);
-      console.log("event1", event1);
+      console.log("events", event1);
 
       const tagEvents = await getEvents(data_tags);
       setTagEvents(tagEvents);

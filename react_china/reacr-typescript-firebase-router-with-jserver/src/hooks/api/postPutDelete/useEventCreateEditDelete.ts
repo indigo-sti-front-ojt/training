@@ -26,7 +26,7 @@ export const useEventCreateEditDelete = () => {
         await axios.delete(url, { data: obj });
         console.log(obj, "イベント削除 成功");
       } catch {
-        console.log("イベント編集エラー");
+        console.log("イベント削除エラー");
       }
     } else {
       console.log("正しいmethod(put/post/delete)を引数に入れてください");

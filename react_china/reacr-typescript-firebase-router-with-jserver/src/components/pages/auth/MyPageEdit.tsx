@@ -7,6 +7,7 @@ import { useUserInfoContext } from "../../../context/UserInfoContext";
 import { useUserCreateEdit } from "../../../hooks/api/postPutDelete/useUserCreateEdit";
 import { useUser } from "../../../hooks/api/get/useUser";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
+
 // import { useImageUp } from "../../../hooks/useImageUp";
 
 export const MyPageEdit: FC = () => {
@@ -28,7 +29,11 @@ export const MyPageEdit: FC = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<User>();
+  } = useForm<User>({
+    defaultValues: {
+      user_tags_id: [],
+    },
+  });
 
   setValue("user_id", userInfo?.user_id);
 
@@ -36,22 +41,26 @@ export const MyPageEdit: FC = () => {
   const { userCreateEdit } = useUserCreateEdit();
 
   const onSubmit: SubmitHandler<User> = async (data: User) => {
-    console.log("onSubmit", data);
-    // const temp: User = {
-    //   ...data,
-    //   user_tags_id: data.user_tags_id?.map(Number),
-    // };
-    await userCreateEdit("put", data);
+    const temp: User = {
+      ...data,
+      user_tags_id: data.user_tags_id?.map(Number),
+    };
+    await userCreateEdit("put", temp);
     getUser(loginUser?.uid);
-    // console.log("temp",temp);
+    console.log("temp", temp);
   };
 
   const [tmpFile, setTmpFile] = useState<File>();
   const [tmpUrl, setTmpUrl] = useState(userInfo?.user_icon);
+  // const [base64, setBase64] = useState();
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     setTmpUrl(URL.createObjectURL(e.target.files[0]));
     setTmpFile(e.target.files[0]);
+    // const file = e.target.files[0];
+    // const tempBase64 = getBase64(file);
+    // setBase64(tempBase64);
   };
 
   const onClickImageUp = async () => {
@@ -72,6 +81,12 @@ export const MyPageEdit: FC = () => {
       console.log("error");
     }
   };
+
+  const getBase64 = (file: File) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+  };
+  
 
   return (
     <>
@@ -139,8 +154,8 @@ export const MyPageEdit: FC = () => {
                     <input
                       {...register("user_tags_id")}
                       type="checkbox"
+                      defaultChecked={true}
                       value={tag.tag_id}
-                      checked
                     />
                     {tag.tag_value}
                   </>
@@ -149,6 +164,7 @@ export const MyPageEdit: FC = () => {
                     <input
                       {...register("user_tags_id")}
                       type="checkbox"
+                      defaultChecked={false}
                       value={tag.tag_id}
                     />
                     {tag.tag_value}

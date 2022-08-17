@@ -2,9 +2,9 @@ import { Tag } from "../api/Tag";
 
 export type SearchEventList = {
   tags?: Tag[];
-  badget?: string;
-  minguest?: string;
-  maxguest?: string;
+  budget?: number;
+  minguest?: number;
+  maxguest?: number;
   fromdate?: string;
   todate?: string;
   num?: number;

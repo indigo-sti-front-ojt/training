@@ -88,12 +88,15 @@ export const EventDetail: FC<Props> = (props) => {
         </>
       ) : (
         <>
-          {gusetsID?.includes(loginUser?.uid) ?? (
-            <>
-              <button onClick={onClickApplyCancel}>参加登録解除</button>
-            </>
-          )}
+          <button onClick={onClickApplyCancel}>参加登録解除</button>
         </>
+        // <>
+        //   {gusetsID?.includes(loginUser?.uid) ?? (
+        //     <>
+        //       <button onClick={onClickApplyCancel}>参加登録解除</button>
+        //     </>
+        //   )}
+        // </>
       )}
       <p>応募締め切り</p>
       <img src={event?.event_image} alt="イベントヘッダー画像" />

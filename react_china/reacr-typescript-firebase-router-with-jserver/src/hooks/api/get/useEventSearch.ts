@@ -24,8 +24,8 @@ export const useEventSearch = () => {
     }
 
     let budgetQuery = "";
-    if (data?.badget) {
-      budgetQuery = `?budget=${data?.badget}`;
+    if (data?.budget) {
+      budgetQuery = `?budget=${data?.budget}`;
     }
 
     let minguestQuery = "";
