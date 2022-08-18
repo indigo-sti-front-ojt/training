@@ -5,8 +5,6 @@ export type Event = {
   event_id?: number;
   user_id?: string;
   event_owner?: UserMinInfo;
-  event_owner_name?: string;
-  event_owner_icon?: string;
   event_left_date?: number;
   event_image?: string;
   event_name?: string;

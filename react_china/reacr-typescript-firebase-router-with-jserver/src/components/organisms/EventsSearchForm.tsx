@@ -24,6 +24,7 @@ export const EventSerchForm = () => {
     const eventsdata = await getEvents(data);
     setEvents(eventsdata);
   };
+  
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -1,11 +1,11 @@
 import React, { useState, ChangeEvent, FC, useEffect } from "react";
-import axios from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Event } from "../../types/api/Event";
 import { useAllTagsContext } from "../../context/AllTagsContext";
 import { useLoginUserContext } from "../../context/LoginUserContext";
 import { useEventCreateEditDelete } from "../../hooks/api/postPutDelete/useEventCreateEditDelete";
+import { useBase64ImageUp } from "../../hooks/api/postPutDelete/useBase64ImageUp";
 
 type Props = {
   event?: Event;
@@ -19,6 +19,9 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   const { event, method } = props;
 
   const { eventCreateEditDelete } = useEventCreateEditDelete();
+  const { base64ImageUp } = useBase64ImageUp();
+
+  const [base64, setBase64] = useState<string>("");
 
   const checkedTag: Array<number | undefined> | undefined =
     event?.event_tags?.map((checkd_tag) => checkd_tag.tag_id);
@@ -27,7 +30,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<Event>({
     defaultValues: {
       event_tags_id: [],
@@ -40,7 +43,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   }, [event, loginUser]);
 
   const onSubmit: SubmitHandler<Event> = async (data: Event) => {
-    console.log("onSubmit", data);
+    // console.log("onSubmit", data);
     const temp: Event = {
       ...data,
       event_budget: Number(data.event_budget),
@@ -49,32 +52,40 @@ export const EventCreateEditForm: FC<Props> = (props) => {
       event_tags_id: data.event_tags_id?.map(Number),
     };
     // console.log(typeof temp.event_max_guest);
-    // console.log(temp);
+    console.log("onSubmit",temp);
 
     await eventCreateEditDelete(method, temp);
   };
 
-  const [tmpFile, setTmpFile] = useState<File>();
+  const convertToBase64 = (file: File) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const base64URI: string = reader.result as string;
+      const tempBase64: string = base64URI.replace(/data:.*\/.*;base64,/, "");
+      console.log(tempBase64);
+      setBase64(tempBase64);
+    };
+  };
+
   const [tmpUrl, setTmpUrl] = useState(event?.event_image);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
+    // console.log(e.target.files);
     if (!e.target.files) return;
     setTmpUrl(URL.createObjectURL(e.target.files[0]));
-    setTmpFile(e.target.files[0]);
+    const file = e.target.files[0];
+    convertToBase64(file);
   };
 
   const onClickImageUp = async () => {
-    console.log(tmpFile);
     try {
-      const res = await axios.get(
-        "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/upload_image/"
-      );
-      const icon_data = res.data;
-      setValue("event_image", icon_data?.url);
+      const azureStorageURL = await base64ImageUp(base64);
+      setValue("event_image", azureStorageURL);
     } catch {
       console.log("error");
     }
   };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -83,7 +94,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
           <input
             type="file"
             accept="image/*"
-            name="user_icon"
+            name="event_image"
             onChange={handleChange}
           />
           <img src={tmpUrl} alt="イベント画像" />
@@ -186,6 +197,11 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             {...register("event_max_guest")}
           />
         </label>
+        {isSubmitSuccessful && (
+          <>
+            <p>データを送信しました</p>
+          </>
+        )}
         <input type="submit" />
       </form>
     </>
