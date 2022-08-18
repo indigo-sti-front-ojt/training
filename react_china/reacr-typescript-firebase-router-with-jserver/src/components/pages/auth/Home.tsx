@@ -6,14 +6,15 @@ import { GenreSearchCard } from "../../organisms/GenreSearchCard";
 import { CreateNewEventButton } from "../../atoms/buttons/CreateNewEventButton";
 import { useUserInfoContext } from "../../../context/UserInfoContext";
 import { useEventSearch } from "../../../hooks/api/get/useEventSearch";
+import { useEvents } from "../../../hooks/api/get/useEvents";
 import { Event } from "../../../types/api/Event";
 
 export const Home: FC = () => {
   const { userInfo } = useUserInfoContext();
-  const { getEvents } = useEventSearch();
+  const { getSearchEvents } = useEventSearch();
+  const { getEvents } = useEvents();
 
-  const data = {
-  };
+  // const data = {};
   const data_tags = {
     tags: userInfo?.user_tags,
   };
@@ -23,11 +24,11 @@ export const Home: FC = () => {
 
   useEffect(() => {
     const readData = async () => {
-      const event1 = await getEvents(data);
+      const event1 = await getEvents();
       setNearEvents(event1);
       console.log("events", event1);
 
-      const tagEvents = await getEvents(data_tags);
+      const tagEvents = await getSearchEvents(data_tags);
       setTagEvents(tagEvents);
       console.log("tagEvents", tagEvents);
     };

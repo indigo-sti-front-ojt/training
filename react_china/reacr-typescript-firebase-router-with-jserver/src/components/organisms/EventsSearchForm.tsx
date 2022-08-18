@@ -9,7 +9,7 @@ import { Event } from "../../types/api/Event";
 export const EventSerchForm = () => {
   const { allTags } = useAllTagsContext();
 
-  const { getEvents } = useEventSearch();
+  const { getSearchEvents } = useEventSearch();
 
   const {
     register,
@@ -21,7 +21,7 @@ export const EventSerchForm = () => {
 
   const onSubmit: SubmitHandler<SearchEventList> = async (data) => {
     console.log("onSubmit", data);
-    const eventsdata = await getEvents(data);
+    const eventsdata = await getSearchEvents(data);
     setEvents(eventsdata);
   };
   
