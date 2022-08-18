@@ -5,13 +5,11 @@ import { Event } from "../../../types/api/Event";
 import { SearchEventList } from "../../../types/react-hook-form/SearchEventList";
 
 type EventApi = {
-  data: {
-    events_filtered: Event[];
-  };
+  events_filtered: Event[];
 };
 
 export const useEventSearch = () => {
-  const getEvents = useCallback(async (data?: SearchEventList) => {
+  const getSearchEvents = useCallback(async (data?: SearchEventList) => {
     const tags_arr: Array<number | undefined> | undefined = data?.tags?.map(
       (value) => value.tag_id
     );
@@ -72,11 +70,11 @@ export const useEventSearch = () => {
 
     try {
       const resNearEvents = await axios.get<EventApi>(eventsUrl);
-      return resNearEvents.data.data.events_filtered;
+      return resNearEvents.data.events_filtered;
     } catch (error) {
       console.log("イベントが取得できません。");
     }
   }, []);
 
-  return { getEvents };
+  return { getSearchEvents };
 };
