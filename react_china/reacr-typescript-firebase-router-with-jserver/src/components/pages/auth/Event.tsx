@@ -24,7 +24,7 @@ export const Event = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<CommentPost>();
 
   if (loginUser) {
@@ -47,6 +47,11 @@ export const Event = () => {
         <input {...register("comment_text", { required: true })} />
         {errors.comment_text && (
           <span style={{ color: "red" }}>コメントが入力されていません</span>
+        )}
+        {isSubmitSuccessful && (
+          <>
+            <p>コメントを送信しました</p>
+          </>
         )}
         <input type="submit" />
       </form>

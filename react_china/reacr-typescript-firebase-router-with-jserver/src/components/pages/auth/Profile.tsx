@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { useOthers } from "../../../hooks/api/get/useProfile";
-import { MyEventCard } from "../../organisms/user/MyEventCatd";
+import { EventCard } from "../../organisms/EventCatd";
 import { PersonalInfo } from "../../organisms/user/PersonalInfo";
 
 type State = {
@@ -26,7 +26,7 @@ export const Profile = () => {
       {othersInfo?.join_event?.map((event, i) => (
         <>
           <div key={i}>
-            <MyEventCard event={event} />
+            <EventCard event={event} />
           </div>
         </>
       ))}
@@ -35,7 +35,7 @@ export const Profile = () => {
       {othersInfo?.host_event?.map((event, i) => (
         <>
           <div key={i}>
-            <MyEventCard event={event} />
+            <EventCard event={event} />
           </div>
         </>
       ))}
@@ -44,7 +44,7 @@ export const Profile = () => {
       {othersInfo?.past_event?.map((event, i) => (
         <>
           <div key={i}>
-            <MyEventCard event={event} />
+            <EventCard event={event} />
           </div>
         </>
       ))}

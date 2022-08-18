@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { FC, useState, ChangeEvent } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { User } from "../../../types/api/User";
@@ -7,11 +6,13 @@ import { useUserInfoContext } from "../../../context/UserInfoContext";
 import { useUserCreateEdit } from "../../../hooks/api/postPutDelete/useUserCreateEdit";
 import { useUser } from "../../../hooks/api/get/useUser";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
+import { useBase64ImageUp } from "../../../hooks/api/postPutDelete/useBase64ImageUp";
 
 // import { useImageUp } from "../../../hooks/useImageUp";
 
 export const MyPageEdit: FC = () => {
-  // const { onClickImageUp, icondata } = useImageUp(tmpFile);
+  // image upload用のhooksの定義
+  const { base64ImageUp } = useBase64ImageUp();
 
   // ログインユーザーの情報を取得
   const { loginUser } = useLoginUserContext();
@@ -28,7 +29,7 @@ export const MyPageEdit: FC = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<User>({
     defaultValues: {
       user_tags_id: [],
@@ -50,43 +51,54 @@ export const MyPageEdit: FC = () => {
     console.log("temp", temp);
   };
 
-  const [tmpFile, setTmpFile] = useState<File>();
   const [tmpUrl, setTmpUrl] = useState(userInfo?.user_icon);
-  // const [base64, setBase64] = useState();
+  const [tmpLineUrl, setTmpLineUrl] = useState(userInfo?.user_lineqr);
+  const [base64, setBase64] = useState<string>("");
+  const [base64QR, setBase64QR] = useState<string>("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     setTmpUrl(URL.createObjectURL(e.target.files[0]));
-    setTmpFile(e.target.files[0]);
-    // const file = e.target.files[0];
-    // const tempBase64 = getBase64(file);
-    // setBase64(tempBase64);
+    const file = e.target.files[0];
+    convertToBase64("icon", file);
   };
 
-  const onClickImageUp = async () => {
+  const handleChangeLine = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    setTmpLineUrl(URL.createObjectURL(e.target.files[0]));
+    const file = e.target.files[0];
+    convertToBase64("qr", file);
+  };
+
+  const convertToBase64 = (key: string, file: File) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const base64URI: string = reader.result as string;
+      const tempBase64: string = base64URI.replace(/data:.*\/.*;base64,/, "");
+      console.log(tempBase64);
+      if (key === "icon") setBase64(tempBase64);
+      if (key === "qr") setBase64QR(tempBase64);
+    };
+  };
+
+  const onClickImageUserIconUp = async () => {
     try {
-      // 以下postリクエスト
-      const res = await axios({
-        url: "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/upload_image/",
-        method: "post",
-        data: tmpFile,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      // const res = await axios.get("http://localhost:5000/image");
-      const icon_data = res.data;
-      setValue("user_icon", icon_data?.url);
+      const azureStorageURL = await base64ImageUp(base64);
+      setValue("user_icon", azureStorageURL);
     } catch {
       console.log("error");
     }
   };
 
-  const getBase64 = (file: File) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
+  const onClickImageLineQRUp = async () => {
+    try {
+      const azureStorageURL = await base64ImageUp(base64QR);
+      setValue("user_lineqr", azureStorageURL);
+    } catch {
+      console.log("error");
+    }
   };
-  
 
   return (
     <>
@@ -104,12 +116,12 @@ export const MyPageEdit: FC = () => {
         </label>
         <span
           style={{ cursor: "pointer", border: "solid 1px" }}
-          onClick={onClickImageUp}
+          onClick={onClickImageUserIconUp}
         >
           UpLoad
         </span>
         <label>
-          <input
+          <textarea
             defaultValue={userInfo?.user_icon}
             {...register("user_icon", { required: true })}
           />
@@ -143,7 +155,6 @@ export const MyPageEdit: FC = () => {
             {...register("user_comment")}
           />
         </label>
-
         <h3>タグ</h3>
         {allTags?.map(function (tag, i) {
           return (
@@ -174,7 +185,6 @@ export const MyPageEdit: FC = () => {
             </div>
           );
         })}
-
         <h3>SNS</h3>
         <label>
           instagram
@@ -204,6 +214,34 @@ export const MyPageEdit: FC = () => {
             {...register("user_lineqr")}
           />
         </label>
+
+        <label>
+          LINE QRコード
+          <input
+            type="file"
+            accept="image/*"
+            name="user_lineqr"
+            onChange={handleChangeLine}
+          />
+          <img src={tmpLineUrl} alt="アイコン画像" />
+        </label>
+        <span
+          style={{ cursor: "pointer", border: "solid 1px" }}
+          onClick={onClickImageLineQRUp}
+        >
+          UpLoad
+        </span>
+        <label>
+          <textarea
+            defaultValue={userInfo?.user_lineqr}
+            {...register("user_lineqr")}
+          />
+        </label>
+        {isSubmitSuccessful && (
+          <>
+            <p>編集が完了しました</p>
+          </>
+        )}
         <input type="submit" />
       </form>
     </>

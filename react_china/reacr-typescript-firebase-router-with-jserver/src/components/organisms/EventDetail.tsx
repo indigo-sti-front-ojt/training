@@ -42,7 +42,7 @@ export const EventDetail: FC<Props> = (props) => {
   }, []);
 
   // ゲストのIDを配列化
-  const gusetsID = event?.event_guests?.map((gusets) => gusets?.user_id);
+  const guestID = event?.event_guests?.map((guest) => guest?.user_id);
 
   const navigate = useNavigate();
 
@@ -63,6 +63,7 @@ export const EventDetail: FC<Props> = (props) => {
     await eventCreateEditDelete("delete", { event_id: event_id });
   };
 
+  
   // イベント参加登録ボタン
   const onClickApply = async () => {
     console.log(applyEvent);
@@ -87,18 +88,18 @@ export const EventDetail: FC<Props> = (props) => {
           </button>
         </>
       ) : (
-        <>
-          <button onClick={onClickApplyCancel}>参加登録解除</button>
-        </>
         // <>
-        //   {gusetsID?.includes(loginUser?.uid) ?? (
-        //     <>
-        //       <button onClick={onClickApplyCancel}>参加登録解除</button>
-        //     </>
-        //   )}
+        //   <button onClick={onClickApplyCancel}>参加登録解除</button>
         // </>
+        <>
+          {guestID?.includes(loginUser?.uid) && (
+            <>
+              <button onClick={onClickApplyCancel}>参加登録解除</button>
+            </>
+          )}
+        </>
       )}
-      <p>応募締め切り</p>
+      <p>応募締め切り{event?.event_deadline}</p>
       <img src={event?.event_image} alt="イベントヘッダー画像" />
       {event?.event_tags?.map((tag, i) => (
         <>
@@ -145,6 +146,11 @@ export const EventDetail: FC<Props> = (props) => {
             </>
           ))}
         </div>
+        {/* {isSubmitSuccessful && (
+          <>
+            <p>参加登録が完了しました</p>
+          </>
+        )} */}
         <button onClick={onClickApply}>参加登録</button>
       </div>
     </>

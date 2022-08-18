@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { MyEventCard } from "../../organisms/user/MyEventCatd";
+import { EventCard } from "../../organisms/EventCatd";
 import { PersonalInfo } from "../../organisms/user/PersonalInfo";
 import { useUserInfoContext } from "../../../context/UserInfoContext";
 
@@ -18,7 +18,7 @@ export const MyPage: FC = () => {
       {userInfo?.join_event?.map((event, i) => (
         <>
           <div key={i}>
-            <MyEventCard event={event} />
+            <EventCard event={event} />
           </div>
         </>
       ))}
@@ -27,7 +27,7 @@ export const MyPage: FC = () => {
       {userInfo?.host_event?.map((event, i) => (
         <>
           <div key={i}>
-            <MyEventCard event={event} />
+            <EventCard event={event} />
           </div>
         </>
       ))}
@@ -37,7 +37,7 @@ export const MyPage: FC = () => {
       {userInfo?.past_event?.map((event, i) => (
         <>
           <div key={i}>
-            <MyEventCard event={event} />
+            <EventCard event={event} />
           </div>
         </>
       ))}
