@@ -84,12 +84,12 @@ export const CardComponent = (props: Props) => {
             <div className="flex flex-row items-center w-full">
               <span className="w-16 text-left">場所</span>
               <div className="flex flex-row gap-1 overflow-hidden">
-                {data.areaTag?.map((tagNumber: number) => (
+                {/* {data.areaTag?.map((tagNumber: number) => (
                   <CardTagComponent
                     key={tagNumber}
                     data={areaDataList[tagNumber]}
                   />
-                ))}
+                ))} */}
               </div>
             </div>
             <div className="flex flex-row items-center w-full">

@@ -1,16 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { TagFormComponent } from "../components/TagFormComponent";
 import { useTagDB } from "../hocks/TagDB";
 import { TagComponent } from "../designComponents/TagComponent";
 
 import { TagDBContainer } from "../provider/TagDBProvider";
+import { TagDBType } from "../types/TagDBType";
+import { TagFormComponent } from "../components/TagFormComponent";
 
 export const OwnerTagPage = () => {
   const { areaDataList, freeDataList } = TagDBContainer.useContainer();
-  const { AreaDataEdit, FreeDataEdit } = useTagDB();
+  const {
+    AreaDataEdit,
+    AreaDataAdd,
+    AreaDataDelete,
+    FreeDataEdit,
+    FreeDataAdd,
+    FreeDataDelete,
+  } = useTagDB();
 
   const [viewFlagFree, setviewFlagFree] = useState<boolean>(false);
   const [viewFlagArea, setviewFlagArea] = useState<boolean>(false);
+
+  const initialTag: TagDBType = {
+    id: "",
+    color: "",
+    text: "",
+  };
+  const [editFree, setEditFree] = useState<TagDBType>(initialTag);
+
+  const [editArea, setEditArea] = useState<TagDBType>(initialTag);
 
   const onClickParent = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.currentTarget === e.target) {
@@ -22,6 +39,24 @@ export const OwnerTagPage = () => {
     e.stopPropagation();
     setviewFlagArea(false);
     setviewFlagFree(false);
+  };
+
+  const onClickAreaAdd = () => {
+    setviewFlagArea(true);
+    setEditArea(initialTag);
+  };
+  const onClickAreaEdit = (data: TagDBType) => {
+    setviewFlagArea(true);
+    setEditArea(data);
+  };
+
+  const onClickFreeAdd = () => {
+    setviewFlagFree(true);
+    setEditFree(initialTag);
+  };
+  const onClickFreeEdit = (data: TagDBType) => {
+    setviewFlagFree(true);
+    setEditFree(data);
   };
 
   useEffect(() => {
@@ -43,14 +78,16 @@ export const OwnerTagPage = () => {
             </span>
             <button
               className="py-2 px-8 mx-2 rounded-md border border-black"
-              onClick={() => setviewFlagArea(true)}
+              onClick={onClickAreaAdd}
             >
-              編集
+              追加
             </button>
           </div>
           <div className="flex flex-row flex-wrap gap-y-2">
             {areaDataList.map((data) => (
-              <TagComponent data={data} key={data.id} />
+              <div key={data.id} onClick={() => onClickAreaEdit(data)}>
+                <TagComponent data={data} />
+              </div>
             ))}
           </div>
         </div>
@@ -61,15 +98,17 @@ export const OwnerTagPage = () => {
             </span>
             <button
               className="py-2 px-8 mx-2 rounded-md border border-black"
-              onClick={() => setviewFlagFree(true)}
+              onClick={onClickFreeAdd}
             >
-              編集
+              追加
             </button>
           </div>
 
           <div className="flex flex-row flex-wrap gap-y-2">
             {freeDataList.map((data) => (
-              <TagComponent data={data} key={data.id} />
+              <div key={data.id} onClick={() => onClickFreeEdit(data)}>
+                <TagComponent data={data} />
+              </div>
             ))}
           </div>
         </div>
@@ -100,9 +139,16 @@ export const OwnerTagPage = () => {
                 <path d="M6 18L18 6M6 6l12 12" />
               </svg>
             </div>
-            <TagFormComponent
+            {/* <TagFormComponent
               data={areaDataList}
               sendData={AreaDataEdit}
+              setVisibleFlag={setviewFlagArea}
+            /> */}
+            <TagFormComponent
+              data={editArea}
+              sendDataAdd={AreaDataAdd}
+              sendDataEdit={AreaDataEdit}
+              sendDataDelete={AreaDataDelete}
               setVisibleFlag={setviewFlagArea}
             />
           </div>
@@ -137,8 +183,10 @@ export const OwnerTagPage = () => {
               </svg>
             </div>
             <TagFormComponent
-              data={freeDataList}
-              sendData={FreeDataEdit}
+              data={editFree}
+              sendDataAdd={FreeDataAdd}
+              sendDataEdit={FreeDataEdit}
+              sendDataDelete={FreeDataDelete}
               setVisibleFlag={setviewFlagFree}
             />
           </div>

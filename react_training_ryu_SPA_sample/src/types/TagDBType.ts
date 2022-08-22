@@ -1,5 +1,5 @@
 export type TagDBType = {
-  id: number;
+  id: string;
   text: string;
   color: string;
 };

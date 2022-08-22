@@ -8,6 +8,7 @@ type Props = {
 export const InputColorsComponent = memo((props: Props) => {
   const { value, onChange } = props;
   const [nowId, setNowId] = useState<string>("black");
+  const [first, setFirst] = useState<boolean>(true);
   const colorPallet = [
     { id: 0, text: "black", color: "bg-black" },
     { id: 1, text: "white", color: "bg-gray-400" },
@@ -22,14 +23,19 @@ export const InputColorsComponent = memo((props: Props) => {
     onChange(temp);
   };
   useEffect(() => {
-    const temp =
-      colorPallet.find((element) => element.text == value)?.text ?? "black";
-    setNowId(temp);
-  }, []);
+    if (first) {
+      const temp =
+        colorPallet.find((element) => element.text == value)?.text ?? "black";
+      setNowId(temp);
+    }
+  }, [value]);
 
   return (
     <>
-      <div className="flex flex-row justify-between w-full gap-x-2">
+      <div
+        className="flex flex-row justify-between w-full gap-x-2"
+        onFocus={() => setFirst(false)}
+      >
         {colorPallet.map((data) => (
           <div
             key={data.id}
