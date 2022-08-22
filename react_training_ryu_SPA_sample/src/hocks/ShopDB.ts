@@ -80,12 +80,25 @@ export const useShopDB = () => {
 
     dataResults.forEach((doc) => {
       // console.log(doc.id, ":", doc.data());
+      const data = doc.data();
       const tempData: ShopDBType = {
         uid: doc.id,
-        name: doc.data().name,
-        title: doc.data().title,
-        mainImage: doc.data().mainImage,
-        writer: doc.data().writer,
+        name: data.name,
+        title: data.title,
+        mainImage: data.mainImage,
+        map: data.map,
+        access: data.access,
+        price: data.price,
+        closingDay: data.closingDay,
+        fromOpenToCleseTime: data.fromOpenToCleseTime,
+        phoneNumber: data.phoneNumber,
+        links: data.links,
+        ShopLink: data.ShopLink,
+        photoData: data.photoData,
+        contents: data.contents,
+        areaTag: data.areaTag,
+        freeTag: data.freeTag,
+        writer: data.writer,
       };
       tempDatas.push(tempData);
     });
@@ -103,6 +116,7 @@ export const useShopDB = () => {
         title: data.title,
         mainImage: data.mainImage,
         map: data.map,
+        access: data.access,
         price: data.price,
         closingDay: data.closingDay,
         fromOpenToCleseTime: data.fromOpenToCleseTime,

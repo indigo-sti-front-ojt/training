@@ -49,7 +49,7 @@ export const Layout = () => {
       <header
         className={
           "flex justify-between items-center w-full h-10 px-4 bg-gray-500/75" +
-          (isLoggined ? " bg-blue-700" : "")
+          (location.pathname.includes("owner") ? " hidden" : "")
         }
       >
         <div className="h-full flex justify-center items-center">layout</div>
@@ -106,8 +106,9 @@ export const Layout = () => {
           </ListChildMapComponent>
         </ul>
       </header>
-
-      <Outlet />
+      <main className="flex-grow relative">
+        <Outlet />
+      </main>
     </>
   );
 };

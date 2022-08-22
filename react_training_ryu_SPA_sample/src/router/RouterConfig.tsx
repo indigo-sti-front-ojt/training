@@ -57,6 +57,8 @@ export const RouterConfig = () => {
                 <RouteAuthGate component={<OwnerLayout />} redirect="/" />
               }
             >
+              <Route index element={<OwnerUserPage />} />
+              <Route path="user-edit" element={<OwnerUserEditPage />} />
               <Route path="pages" element={<OwnerItemLayout />}>
                 <Route index element={<OwnerItemListPage />} />
                 <Route path=":id" element={<OutletLayout />}>
@@ -65,10 +67,6 @@ export const RouterConfig = () => {
                 </Route>
               </Route>
               <Route path="pages-create" element={<OwnerItemCreatePage />} />
-              <Route path="user" element={<OutletLayout />}>
-                <Route index element={<OwnerUserPage />} />
-                <Route path="edit" element={<OwnerUserEditPage />} />
-              </Route>
               <Route path="tags" element={<OwnerTagPage />} />
               <Route path="images" element={<OwnerImageUp />} />
             </Route>

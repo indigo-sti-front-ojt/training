@@ -53,23 +53,71 @@ export const InputPhotoDataComponent = memo((props: Props) => {
     }
     setEditData(temp);
   };
+  const [viewFlag, setViewFlag] = useState<boolean>(false);
+
+  const onClickParent = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (e.currentTarget === e.target) {
+      setViewFlag(false);
+    }
+  };
+  const onClickCross = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setViewFlag(false);
+  };
+
   return (
     <>
-      <div>InputPhotoDataObject</div>
-      <div>
-        <span>view data</span>
-        {value?.map((data: string) => (
-          <div key={data}>{data}</div>
-        ))}
+      <div className="w-full">
+        <div className="form-input" onClick={() => setViewFlag(true)}>
+          画像集を編集
+        </div>
       </div>
-      <div>
-        <span>add panel</span>
-        {editData.map((data: EditDataType) => (
-          <div key={data.id} onClick={() => onClickEditData(data)}>
-            {data.fullPath}
-            {data.editFlag ? "true" : "false"}
+
+      <div
+        className={
+          "fixed overflow-hidden flex justify-center items-center bg-gray-600/50 transition-all " +
+          (viewFlag
+            ? "w-screen h-screen top-0 left-0"
+            : "w-0 h-0 top-1/2 left-1/2")
+        }
+        onClick={onClickParent}
+      >
+        <div className="w-4/5 max-w-4xl h-3/4 shadow-md bg-white relative flex flex-col py-2">
+          <div
+            className="absolute -top-10 right-0 w-10 h-10 text-white"
+            onClick={onClickCross}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-full w-full"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </div>
-        ))}
+          <div className="w-full h-full flex flex-row flex-wrap gap-1 justify-center overflow-y-scroll">
+            {editData.map((data: EditDataType) => (
+              <div
+                className={
+                  "flex flex-col w-1/3 h-1/3 p-1 justify-between " +
+                  (data.editFlag
+                    ? " opacity-100 bg-green-400/50"
+                    : " opacity-50")
+                }
+                key={data.id}
+                onClick={() => onClickEditData(data)}
+              >
+                <img
+                  src={data.url}
+                  className="flex-grow w-full h-full object-contain"
+                  alt=""
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );

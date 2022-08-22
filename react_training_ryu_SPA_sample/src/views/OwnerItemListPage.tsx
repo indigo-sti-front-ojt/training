@@ -1,19 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { CardComponent } from "../designComponents/CardComponent";
 import { ShopDBContainer } from "../provider/ShopDBProvider";
+import { ShopDBType } from "../types/ShopDBType";
 export const OwnerItemListPage = () => {
-  const { shopDataList } = ShopDBContainer.useContainer();
-
-  // const numbers = [...Array(5)].map((_: undefined, idx: number) => idx);
+  const { shopDataList, setShopData } = ShopDBContainer.useContainer();
+  const navigation = useNavigate();
+  const onClickLink = async (data: ShopDBType) => {
+    await setShopData(data);
+    navigation(data.uid);
+  };
   return (
     <>
       <Link to="/owner/pages-create">create</Link>
+
       <div>pages</div>
-      {shopDataList.map((data) => (
-        <li key={data.uid}>
-          <Link to={`${data.uid}`}>{data.uid}</Link>
-        </li>
-      ))}
+      <div className="flex flex-col md:flex-row gap-3">
+        {shopDataList.map((data: ShopDBType) => (
+          <CardComponent
+            data={data}
+            onClickLink={() => onClickLink(data)}
+            key={data.uid}
+          />
+        ))}
+      </div>
     </>
   );
 };

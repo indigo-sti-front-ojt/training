@@ -6,7 +6,7 @@ import { RouterConfig } from "./router/RouterConfig";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App h-screen flex flex-col">
       <Providers>
         <RouterConfig />
       </Providers>

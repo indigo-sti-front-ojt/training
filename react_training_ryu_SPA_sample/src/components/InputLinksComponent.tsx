@@ -9,15 +9,14 @@ type Props = {
 
 export const InputLinksComponent = memo((props: Props) => {
   const { value, onChange } = props;
-  const [firstFlag, setFirstFlag] = useState<boolean>(false);
+  const [firstFlag, setFirstFlag] = useState<boolean>(true);
   const [eatBlog1, setEatBlog1] = useState<string>("");
   const [eatBlog2, setEatBlog2] = useState<string>("");
   const [eatBlog3, setEatBlog3] = useState<string>("");
 
   useEffect(() => {
-    if (!firstFlag) {
-      // console.log(value);
-      value?.map((data: TagTextObject) => {
+    if (firstFlag) {
+      value?.forEach((data: TagTextObject) => {
         switch (data.tag) {
           case "食べログ":
             setEatBlog1(data.text);
@@ -30,7 +29,10 @@ export const InputLinksComponent = memo((props: Props) => {
             break;
         }
       });
-    } else {
+    }
+  }, [value]);
+  useEffect(() => {
+    if (!firstFlag) {
       onChange([
         {
           tag: "食べログ",
@@ -46,21 +48,23 @@ export const InputLinksComponent = memo((props: Props) => {
         },
       ]);
     }
-  }, [eatBlog1, eatBlog2, eatBlog3, value]);
+  }, [eatBlog1, eatBlog2, eatBlog3]);
   return (
     <>
-      <div>input links componet</div>
-      <div onFocus={() => setFirstFlag(true)}>
-        <label>
-          <span>食べログ</span>
+      <div
+        className="w-full flex flex-col gap-4"
+        onFocus={() => setFirstFlag(false)}
+      >
+        <label className="flex flex-col gap-1 rounded-md bg-gray-50/20 px-2">
+          <span className="w-full rounded-md bg-gray-400/20">食べログ</span>
           <InputComponent text={eatBlog1} setText={setEatBlog1} />
         </label>
-        <label>
-          <span>ぐるなび</span>
+        <label className="flex flex-col gap-1 rounded-md bg-gray-50/20 px-2">
+          <span className="w-full rounded-md bg-gray-400/20">ぐるなび</span>
           <InputComponent text={eatBlog2} setText={setEatBlog2} />
         </label>
-        <label>
-          <span>instagram</span>
+        <label className="flex flex-col gap-1 rounded-md bg-gray-50/20 px-2">
+          <span className="w-full rounded-md bg-gray-400/20">instagram</span>
           <InputComponent text={eatBlog3} setText={setEatBlog3} />
         </label>
       </div>

@@ -7,7 +7,7 @@ export const OwnerUserPage = () => {
   const img_url: string = userData.photoIcon ?? "";
   const navigate = useNavigate();
   const OnClickEdit = () => {
-    navigate("edit");
+    navigate("user-edit");
   };
   return (
     <>
