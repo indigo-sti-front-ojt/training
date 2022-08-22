@@ -9,7 +9,14 @@ export const InputComponent = memo((props: Props) => {
     setText(e.target.value);
   };
 
-  return <input type="text" value={text} onChange={onChangeText} />;
+  return (
+    <input
+      className="form-input"
+      type="text"
+      value={text}
+      onChange={onChangeText}
+    />
+  );
 });
 
 InputComponent.displayName = "InputComponent";

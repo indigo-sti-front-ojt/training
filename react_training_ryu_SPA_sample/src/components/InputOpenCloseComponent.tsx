@@ -75,7 +75,9 @@ export const InputOpenCloseComponent = memo((props: Props) => {
       console.log("initialize");
       const tempOpen = value.open.split(":");
       const tempClose = value.close.split(":");
-      console.log(tempOpen, tempClose);
+      console.log(value.open, value.close);
+
+      // console.log(value, tempOpen, tempClose);
 
       tempOpen.length > 0
         ? setOpen({ h: tempOpen[0], m: tempOpen[1] })
@@ -103,43 +105,64 @@ export const InputOpenCloseComponent = memo((props: Props) => {
 
   return (
     <>
-      <div>input open close component</div>
-      <div>
-        <span>open</span>
-        <select onChange={stateChange} value={open.h} name="open_h">
-          {hList.map((h) => (
-            <option key={h} value={h}>
-              {h}
-            </option>
-          ))}
-        </select>
-        <span>:</span>
-        <select onChange={stateChange} value={open.m} name="open_m">
-          {mList.map((m) => (
-            <option key={m} value={m}>
-              {m}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div>
-        <span>close</span>
-        <select onChange={stateChange} value={close.h} name="close_h">
-          {hList.map((h) => (
-            <option key={h} value={h}>
-              {h}
-            </option>
-          ))}
-        </select>
-        <span>:</span>
-        <select onChange={stateChange} value={close.m} name="close_m">
-          {mList.map((m) => (
-            <option key={m} value={m}>
-              {m}
-            </option>
-          ))}
-        </select>
+      <div className="flex flex-row justify-around items-center w-full">
+        <div className="flex flex-row items-center gap-1">
+          <span>open</span>
+          <select
+            className="py-2 px-1 border-2 border-gray-500 rounded-md"
+            onChange={stateChange}
+            value={open.h}
+            name="open_h"
+          >
+            {hList.map((h) => (
+              <option key={h} value={h}>
+                {h}
+              </option>
+            ))}
+          </select>
+          <span className="text-3xl">:</span>
+          <select
+            className="py-2 px-1 border-2 border-gray-500 rounded-md"
+            onChange={stateChange}
+            value={open.m}
+            name="open_m"
+          >
+            {mList.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="text-3xl">~</div>
+        <div className="flex flex-row items-center gap-1">
+          <span>close</span>
+          <select
+            className="py-2 px-1 border-2 border-gray-500 rounded-md"
+            onChange={stateChange}
+            value={close.h}
+            name="close_h"
+          >
+            {hList.map((h) => (
+              <option key={h} value={h}>
+                {h}
+              </option>
+            ))}
+          </select>
+          <span className="text-3xl">:</span>
+          <select
+            className="py-2 px-1 border-2 border-gray-500 rounded-md"
+            onChange={stateChange}
+            value={close.m}
+            name="close_m"
+          >
+            {mList.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </>
   );

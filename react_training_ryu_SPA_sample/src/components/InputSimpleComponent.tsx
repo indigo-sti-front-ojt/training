@@ -13,11 +13,17 @@ export const InputSimpleComponent = (props: Props) => {
   };
   return (
     <>
-      <div>simple component</div>
       {value && value.length != 0 ? (
-        <textarea value={value[0].text} onChange={onChangeText} />
+        <textarea
+          className="form-input resize-none h-64"
+          value={value[0].text}
+          onChange={onChangeText}
+        />
       ) : (
-        <textarea onChange={onChangeText} />
+        <textarea
+          className="form-input resize-none h-64"
+          onChange={onChangeText}
+        />
       )}
     </>
   );

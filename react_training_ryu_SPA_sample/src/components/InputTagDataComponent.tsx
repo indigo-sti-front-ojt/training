@@ -1,4 +1,5 @@
 import React, { memo, useEffect, useState } from "react";
+import { TagComponent } from "../designComponents/TagComponent";
 import { TagDBType } from "../types/TagDBType";
 
 type Props = {
@@ -47,29 +48,82 @@ export const InputTagDataComponent = memo((props: Props) => {
 
     setEditData(temp);
   };
+
+  const [viewFlag, setViewFlag] = useState<boolean>(false);
+
+  const onClickParent = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (e.currentTarget === e.target) {
+      setViewFlag(false);
+    }
+  };
+  const onClickCross = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setViewFlag(false);
+  };
+
   return (
     <>
-      <div>InputTagDataObject</div>
-      <div>
-        <span>view data</span>
+      <div className="w-full flex flex-row flex-wrap gap-y-2">
         {value?.map((number: number) => (
-          <div key={number} style={{ color: `${data[number].color}` }}>
-            {data[number].text}
-          </div>
+          <TagComponent key={number} data={data[number]} />
         ))}
+        <div className="form-input" onClick={() => setViewFlag(true)}>
+          タグを編集
+        </div>
       </div>
-      <div>
-        <span>add panel</span>
-        {editData.map((data: EditDataType) => (
+
+      <div
+        className={
+          "fixed overflow-hidden flex justify-center items-center bg-gray-600/50 transition-all " +
+          (viewFlag
+            ? "w-screen h-screen top-0 left-0"
+            : "w-0 h-0 top-1/2 left-1/2")
+        }
+        onClick={onClickParent}
+      >
+        <div className="w-4/5 max-w-4xl h-3/4 shadow-md bg-white relative flex flex-col py-2">
           <div
-            key={data.id}
-            onClick={() => onClickEditData(data)}
-            style={{ color: `${data.color}` }}
+            className="absolute -top-10 right-0 w-10 h-10 text-white"
+            onClick={onClickCross}
           >
-            {data.text}
-            {data.editFlag ? "true" : "false"}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-full w-full"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </div>
-        ))}
+          <div className="w-full h-full flex flex-row flex-wrap justify-center overflow-y-scroll">
+            <div className="flex flex-col w-full">
+              <div className="flex flex-col items-start">
+                <span className="">add panel</span>
+                <div className="w-full flex flex-row flex-wrap gap-y-2">
+                  {value?.map((number: number) => (
+                    <div
+                      key={number}
+                      onClick={() => onClickEditData(editData[number])}
+                    >
+                      <TagComponent data={data[number]} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="flex flex-col items-start flex-grow overflow-y-scroll">
+                <span>view panel</span>
+                <div className="w-full flex flex-row flex-wrap gap-y-2">
+                  {editData.map((data: EditDataType) => (
+                    <div key={data.id} onClick={() => onClickEditData(data)}>
+                      <TagComponent data={data} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

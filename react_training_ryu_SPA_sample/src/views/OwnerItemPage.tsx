@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { useShopDB } from "../hocks/ShopDB";
 import { ShopDBContainer } from "../provider/ShopDBProvider";
@@ -7,8 +7,10 @@ export const OwnerItemPage = () => {
   const { id } = useParams();
   const { ShopDataRead } = useShopDB();
   const { shopData } = ShopDBContainer.useContainer();
-  useEffect(() => {
-    ShopDataRead(id ?? "");
+  useLayoutEffect(() => {
+    if (shopData.uid != id && shopData.uid == "") {
+      ShopDataRead(id ?? "");
+    }
   }, []);
   return (
     <>
