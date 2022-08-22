@@ -3,13 +3,13 @@ import { TagComponent } from "../designComponents/TagComponent";
 import { TagDBType } from "../types/TagDBType";
 
 type Props = {
-  value: number[] | undefined;
-  onChange: (value: number[]) => void;
+  value: string[] | undefined;
+  onChange: (value: string[]) => void;
   data: TagDBType[];
 };
 
 type EditDataType = {
-  id: number;
+  id: string;
   text: string;
   color: string;
   editFlag: boolean;
@@ -42,7 +42,7 @@ export const InputTagDataComponent = memo((props: Props) => {
     });
     if (value) {
       d.editFlag
-        ? onChange(value.filter((v: number) => v != d.id))
+        ? onChange(value.filter((v: string) => v != d.id))
         : onChange([...value, d.id]);
     }
 
@@ -61,12 +61,28 @@ export const InputTagDataComponent = memo((props: Props) => {
     setViewFlag(false);
   };
 
+  const viewDatas = value?.map((target: string) => {
+    const viewData = data.find((temp: TagDBType) => temp.id == target);
+    if (viewData) {
+      return <TagComponent key={target} data={viewData} />;
+    }
+  });
+
+  const popupViewDatas = value?.map((target: string) => {
+    const viewData = editData.find((temp: TagDBType) => temp.id == target);
+    if (viewData) {
+      return (
+        <div key={target} onClick={() => onClickEditData(viewData)}>
+          <TagComponent data={viewData} />
+        </div>
+      );
+    }
+  });
+
   return (
     <>
       <div className="w-full flex flex-row flex-wrap gap-y-2">
-        {value?.map((number: number) => (
-          <TagComponent key={number} data={data[number]} />
-        ))}
+        {viewDatas}
         <div className="form-input" onClick={() => setViewFlag(true)}>
           タグを編集
         </div>
@@ -101,14 +117,7 @@ export const InputTagDataComponent = memo((props: Props) => {
               <div className="flex flex-col items-start">
                 <span className="">add panel</span>
                 <div className="w-full flex flex-row flex-wrap gap-y-2">
-                  {value?.map((number: number) => (
-                    <div
-                      key={number}
-                      onClick={() => onClickEditData(editData[number])}
-                    >
-                      <TagComponent data={data[number]} />
-                    </div>
-                  ))}
+                  {popupViewDatas}
                 </div>
               </div>
               <div className="flex flex-col items-start flex-grow overflow-y-scroll">

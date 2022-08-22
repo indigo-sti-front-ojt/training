@@ -18,7 +18,7 @@ export type ShopDBType = {
   photoData?: string[];
   links?: TagTextObject[];
   contents?: TagTextObject[];
-  areaTag?: number[];
-  freeTag?: number[];
+  areaTag?: string[];
+  freeTag?: string[];
   writer: string;
 };
