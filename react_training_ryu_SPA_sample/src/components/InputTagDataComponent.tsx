@@ -112,23 +112,21 @@ export const InputTagDataComponent = memo((props: Props) => {
               <path d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
-          <div className="w-full h-full flex flex-row flex-wrap justify-center overflow-y-scroll">
-            <div className="flex flex-col w-full">
-              <div className="flex flex-col items-start">
-                <span className="">add panel</span>
-                <div className="w-full flex flex-row flex-wrap gap-y-2">
-                  {popupViewDatas}
-                </div>
+          <div className="w-full h-full flex flex-col gap-5 p-5">
+            <div className="flex flex-col items-start gap-2">
+              <span className="form-title">add panel</span>
+              <div className="w-full flex flex-row flex-wrap gap-y-2">
+                {popupViewDatas}
               </div>
-              <div className="flex flex-col items-start flex-grow overflow-y-scroll">
-                <span>view panel</span>
-                <div className="w-full flex flex-row flex-wrap gap-y-2">
-                  {editData.map((data: EditDataType) => (
-                    <div key={data.id} onClick={() => onClickEditData(data)}>
-                      <TagComponent data={data} />
-                    </div>
-                  ))}
-                </div>
+            </div>
+            <div className="flex flex-col items-start gap-2 flex-grow overflow-y-scroll">
+              <span className="form-title">view panel</span>
+              <div className="w-full flex flex-row flex-wrap gap-y-2">
+                {editData.map((data: EditDataType) => (
+                  <div key={data.id} onClick={() => onClickEditData(data)}>
+                    <TagComponent data={data} />
+                  </div>
+                ))}
               </div>
             </div>
           </div>

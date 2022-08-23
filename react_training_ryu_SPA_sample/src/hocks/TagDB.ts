@@ -34,8 +34,6 @@ export const useTagDB = () => {
       text: data.text,
       color: data.color,
     });
-    console.log("send");
-
     setTagChangeFlag(!TagChangeFlag);
   };
 

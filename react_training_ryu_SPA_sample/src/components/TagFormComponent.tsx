@@ -53,26 +53,42 @@ export const TagFormComponent = (props: Props) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="">
-          <input type="text" {...register("text")} />
-        </label>
-        <label htmlFor="">
-          <Controller
-            control={control}
-            name={"color"}
-            render={({ field }) => (
-              <InputColorsComponent
-                value={field.value}
-                onChange={field.onChange}
-              />
-            )}
-          />
-        </label>
-        <button>送信</button>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full flex flex-col flex-grow max-w-lg gap-10"
+      >
+        <div className="flex flex-col gap-5">
+          <label className="flex flex-col md:flex-row gap-2">
+            <span className="form-title">テキスト</span>
+            <input type="text" {...register("text")} className="form-input" />
+          </label>
+          <label className="flex flex-col md:flex-row gap-2">
+            <span className="form-title">カラー</span>
+            <Controller
+              control={control}
+              name={"color"}
+              render={({ field }) => (
+                <InputColorsComponent
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+          </label>
+        </div>
+        <button className="form-input bg-blue-400 text-white">送信</button>
       </form>
 
-      {data.id != "" ? <button onClick={onDelete}>削除</button> : "pay"}
+      {data.id != "" ? (
+        <button
+          onClick={onDelete}
+          className="form-input bg-red-400 text-white flex-grow max-w-lg"
+        >
+          削除
+        </button>
+      ) : (
+        ""
+      )}
     </>
   );
 };
