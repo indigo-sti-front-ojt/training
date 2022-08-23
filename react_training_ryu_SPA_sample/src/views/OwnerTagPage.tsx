@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useTagDB } from "../hocks/TagDB";
 import { TagComponent } from "../designComponents/TagComponent";
 
 import { TagDBContainer } from "../provider/TagDBProvider";
 import { TagDBType } from "../types/TagDBType";
 import { TagFormComponent } from "../components/TagFormComponent";
+import { useFreeTagDB } from "../hocks/FreeTagDB";
+import { useAreaTagDB } from "../hocks/AreaTagDB";
 
 export const OwnerTagPage = () => {
   const { areaDataList, freeDataList } = TagDBContainer.useContainer();
-  const {
-    AreaDataEdit,
-    AreaDataAdd,
-    AreaDataDelete,
-    FreeDataEdit,
-    FreeDataAdd,
-    FreeDataDelete,
-  } = useTagDB();
+
+  const { FreeDataEdit, FreeDataAdd, FreeDataDelete } = useFreeTagDB();
+  const { AreaDataEdit, AreaDataAdd, AreaDataDelete } = useAreaTagDB();
 
   const [viewFlagFree, setviewFlagFree] = useState<boolean>(false);
   const [viewFlagArea, setviewFlagArea] = useState<boolean>(false);
@@ -139,18 +135,15 @@ export const OwnerTagPage = () => {
                 <path d="M6 18L18 6M6 6l12 12" />
               </svg>
             </div>
-            {/* <TagFormComponent
-              data={areaDataList}
-              sendData={AreaDataEdit}
-              setVisibleFlag={setviewFlagArea}
-            /> */}
-            <TagFormComponent
-              data={editArea}
-              sendDataAdd={AreaDataAdd}
-              sendDataEdit={AreaDataEdit}
-              sendDataDelete={AreaDataDelete}
-              setVisibleFlag={setviewFlagArea}
-            />
+            <div className="flex flex-col gap-10 w-full items-center justify-center py-10 px-5">
+              <TagFormComponent
+                data={editArea}
+                sendDataAdd={AreaDataAdd}
+                sendDataEdit={AreaDataEdit}
+                sendDataDelete={AreaDataDelete}
+                setVisibleFlag={setviewFlagArea}
+              />
+            </div>
           </div>
         ) : (
           ""
@@ -182,13 +175,15 @@ export const OwnerTagPage = () => {
                 <path d="M6 18L18 6M6 6l12 12" />
               </svg>
             </div>
-            <TagFormComponent
-              data={editFree}
-              sendDataAdd={FreeDataAdd}
-              sendDataEdit={FreeDataEdit}
-              sendDataDelete={FreeDataDelete}
-              setVisibleFlag={setviewFlagFree}
-            />
+            <div className="flex flex-col gap-10 w-full items-center justify-center py-10 px-5">
+              <TagFormComponent
+                data={editFree}
+                sendDataAdd={FreeDataAdd}
+                sendDataEdit={FreeDataEdit}
+                sendDataDelete={FreeDataDelete}
+                setVisibleFlag={setviewFlagFree}
+              />
+            </div>
           </div>
         ) : (
           ""

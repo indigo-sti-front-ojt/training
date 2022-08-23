@@ -4,7 +4,8 @@ import { ListChildMapComponent } from "../components/ListChildMapComponent";
 import { useAuthUser } from "../hocks/AuthUser";
 import { useImage } from "../hocks/Image";
 import { useShopDB } from "../hocks/ShopDB";
-import { useTagDB } from "../hocks/TagDB";
+import { useAreaTagDB } from "../hocks/AreaTagDB";
+import { useFreeTagDB } from "../hocks/FreeTagDB";
 import { useUserDB } from "../hocks/UserDB";
 import { AuthUserContainer } from "../provider/AuthUserProvider";
 import { ImageContainer } from "../provider/ImageProvider";
@@ -13,7 +14,10 @@ import { UserDBContainer } from "../provider/UserDBProvider";
 
 export const Layout = () => {
   const { changeUserState } = useAuthUser();
-  const { TagDataReads } = useTagDB();
+
+  const { FreeDataReads } = useFreeTagDB();
+  const { AreaDataReads } = useAreaTagDB();
+
   const { UserDataRead, UserDataReads } = useUserDB();
   const { isLoggined, user } = AuthUserContainer.useContainer();
   const { changeFlag } = UserDBContainer.useContainer();
@@ -29,7 +33,8 @@ export const Layout = () => {
   }, []);
 
   useEffect(() => {
-    TagDataReads();
+    FreeDataReads();
+    AreaDataReads();
   }, [TagChangeFlag]);
 
   useEffect(() => {
