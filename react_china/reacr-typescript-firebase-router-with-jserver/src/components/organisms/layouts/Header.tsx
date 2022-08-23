@@ -20,7 +20,6 @@ export const Header = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
 
-
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -40,11 +39,11 @@ export const Header = () => {
   };
 
   const handleMyPage = () => {
-    navigate("user/mypage")
-  }
+    navigate("user/mypage");
+  };
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      {/* <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar sx={{ justifyContent: "right" }}>
             {auth && (
@@ -90,7 +89,25 @@ export const Header = () => {
             ログアウトしました
           </Alert>
         </Snackbar>
-      </Box>
+      </Box> */}
+      <header className="flex flex-row items-center justify-between h-16 bg-pink-400/10 px-4">
+        <div className="text-2xl">NANPA</div>
+        <button
+          onClick={handleMyPage}
+          className="flex items-center gap-2 p-2 border-2 border-pink-400 bg-pink-300 rounded-2xl px-3 text-white"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+          <span className="hidden text-xl font-bold md:block">my-page</span>
+        </button>
+      </header>
     </>
   );
 };

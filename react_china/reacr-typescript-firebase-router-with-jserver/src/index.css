@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 
 @charset "UTF-8";
 html,
 body,
@@ -151,5 +152,6 @@ img {
   vertical-align: -webkit-baseline-middle;
   max-width: 100%;
   height: auto;
-  width/***/: auto;
+  width*: auto;
 }
+ */

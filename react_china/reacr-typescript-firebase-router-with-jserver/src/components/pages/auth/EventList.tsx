@@ -4,7 +4,7 @@ import { EventSerchForm } from "../../organisms/EventsSearchForm";
 export const EventList = () => {
   return (
     <>
-      <h2>検索フォーム</h2>
+      {/* 検索フォームと検索結果を別々のコンポーネントで書いてもらえるとうれしいね */}
       <EventSerchForm />
     </>
   );

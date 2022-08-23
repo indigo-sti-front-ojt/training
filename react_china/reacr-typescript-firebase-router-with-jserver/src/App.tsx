@@ -6,7 +6,7 @@ const theme = createTheme();
 
 function App() {
   return (
-    <div className="App">
+    <div className="App relative w-full h-auto">
       <ThemeProvider theme={theme}>
         <Router />
       </ThemeProvider>
