@@ -112,6 +112,7 @@ export const InputPhotoDataComponent = memo((props: Props) => {
                 <img
                   src={data.url}
                   className="flex-grow w-full h-full object-contain"
+                  loading="lazy"
                   alt=""
                 />
               </div>

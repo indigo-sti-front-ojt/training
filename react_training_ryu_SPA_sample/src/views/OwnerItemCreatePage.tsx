@@ -46,7 +46,11 @@ export const OwnerItemCreatePage = () => {
 
   return (
     <>
-      <div>create</div>
+      <div className="w-full h-16 flex justify-center items-center">
+        <span className="text-2xl border-b-2 border-black px-20">
+          ページ作成画面
+        </span>
+      </div>
       <ItemFormComponent
         data={initializeShopData}
         register={register}

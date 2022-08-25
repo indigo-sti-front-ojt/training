@@ -1,6 +1,7 @@
 import React from "react";
 import { TagDBContainer } from "../provider/TagDBProvider";
 import { ShopDBType } from "../types/ShopDBType";
+import { TagDBType } from "../types/TagDBType";
 import { CardTagComponent } from "./CardTagComponent";
 
 type Props = {
@@ -58,6 +59,12 @@ export const CardComponent = (props: Props) => {
         );
     }
   });
+  const AreaViewData = data.areaTag?.map((tagNumber: string) => {
+    const areaData: TagDBType | undefined = areaDataList.find(
+      (value: TagDBType) => value.id == tagNumber
+    );
+    if (areaData) return <CardTagComponent key={tagNumber} data={areaData} />;
+  });
 
   return (
     <>
@@ -84,12 +91,7 @@ export const CardComponent = (props: Props) => {
             <div className="flex flex-row items-center w-full">
               <span className="w-16 text-left">場所</span>
               <div className="flex flex-row gap-1 overflow-hidden">
-                {/* {data.areaTag?.map((tagNumber: number) => (
-                  <CardTagComponent
-                    key={tagNumber}
-                    data={areaDataList[tagNumber]}
-                  />
-                ))} */}
+                {AreaViewData}
               </div>
             </div>
             <div className="flex flex-row items-center w-full">

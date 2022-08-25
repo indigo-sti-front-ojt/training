@@ -113,6 +113,7 @@ export const OwnerImageUp = () => {
             <img
               src={data.url}
               className="w-full md:w-52 h-auto object-contain"
+              loading="lazy"
               alt=""
             />
             <button
@@ -125,6 +126,7 @@ export const OwnerImageUp = () => {
         ))}
       </div>
 
+      {/* 削除ポップアップ */}
       <div
         className={
           "fixed overflow-hidden flex justify-center items-center bg-gray-100/50 transition-all ease-in-out " +

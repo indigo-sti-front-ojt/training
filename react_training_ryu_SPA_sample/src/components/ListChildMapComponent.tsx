@@ -1,5 +1,4 @@
-import React, { Children, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { Children } from "react";
 
 type ChildrenProps = {
   children: React.ReactElement[];
