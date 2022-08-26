@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { EventCard } from "../organisms/EventCatd";
 import { SearchEventList } from "../../types/react-hook-form/SearchEventList";
 import { useEventSearch } from "../../hooks/api/get/useEventSearch";
 import { useAllTagsContext } from "../../context/AllTagsContext";
 import { Event } from "../../types/api/Event";
 
-export const EventSerchForm = () => {
+type Props = {
+  setEvents: React.Dispatch<React.SetStateAction<Event[] | undefined>>;
+};
+
+export const EventSerchForm = (props: Props) => {
   const { allTags } = useAllTagsContext();
+  const { setEvents } = props;
 
   const { getSearchEvents } = useEventSearch();
 
@@ -17,10 +21,15 @@ export const EventSerchForm = () => {
     //formState: { errors },
   } = useForm<SearchEventList>();
 
-  const [events, setEvents] = useState<Event[]>();
-
   const onSubmit: SubmitHandler<SearchEventList> = async (data) => {
-    console.log("onSubmit", data);
+    const temp = {
+      ...data,
+      budget: Number(data.budget),
+      minguest: Number(data.minguest),
+      maxguest: Number(data.maxguest),
+      tags: data?.tagsid?.map(Number),
+    };
+    console.log("onSubmit", temp);
     const eventsdata = await getSearchEvents(data);
     setEvents(eventsdata);
   };
@@ -39,7 +48,7 @@ export const EventSerchForm = () => {
               <label key={i} className="px-4">
                 <input
                   type="checkbox"
-                  {...register("tags")}
+                  {...register("tagsid")}
                   value={tag.tag_id}
                 />
                 {tag.tag_value}
@@ -210,17 +219,17 @@ export const EventSerchForm = () => {
         <input type="submit" />
       </form> */}
 
-      <div className="flex flex-col md:flex-row items-center w-full max-w-4xl flex-wrap gap-2">
+      {/* <div className="flex flex-col md:flex-row items-center w-full max-w-4xl flex-wrap gap-2">
         <div className="w-full text-2xl md:text-3xl font-bold border-b-2 border-black">
           検索結果
-        </div>
-        {/* event 検索結果 */}
-        {events?.map((event, i) => (
+        </div> */}
+      {/* event 検索結果 */}
+      {/* {events?.map((event, i) => (
           <>
             <EventCard key={i} event={event} />
           </>
         ))}
-      </div>
+      </div> */}
       {/* 
       <h2>検索結果</h2>
       <div>

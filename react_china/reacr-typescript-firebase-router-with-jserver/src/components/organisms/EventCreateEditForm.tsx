@@ -23,7 +23,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
 
   const [base64, setBase64] = useState<string>("");
 
-  const checkedTag: Array<number | undefined> | undefined =
+  const checkedTag: Array<number> | undefined =
     event?.event_tags?.map((checkd_tag) => checkd_tag.tag_id);
 
   const {

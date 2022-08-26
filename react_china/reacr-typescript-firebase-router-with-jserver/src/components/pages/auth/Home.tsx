@@ -14,9 +14,13 @@ export const Home: FC = () => {
   const { getSearchEvents } = useEventSearch();
   const { getEvents } = useEvents();
 
+  const tagsid: Array<number> | undefined = userInfo?.user_tags?.map(
+    (value) => value.tag_id
+  );
+
   // const data = {};
   const data_tags = {
-    tags: userInfo?.user_tags,
+    tagsid: tagsid,
   };
 
   const [nearEvents, setNearEvents] = useState<Event[]>();

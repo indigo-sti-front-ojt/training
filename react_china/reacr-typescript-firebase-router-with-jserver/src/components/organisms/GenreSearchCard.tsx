@@ -1,5 +1,4 @@
 import React, { useLayoutEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 type Props = {
   tag_id: string;

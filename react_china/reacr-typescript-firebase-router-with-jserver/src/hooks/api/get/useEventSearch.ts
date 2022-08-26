@@ -5,26 +5,25 @@ import { Event } from "../../../types/api/Event";
 import { SearchEventList } from "../../../types/react-hook-form/SearchEventList";
 
 type EventApi = {
-  events_filtered: Event[];
+  data: {
+    events_filtered: Event[];
+  };
 };
 
 export const useEventSearch = () => {
   const getSearchEvents = useCallback(async (data?: SearchEventList) => {
-    const tags_arr: Array<number | undefined> | undefined = data?.tags?.map(
-      (value) => value.tag_id
-    );
 
     let tags = "";
-    if (tags_arr) {
-      tags = "?tagid=" + tags_arr[0];
-      for (let i = 1; i < tags_arr.length; i++) {
-        tags = tags + "+" + tags_arr[i];
+    if (data?.tagsid) {
+      tags = "?tagid=" + data?.tagsid[0];
+      for (let i = 1; i < data?.tagsid.length; i++) {
+        tags = tags + "+" + data?.tagsid[i];
       }
     }
 
     let tagsQuery = "";
-    if (data?.tags) {
-      tagsQuery = `?tagid=${tags}`;
+    if (data?.tagsid?.length !== 0) {
+      tagsQuery = tags;
     }
 
     let budgetQuery = "";
@@ -58,7 +57,7 @@ export const useEventSearch = () => {
     }
 
     const eventsUrl =
-      "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/events" +
+      "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/events_search" +
       tagsQuery +
       budgetQuery +
       minguestQuery +
@@ -70,7 +69,7 @@ export const useEventSearch = () => {
 
     try {
       const resNearEvents = await axios.get<EventApi>(eventsUrl);
-      return resNearEvents.data.events_filtered;
+      return resNearEvents.data.data.events_filtered;
     } catch (error) {
       console.log("イベントが取得できません。");
     }
