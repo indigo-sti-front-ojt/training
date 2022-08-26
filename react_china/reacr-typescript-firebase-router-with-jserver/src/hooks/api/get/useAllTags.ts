@@ -19,7 +19,7 @@ export const useAllTags = () => {
         const res_tags = await axios.get<TagApi>(tagsurl);
         setAllTags(res_tags.data.tags);
       } catch (error) {
-        console.log("タグが取得できません");
+        console.log("タグが取得できません", error);
       }
     })();
   }, []);

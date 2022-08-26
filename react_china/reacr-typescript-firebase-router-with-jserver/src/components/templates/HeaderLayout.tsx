@@ -3,7 +3,6 @@ import { memo, FC, ReactNode } from "react";
 
 import { Header } from "../organisms/layouts/Header";
 
-
 type Props = {
   children: ReactNode; //ReactNodeはreaturn内のタグで囲った要素
 };
@@ -14,7 +13,11 @@ export const HeaderLayout: FC<Props> = memo((props: Props) => {
   return (
     <>
       <Header />
-      {children}
+      <main className="flex flex-col items-center justify-center">
+        <div className="w-full max-w-4xl flex flex-col items-center gap-10">
+          {children}
+        </div>
+      </main>
     </>
   );
 });

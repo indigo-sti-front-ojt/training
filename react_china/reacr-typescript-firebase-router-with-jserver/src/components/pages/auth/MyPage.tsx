@@ -13,7 +13,7 @@ export const MyPage: FC = () => {
   };
   return (
     <>
-      <h2>参加予定のイベント</h2>
+      {/* <h2>参加予定のイベント</h2>
       <hr />
       {userInfo?.join_event?.map((event, i) => (
         <>
@@ -21,8 +21,20 @@ export const MyPage: FC = () => {
             <EventCard event={event} />
           </div>
         </>
-      ))}
-      <h2>主催イベント</h2>
+      ))} */}
+      <div className="w-full flex flex-row flex-wrap gap-2 justify-center">
+        <div className="w-3/4 md:w-full text-2xl md:text-3xl font-bold border-b-2 border-black">
+          参加予定のイベント
+        </div>
+        {userInfo?.join_event?.map((event, i) => (
+          <>
+            <div key={i}>
+              <EventCard event={event} />
+            </div>
+          </>
+        ))}
+      </div>
+      {/* <h2>主催イベント</h2>
       <hr />
       {userInfo?.host_event?.map((event, i) => (
         <>
@@ -30,9 +42,23 @@ export const MyPage: FC = () => {
             <EventCard event={event} />
           </div>
         </>
-      ))}
+      ))} */}
+      <div className="w-full flex flex-row flex-wrap gap-2 justify-center">
+        <div className="w-3/4 md:w-full text-2xl md:text-3xl font-bold border-b-2 border-black">
+          主催イベント
+        </div>
+        {userInfo?.host_event?.map((event, i) => (
+          <>
+            <div key={i}>
+              <EventCard event={event} />
+            </div>
+          </>
+        ))}
+      </div>
+
       <PersonalInfo user={userInfo} onClickButtonToEdit={onClickButtonToEdit} />
-      <h2>過去に参加したイベント</h2>
+
+      {/* <h2>過去に参加したイベント</h2>
       <hr />
       {userInfo?.past_event?.map((event, i) => (
         <>
@@ -40,7 +66,19 @@ export const MyPage: FC = () => {
             <EventCard event={event} />
           </div>
         </>
-      ))}
+      ))} */}
+      <div className="w-full flex flex-row flex-wrap gap-2 justify-center">
+        <div className="w-3/4 md:w-full text-2xl md:text-3xl font-bold border-b-2 border-black">
+          過去に参加したイベント
+        </div>
+        {userInfo?.past_event?.map((event, i) => (
+          <>
+            <div key={i}>
+              <EventCard event={event} />
+            </div>
+          </>
+        ))}
+      </div>
     </>
   );
 };
