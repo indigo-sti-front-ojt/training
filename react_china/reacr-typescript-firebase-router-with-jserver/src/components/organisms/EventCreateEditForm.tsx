@@ -69,6 +69,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   };
 
   const [tmpUrl, setTmpUrl] = useState(event?.event_image);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target.files);
     if (!e.target.files) return;
@@ -114,6 +115,11 @@ export const EventCreateEditForm: FC<Props> = (props) => {
               alt="画像がないよ"
             />
           </figure>
+          <input
+            defaultValue={event?.event_image}
+            className="hidden"
+            {...register("event_image")}
+          />
         </label>
 
         {/* 条件付きレンダリングが必要では？ */}
@@ -125,14 +131,6 @@ export const EventCreateEditForm: FC<Props> = (props) => {
           UpLoad
         </span>
 
-        <label>
-          {/* これはなに？ */}
-          <input
-            defaultValue={event?.event_image}
-            className="hidden"
-            {...register("event_image")}
-          />
-        </label>
 
         <div className="w-full flex flex-col border-2 items-center rounded-md border-gray-600 gap-10 py-10 px-2">
           <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
@@ -200,7 +198,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
+          {/* <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
             <div className="w-1/3">開催場所</div>
             <div className="w-full">
               <input
@@ -209,7 +207,8 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
               />{" "}
             </div>
-          </div>
+          </div> */}
+          
           <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
             <div className="w-1/3">予算</div>
             <div className="w-full">

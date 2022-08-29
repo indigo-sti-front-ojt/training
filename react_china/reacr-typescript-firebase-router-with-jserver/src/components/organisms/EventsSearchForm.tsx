@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { SearchEventList } from "../../types/react-hook-form/SearchEventList";
 import { useEventSearch } from "../../hooks/api/get/useEventSearch";
@@ -7,11 +7,17 @@ import { Event } from "../../types/api/Event";
 
 type Props = {
   setEvents: React.Dispatch<React.SetStateAction<Event[] | undefined>>;
+  genreData?: SearchEventList;
 };
+
+// どうやってやる? stateで読み込んだ値をフォームに入れ、検索まで行う
+// 1.フォームに入れる
+// 2.タグをpropsで、読み込んで来た場合検索結果を表示する
+// ここで1と2を行う
 
 export const EventSerchForm = (props: Props) => {
   const { allTags } = useAllTagsContext();
-  const { setEvents } = props;
+  const { setEvents, genreData } = props;
 
   const { getSearchEvents } = useEventSearch();
 
@@ -34,6 +40,15 @@ export const EventSerchForm = (props: Props) => {
     setEvents(eventsdata);
   };
 
+  const genreEventSet = async (genreData?: SearchEventList) => {
+    const eventsdata = await getSearchEvents(genreData);
+    setEvents(eventsdata);
+  };
+
+  useEffect(() => {
+    genreEventSet(genreData);
+  }, [genreData]);
+
   return (
     <>
       <form
@@ -44,16 +59,69 @@ export const EventSerchForm = (props: Props) => {
           <div className="font-bold">タグ</div>
           <div className="flex flex-row flex-wrap gap-y-2">
             {/* タグの表示 */}
-            {allTags?.map((tag, i) => (
+            {genreData ? (
+              <>
+                {/* <p>stateでタグが渡された</p> */}
+                {allTags?.map((tag) => {
+                  return (
+                    <>
+                      {genreData.tagsid &&
+                      !(tag.tag_id === genreData.tagsid[0]) ? (
+                        <>
+                          <label key={tag.tag_id} className="px-4">
+                            <input
+                              type="checkbox"
+                              {...register("tagsid")}
+                              value={tag.tag_id}
+                              defaultChecked={false}
+                            />
+                            {tag.tag_value}
+                          </label>
+                        </>
+                      ) : (
+                        <>
+                          <label key={tag.tag_id} className="px-4">
+                            <input
+                              type="checkbox"
+                              {...register("tagsid")}
+                              value={tag.tag_id}
+                              defaultChecked={true}
+                            />
+                            {tag.tag_value}
+                          </label>
+                        </>
+                      )}
+                    </>
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                {/* <p>stateでタグが渡されてない</p> */}
+                {allTags?.map((tag) => (
+                  <label key={tag.tag_id} className="px-4">
+                    <input
+                      type="checkbox"
+                      {...register("tagsid")}
+                      value={tag.tag_id}
+                      defaultChecked={false}
+                    />
+                    {tag.tag_value}
+                  </label>
+                ))}
+              </>
+            )}
+            {/* {allTags?.map((tag, i) => (
               <label key={i} className="px-4">
                 <input
                   type="checkbox"
                   {...register("tagsid")}
                   value={tag.tag_id}
+                  defaultChecked={false}
                 />
                 {tag.tag_value}
               </label>
-            ))}
+            ))} */}
             {/* <div className="w-full md:w-36 hover:cursor-pointer">
               <div className="w-full flex flex-row items-center justify-around py-1 px-8 bg-gray-400/80 rounded-xl ring-2 ring-gray-200">
                 <span className="text-sm mx-2 font-bold">選択する</span>
@@ -62,17 +130,17 @@ export const EventSerchForm = (props: Props) => {
           </div>
         </div>
 
-        <div className="flex flex-col justify-center w-full text-xl md:w-full gap-1">
+        {/* <div className="flex flex-col justify-center w-full text-xl md:w-full gap-1">
           <div className="font-bold">場所</div>
-          <div className="flex flex-row flex-wrap gap-y-2">
-            {/* タグの表示 */}
-            <div className="w-full md:w-36 hover:cursor-pointer">
+          <div className="flex flex-row flex-wrap gap-y-2"> */}
+        {/* タグの表示 */}
+        {/* <div className="w-full md:w-36 hover:cursor-pointer">
               <div className="w-full flex flex-row items-center justify-around py-1 px-8 bg-gray-400/80 rounded-xl ring-2 ring-gray-200">
                 <span className="text-sm mx-2 font-bold">選択する</span>
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="flex flex-col justify-center w-full text-xl md:w-1/2 gap-1">
           <div className="font-bold">募集人数</div>
