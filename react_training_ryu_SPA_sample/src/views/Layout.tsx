@@ -61,7 +61,7 @@ export const Layout = () => {
         <div
           className={
             "flex flex-col items-center w-full max-w-4xl gap-16 flex-grow-0" +
-            (location.pathname.includes("owner") ? " pt-0" : " pt-12")
+            (location.pathname.includes("owner") ? " pt-0" : " pt-12 md:pt-0")
           }
         >
           <Outlet />
