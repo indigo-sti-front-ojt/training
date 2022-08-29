@@ -39,8 +39,13 @@ export const Header = () => {
   };
 
   const handleMyPage = () => {
-    navigate("user/mypage");
+    navigate("/user/mypage");
   };
+
+  const handleHome = () => {
+    navigate("/");
+  };
+
   return (
     <>
       {/* <Box sx={{ flexGrow: 1 }}>
@@ -90,8 +95,9 @@ export const Header = () => {
           </Alert>
         </Snackbar>
       </Box> */}
+      
       <header className="flex flex-row items-center justify-between h-16 bg-pink-400/10 px-4">
-        <div className="text-2xl">NANPA</div>
+        <button className="text-2xl" onClick={handleHome}>NANPA</button>
         <button
           onClick={handleMyPage}
           className="flex items-center gap-2 p-2 border-2 border-pink-400 bg-pink-300 rounded-2xl px-3 text-white"

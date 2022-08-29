@@ -1,7 +1,5 @@
-import { Tag } from "../api/Tag";
-
 export type SearchEventList = {
-  tags?: Tag[];
+  tagsid?: Array<number>;
   budget?: number;
   minguest?: number;
   maxguest?: number;

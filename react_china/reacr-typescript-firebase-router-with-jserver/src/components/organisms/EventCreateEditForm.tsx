@@ -23,8 +23,9 @@ export const EventCreateEditForm: FC<Props> = (props) => {
 
   const [base64, setBase64] = useState<string>("");
 
-  const checkedTag: Array<number | undefined> | undefined =
-    event?.event_tags?.map((checkd_tag) => checkd_tag.tag_id);
+  const checkedTag: Array<number> | undefined = event?.event_tags?.map(
+    (checkd_tag) => checkd_tag.tag_id
+  );
 
   const {
     register,
@@ -69,6 +70,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   };
 
   const [tmpUrl, setTmpUrl] = useState(event?.event_image);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target.files);
     if (!e.target.files) return;
@@ -114,6 +116,11 @@ export const EventCreateEditForm: FC<Props> = (props) => {
               alt="画像がないよ"
             />
           </figure>
+          <input
+            defaultValue={event?.event_image}
+            className="hidden"
+            {...register("event_image")}
+          />
         </label>
 
         {/* 条件付きレンダリングが必要では？ */}
@@ -124,15 +131,6 @@ export const EventCreateEditForm: FC<Props> = (props) => {
         >
           UpLoad
         </span>
-
-        <label>
-          {/* これはなに？ */}
-          <input
-            defaultValue={event?.event_image}
-            className="hidden"
-            {...register("event_image")}
-          />
-        </label>
 
         <div className="w-full flex flex-col border-2 items-center rounded-md border-gray-600 gap-10 py-10 px-2">
           <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
@@ -206,10 +204,13 @@ export const EventCreateEditForm: FC<Props> = (props) => {
               <input
                 type="text"
                 placeholder="input"
+                defaultValue={event?.event_place}
+                {...register("event_place")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
-              />{" "}
+              />{""}
             </div>
           </div>
+
           <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
             <div className="w-1/3">予算</div>
             <div className="w-full">
