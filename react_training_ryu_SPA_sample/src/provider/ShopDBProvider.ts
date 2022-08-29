@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import { useState } from "react";
 import { createContainer } from "unstated-next";
 import { ShopDBType } from "../types/ShopDBType";
@@ -7,6 +8,7 @@ const initialzeshop: ShopDBType = {
   title: "",
   mainImage: "",
   writer: "",
+  createDate: Timestamp.now(),
 };
 
 const useShopDBProvider = () => {

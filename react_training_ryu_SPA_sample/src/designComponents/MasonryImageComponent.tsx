@@ -16,6 +16,7 @@ export const MansoryImageComponent = (props: Props) => {
     1048: 2,
     576: 1,
   };
+
   useLayoutEffect(() => {
     if (!imageDataList) return;
     const tempList: ImagesDBType[] = [];
@@ -26,7 +27,7 @@ export const MansoryImageComponent = (props: Props) => {
       if (temp) tempList.push(temp);
     });
     setImageViewData(tempList);
-  }, []);
+  }, [imageDataList, imageData]);
 
   return (
     <div className="w-11/12 flex flex-col items-center gap-2">

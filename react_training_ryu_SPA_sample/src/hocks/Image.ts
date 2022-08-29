@@ -14,10 +14,14 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { ImageContainer } from "../provider/ImageProvider";
+import { LodingContainer } from "../provider/LoadingProvider";
 
 export const useImage = () => {
   const { setImageDataList, imageEditFlag, setImageEditFlag } =
     ImageContainer.useContainer();
+
+  const { setLoging } = LodingContainer.useContainer();
+
   const imageDataCreate = async (data: ImagesDBType) => {
     console.log("firestore upload");
     const dataDoc = collection(db, "images");
@@ -47,6 +51,7 @@ export const useImage = () => {
 
   const imageUpload = async (fileName: string, file: File) => {
     console.log("image upload");
+    setLoging(true);
     const storageRef = ref(storage, `images/${fileName}`);
     try {
       const result = await uploadBytes(storageRef, file);
@@ -58,6 +63,7 @@ export const useImage = () => {
         fullPath: result.metadata.fullPath,
       };
       await imageDataCreate(temp);
+      setLoging(false);
       return true;
     } catch (e) {
       return false;
@@ -65,10 +71,12 @@ export const useImage = () => {
   };
   const imageDelete = async (data: ImagesDBType) => {
     console.log("image delete");
+    setLoging(true);
     const storageRef = ref(storage, data.fullPath);
     try {
       await deleteObject(storageRef);
       await imageDataDelete(data);
+      setLoging(false);
       return true;
     } catch {
       return false;

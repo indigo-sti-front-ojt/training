@@ -66,16 +66,16 @@ export const InputOpenCloseComponent = memo((props: Props) => {
   };
   useEffect(() => {
     if (editFlag) {
-      console.log("chnage data");
+      // console.log("chnage data");
       onChange({
         open: open.h + ":" + open.m,
         close: close.h + ":" + close.m,
       });
     } else if (value) {
-      console.log("initialize");
+      // console.log("initialize");
       const tempOpen = value.open.split(":");
       const tempClose = value.close.split(":");
-      console.log(value.open, value.close);
+      // console.log(value.open, value.close);
 
       // console.log(value, tempOpen, tempClose);
 

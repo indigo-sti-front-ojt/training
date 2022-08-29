@@ -7,6 +7,7 @@ import { IFrameComponent } from "./IFrameCompoent";
 import { MansoryImageComponent } from "./MasonryImageComponent";
 import { TagComponent } from "./TagComponent";
 
+import { format } from "date-fns";
 type Props = {
   data: ShopDBType;
 };

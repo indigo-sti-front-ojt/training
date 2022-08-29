@@ -55,61 +55,51 @@ export const ItemFormComponent = (props: Props) => {
   const onSubmit: SubmitHandler<ShopDBType> = (formData: ShopDBType) => {
     if (editFlag && data?.uid && onClickEditData) {
       // edit
-      console.log("formdata", formData);
-
       const temp: ShopDBType = {
         uid: data.uid,
-        name: formData.name ?? "",
-        title: formData.title ?? "",
-        mainImage: formData.mainImage ?? "",
-        access: formData.access ?? "",
-        map: formData.map ?? "",
-        price: formData.price ?? "",
-        closingDay: formData.closingDay ?? [],
-        fromOpenToCleseTime: formData.fromOpenToCleseTime ?? {
-          open: "00:00",
-          close: "00:00",
-        },
-        phoneNumber: formData.phoneNumber ?? "",
-        links: formData.links ?? [],
-        ShopLink: formData.ShopLink ?? "",
-        photoData: formData.photoData ?? [],
-        contents: formData.contents ?? [],
-        areaTag: formData.areaTag ?? [],
-        freeTag: formData.freeTag ?? [],
+        name: formData.name,
+        title: formData.title,
+        mainImage: formData.mainImage,
+        access: formData.access,
+        map: formData.map,
+        price: formData.price,
+        closingDay: formData.closingDay,
+        fromOpenToCleseTime: formData.fromOpenToCleseTime,
+        phoneNumber: formData.phoneNumber,
+        links: formData.links,
+        ShopLink: formData.ShopLink,
+        photoData: formData.photoData,
+        contents: formData.contents,
+        areaTag: formData.areaTag,
+        freeTag: formData.freeTag,
         writer: data.writer,
+        createDate: data.createDate,
       };
       onClickEditData(temp);
-    } else {
+    } else if (onClickSendData && data != undefined) {
       // create
-      if (onClickSendData) {
-        if (data != undefined) {
-          const temp: ShopDBType = {
-            uid: "",
-            name: formData.name ?? "",
-            title: formData.title ?? "",
-            mainImage: formData.mainImage ?? "",
-            access: formData.access ?? "",
-            map: formData.map ?? "",
-            price: formData.price ?? "",
-            closingDay: formData.closingDay ?? [],
-            fromOpenToCleseTime: formData.fromOpenToCleseTime ?? {
-              open: "00:00",
-              close: "00:00",
-            },
-            phoneNumber: formData.phoneNumber ?? "",
-            links: formData.links ?? [],
-            ShopLink: formData.ShopLink ?? "",
-            photoData: formData.photoData ?? [],
-            contents: formData.contents ?? [],
-            areaTag: formData.areaTag ?? [],
-            freeTag: formData.freeTag ?? [],
-            writer: data.writer,
-          };
+      const temp: ShopDBType = {
+        uid: "",
+        name: formData.name,
+        title: formData.title,
+        mainImage: formData.mainImage,
+        access: formData.access,
+        map: formData.map,
+        price: formData.price,
+        closingDay: formData.closingDay,
+        fromOpenToCleseTime: formData.fromOpenToCleseTime,
+        phoneNumber: formData.phoneNumber,
+        links: formData.links,
+        ShopLink: formData.ShopLink,
+        photoData: formData.photoData,
+        contents: formData.contents,
+        areaTag: formData.areaTag,
+        freeTag: formData.freeTag,
+        writer: data.writer,
+        createDate: data.createDate,
+      };
 
-          onClickSendData(temp);
-        }
-      }
+      onClickSendData(temp);
     }
   };
   const onSubmitDelete = () => {
@@ -120,8 +110,6 @@ export const ItemFormComponent = (props: Props) => {
 
   useEffect(() => {
     if (data != undefined && editFlag && !focusFlag) {
-      console.log(data);
-
       setValue("name", data.name);
       setValue("title", data.title);
       setValue("mainImage", data.mainImage);
@@ -144,7 +132,7 @@ export const ItemFormComponent = (props: Props) => {
       setValue("contents", []);
       setValue("access", "");
       setValue("map", "");
-      setValue("price", "");
+      setValue("price", 0);
       setValue("phoneNumber", "");
       setValue("ShopLink", "");
       setValue("closingDay", []);
@@ -218,7 +206,11 @@ export const ItemFormComponent = (props: Props) => {
         <div className="form-div">
           <span className="form-title">価格帯</span>
           <div className="flex flex-row w-full items-center">
-            <input className="form-input" {...register("price")} />
+            <input
+              className="form-input"
+              type="number"
+              {...register("price")}
+            />
             <span className="w-40">円以下</span>
           </div>
         </div>

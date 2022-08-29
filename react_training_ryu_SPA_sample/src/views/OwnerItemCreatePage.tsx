@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -15,22 +16,8 @@ export const OwnerItemCreatePage = () => {
     title: "",
     mainImage: "",
     name: "",
-    access: "",
-    map: "",
-    price: "",
-    closingDay: [],
-    fromOpenToCleseTime: {
-      open: "",
-      close: "",
-    },
-    phoneNumber: "",
-    ShopLink: "",
-    photoData: [],
-    links: [],
-    contents: [],
-    areaTag: [],
-    freeTag: [],
     writer: user.uid,
+    createDate: Timestamp.now(),
   };
   const {
     register,

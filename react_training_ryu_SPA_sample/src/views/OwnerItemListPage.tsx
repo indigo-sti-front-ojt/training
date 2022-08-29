@@ -30,7 +30,7 @@ export const OwnerItemListPage = () => {
           ページ一覧
         </span>
       </div>
-      <div className="flex flex-col md:flex-row gap-3">
+      <div className="flex flex-col md:flex-row justify-center flex-wrap gap-3">
         {shopDataList.map((data: ShopDBType) => (
           <CardComponent
             data={data}
