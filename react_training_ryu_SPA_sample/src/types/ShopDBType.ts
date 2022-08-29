@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import { TagTextObject } from "./TagTextObject";
 
 export type ShopDBType = {
@@ -7,7 +8,7 @@ export type ShopDBType = {
   name: string;
   access?: string;
   map?: string;
-  price?: string;
+  price?: number;
   closingDay?: number[];
   fromOpenToCleseTime?: {
     open: string;
@@ -21,4 +22,5 @@ export type ShopDBType = {
   areaTag?: string[];
   freeTag?: string[];
   writer: string;
+  createDate: Timestamp;
 };

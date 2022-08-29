@@ -17,7 +17,10 @@
 作成に伴う資料
 
 - [画面設計書](https://docs.google.com/spreadsheets/d/1tAi0WSsyrx_BNHuvKj2CDxQ509MfKNcdgvAOlPgr5wk/edit#gid=0)
+- [Tag の初期化用スクリプト](https://docs.google.com/spreadsheets/d/1G1kb_xtWpiEpdyMWRQJjO7YiKzChim-7LIEuhBmDees/edit#gid=0)
 
 ## パーツ
 
 - [hamburget](https://hamburger-react.netlify.app/)
+- [react-masonry-css](https://qiita.com/d0ne1s/items/0fa0040617455b2ec68f)
+- [GAS&Firestore](https://github.com/grahamearley/FirestoreGoogleAppsScript)

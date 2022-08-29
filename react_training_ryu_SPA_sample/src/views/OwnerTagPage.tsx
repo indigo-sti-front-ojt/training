@@ -66,6 +66,7 @@ export const OwnerTagPage = () => {
       <div className="w-full h-16 flex justify-center items-center">
         <span className="text-2xl border-b-2 border-black px-20">タグ一覧</span>
       </div>
+
       <div className="w-full flex flex-col justify-center items-center gap-x-4 gap-y-10">
         <div className="w-5/6 md:w-full md:h-full p-2 shadow-md flex flex-col gap-y-2">
           <div className="flex flex-row w-full justify-between items-center">

@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -15,22 +16,8 @@ export const OwnerItemCreatePage = () => {
     title: "",
     mainImage: "",
     name: "",
-    access: "",
-    map: "",
-    price: "",
-    closingDay: [],
-    fromOpenToCleseTime: {
-      open: "",
-      close: "",
-    },
-    phoneNumber: "",
-    ShopLink: "",
-    photoData: [],
-    links: [],
-    contents: [],
-    areaTag: [],
-    freeTag: [],
     writer: user.uid,
+    createDate: Timestamp.now(),
   };
   const {
     register,
@@ -46,7 +33,11 @@ export const OwnerItemCreatePage = () => {
 
   return (
     <>
-      <div>create</div>
+      <div className="w-full h-16 flex justify-center items-center">
+        <span className="text-2xl border-b-2 border-black px-20">
+          ページ作成画面
+        </span>
+      </div>
       <ItemFormComponent
         data={initializeShopData}
         register={register}

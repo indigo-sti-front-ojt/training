@@ -7,11 +7,15 @@ import {
   getDocs,
   query,
   setDoc,
+  Timestamp,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { ShopDBContainer } from "../provider/ShopDBProvider";
 import { ShopDBType } from "../types/ShopDBType";
+
+import { format } from "date-fns";
 
 // 単一階層の情報の場合
 export const useShopDB = () => {
@@ -44,12 +48,13 @@ export const useShopDB = () => {
       areaTag: data.areaTag,
       freeTag: data.freeTag,
       writer: data.writer,
+      createData: data.createDate,
     });
     setChangeFlag(!changeFlag);
   };
   const ShopDataEdit = async (data: ShopDBType) => {
     const target = doc(db, targetTableName, data.uid);
-    await setDoc(target, {
+    await updateDoc(target, {
       name: data.name,
       title: data.title,
       mainImage: data.mainImage,
@@ -65,7 +70,6 @@ export const useShopDB = () => {
       contents: data.contents,
       areaTag: data.areaTag,
       freeTag: data.freeTag,
-      writer: data.writer,
     });
     setChangeFlag(!changeFlag);
   };
@@ -76,6 +80,7 @@ export const useShopDB = () => {
       where("writer", "==", user_uid)
     );
     const dataResults = await getDocs(target);
+
     const tempDatas: ShopDBType[] = [];
 
     dataResults.forEach((doc) => {
@@ -99,9 +104,15 @@ export const useShopDB = () => {
         areaTag: data.areaTag,
         freeTag: data.freeTag,
         writer: data.writer,
+        createDate: data.createData,
       };
+
       tempDatas.push(tempData);
     });
+
+    // sort
+    tempDatas.sort(ShopDataSortProgram);
+
     setShopDataList(tempDatas);
   };
   const ShopDataReads_ALL = async () => {
@@ -128,11 +139,23 @@ export const useShopDB = () => {
         areaTag: data.areaTag,
         freeTag: data.freeTag,
         writer: data.writer,
+        createDate: data.createData,
       };
       tempDatas.push(tempData);
     });
+    // sort
+    tempDatas.sort(ShopDataSortProgram);
     setShopDataAll(tempDatas);
   };
+  // sort program
+  const ShopDataSortProgram = (
+    firstObject: ShopDBType,
+    secondObject: ShopDBType
+  ) =>
+    format(firstObject.createDate.toDate(), "yyyyMMddHHmmss") >
+    format(secondObject.createDate.toDate(), "yyyyMMddHHmmss")
+      ? -1
+      : 1;
 
   const ShopDataRead = async (uid: string) => {
     const target = doc(db, targetTableName, uid);
@@ -157,6 +180,7 @@ export const useShopDB = () => {
       freeTag: data?.freeTag,
       access: data?.access,
       writer: data?.writer,
+      createDate: data?.createData,
     };
     setShopData(tempData);
   };

@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { TagDBType } from "../types/TagDBType";
 import { InputColorsComponent } from "./InputColorsComponet";
@@ -11,6 +11,11 @@ type Props = {
   setVisibleFlag: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+type tagFormType = {
+  text: string;
+  color: string;
+};
+
 export const TagFormComponent = (props: Props) => {
   const { data, sendDataAdd, sendDataEdit, sendDataDelete, setVisibleFlag } =
     props;
@@ -20,15 +25,11 @@ export const TagFormComponent = (props: Props) => {
     formState: { errors },
     setValue,
     control,
-  } = useForm<{
-    text: string;
-    color: string;
-  }>();
+  } = useForm<tagFormType>();
 
-  const onSubmit: SubmitHandler<{
-    text: string;
-    color: string;
-  }> = async (formData: { text: string; color: string }) => {
+  const onSubmit: SubmitHandler<tagFormType> = async (
+    formData: tagFormType
+  ) => {
     console.log(formData);
     if (data.id != "") {
       await sendDataEdit({ ...formData, id: data.id });

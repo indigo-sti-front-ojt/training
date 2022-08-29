@@ -1,4 +1,10 @@
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { AuthUserContainer } from "../provider/AuthUserProvider";
 import { UserDBContainer } from "../provider/UserDBProvider";
@@ -14,8 +20,7 @@ export const useUserDB = () => {
 
   const UserDataEdit = async (data: UserDBType) => {
     const target = doc(db, targetTableName, data.uid);
-    await setDoc(target, {
-      photoIcon: data.photoIcon,
+    await updateDoc(target, {
       nickname: data.nickname,
       singleBio: data.singleBio,
     });
@@ -54,7 +59,7 @@ export const useUserDB = () => {
       setUserData(tempData);
     } else {
       // data 登録処理
-      UserDataEdit({
+      await UserDataEdit({
         uid: user.uid,
         photoIcon: user.photoIcon,
         nickname: user.nickname,

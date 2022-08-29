@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { PageItemComponent } from "../designComponents/PageItemComponent";
 import { useShopDB } from "../hocks/ShopDB";
 import { ShopDBContainer } from "../provider/ShopDBProvider";
 
@@ -13,17 +14,7 @@ export const ItemPage = () => {
   }, []);
   return (
     <>
-      <div>{id}</div>
-      <div>uid:{shopData.uid}</div>
-      <div>name:{shopData.name}</div>
-      <div>price: {shopData.price}</div>
-      <div>closingday:{shopData.closingDay}</div>
-      <div>
-        {shopData.fromOpenToCleseTime?.open}
-        {shopData.fromOpenToCleseTime?.close}
-      </div>
-      <div>phonenumber:{shopData.phoneNumber}</div>
-      <div>writer:{shopData.writer}</div>
+      <PageItemComponent data={shopData} />
     </>
   );
 };

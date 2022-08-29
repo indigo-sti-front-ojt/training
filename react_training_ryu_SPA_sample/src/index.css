@@ -4,32 +4,32 @@
 
 @layer components {
   .tag {
-    @apply mx-2 px-4 py-1 rounded-lg font-bold  ring-2  text-sm;
+    @apply mx-2 px-4 py-1 rounded-lg font-bold  border-2  text-sm;
   }
   .card-tag {
     @apply px-4 py-1 rounded-lg font-bold  text-xs max-w-[120px] break-words flex-shrink-0;
   }
   .tag-blue {
-    @apply bg-blue-500  text-white ring-blue-200;
+    @apply bg-blue-500  text-white border-blue-200;
   }
   .tag-red {
-    @apply bg-red-500 text-white  ring-red-200;
+    @apply bg-red-500 text-white  border-red-200;
   }
   .tag-black {
-    @apply bg-black  text-white  ring-gray-700;
+    @apply bg-black  text-white  border-gray-700;
   }
   .tag-orange {
-    @apply bg-orange-500 text-white ring-orange-200;
+    @apply bg-orange-500 text-white border-orange-200;
   }
   .tag-white {
-    @apply bg-white  text-black  ring-pink-200;
+    @apply bg-white  text-black  border-pink-200;
   }
 
   .form-title {
     @apply text-xl w-1/2 text-left border-b-2 border-gray-400;
   }
   .form-input {
-    @apply py-2 px-1 w-full border-2 border-gray-500 rounded-md;
+    @apply py-2 px-1 w-full rounded-lg border-2 border-gray-500;
   }
   .form-div {
     @apply flex flex-col w-full items-start gap-2;

@@ -16,7 +16,7 @@ export const useAreaTagDB = () => {
   const { setAreaDataList, setTagChangeFlag, TagChangeFlag } =
     TagDBContainer.useContainer();
   const { setLoging } = LodingContainer.useContainer();
-  const targetTableName = "Areatags";
+  const targetTableName = "AreaTags";
 
   const AreaDataAdd = async (data: TagDBType) => {
     const dataDoc = collection(db, targetTableName);

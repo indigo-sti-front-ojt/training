@@ -75,7 +75,7 @@ export const InputPhotoDataComponent = memo((props: Props) => {
 
       <div
         className={
-          "fixed overflow-hidden flex justify-center items-center bg-gray-600/50 transition-all " +
+          "fixed overflow-hidden flex justify-center items-center bg-gray-600/50 " +
           (viewFlag
             ? "w-screen h-screen top-0 left-0"
             : "w-0 h-0 top-1/2 left-1/2")
@@ -112,6 +112,7 @@ export const InputPhotoDataComponent = memo((props: Props) => {
                 <img
                   src={data.url}
                   className="flex-grow w-full h-full object-contain"
+                  loading="lazy"
                   alt=""
                 />
               </div>

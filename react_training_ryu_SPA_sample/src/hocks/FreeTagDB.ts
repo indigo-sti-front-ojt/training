@@ -16,7 +16,7 @@ export const useFreeTagDB = () => {
   const { setFreeDataList, setTagChangeFlag, TagChangeFlag } =
     TagDBContainer.useContainer();
   const { setLoging } = LodingContainer.useContainer();
-  const targetTableName = "Freetags";
+  const targetTableName = "FreeTags";
 
   const FreeDataAdd = async (data: TagDBType) => {
     const dataDoc = collection(db, targetTableName);
