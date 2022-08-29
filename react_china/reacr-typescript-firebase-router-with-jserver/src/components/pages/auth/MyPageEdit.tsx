@@ -106,7 +106,7 @@ export const MyPageEdit: FC = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-3/4 m-2 px-4 gap-1 shadow-xl rounded md:w-full max-w-4xl md:flex-row md:items-start"
       >
-        <div className="flex flex-row md:w-32">
+        <div className="flex flex-col md:w-32">
           {/* この部分はちょっと検討が必要かも？ */}
           {/* 要検討 */}
           <img
@@ -114,6 +114,7 @@ export const MyPageEdit: FC = () => {
             className="object-contain w-auto h-auto"
             alt=""
           />
+          <div>編集する</div>
         </div>
         <div className="w-full flex flex-col gap-3">
           <div className="nameToSL flex flex-col gap-2 md:w-full md:flex-row md:flex-wrap md:gap-y-0 md:gap-x-4">

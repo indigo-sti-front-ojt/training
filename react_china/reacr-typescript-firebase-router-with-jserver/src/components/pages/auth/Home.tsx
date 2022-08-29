@@ -66,15 +66,19 @@ export const Home: FC = () => {
         </div>
       </div>
 
-      <h2>締め切りが近いイベント</h2>
-      <hr />
-      {nearEvents?.map((event, i) => (
+      {nearEvents ? (
         <>
-          <div key={i}>
-            <EventCard event={event} />
-          </div>
+          {nearEvents.map((event) => (
+            <>
+              <div key={event.event_id}>
+                <EventCard event={event} />
+              </div>
+            </>
+          ))}
         </>
-      ))}
+      ) : (
+        <span>締め切りが近いイベントはありません</span>
+      )}
 
       <div className="w-full flex flex-row flex-wrap gap-2 justify-center">
         <div className="w-3/4 md:w-full text-2xl md:text-3xl font-bold border-b-2 border-black">
@@ -82,15 +86,19 @@ export const Home: FC = () => {
         </div>
       </div>
 
-      <h2>あなたが関心ありそうなイベント</h2>
-      <hr />
-      {tagEvents?.map((event, i) => (
+      {tagEvents ? (
         <>
-          <div key={i}>
-            <EventCard event={event} />
-          </div>
+          {tagEvents.map((event) => (
+            <>
+              <div key={event.event_id}>
+                <EventCard event={event} />
+              </div>
+            </>
+          ))}
         </>
-      ))}
+      ) : (
+        <span>あなたが関心のあるイベントはありません</span>
+      )}
     </>
   );
 };

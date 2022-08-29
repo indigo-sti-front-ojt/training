@@ -23,8 +23,9 @@ export const EventCreateEditForm: FC<Props> = (props) => {
 
   const [base64, setBase64] = useState<string>("");
 
-  const checkedTag: Array<number> | undefined =
-    event?.event_tags?.map((checkd_tag) => checkd_tag.tag_id);
+  const checkedTag: Array<number> | undefined = event?.event_tags?.map(
+    (checkd_tag) => checkd_tag.tag_id
+  );
 
   const {
     register,
@@ -131,7 +132,6 @@ export const EventCreateEditForm: FC<Props> = (props) => {
           UpLoad
         </span>
 
-
         <div className="w-full flex flex-col border-2 items-center rounded-md border-gray-600 gap-10 py-10 px-2">
           <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
             <div className="w-1/3">イベント名</div>
@@ -198,17 +198,19 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             </div>
           </div>
 
-          {/* <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
+          <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
             <div className="w-1/3">開催場所</div>
             <div className="w-full">
               <input
                 type="text"
                 placeholder="input"
+                defaultValue={event?.event_place}
+                {...register("event_place")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
-              />{" "}
+              />{""}
             </div>
-          </div> */}
-          
+          </div>
+
           <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
             <div className="w-1/3">予算</div>
             <div className="w-full">
