@@ -58,7 +58,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
     await eventCreateEditDelete(method, temp);
   };
 
-  const convertToBase64 = (file: File) => {
+  const convertToBase64 = async (file: File) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -69,20 +69,30 @@ export const EventCreateEditForm: FC<Props> = (props) => {
     };
   };
 
+  const [imageFlag, setImageFlag] = useState(false);
   const [tmpUrl, setTmpUrl] = useState(event?.event_image);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // console.log(e.target.files);
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    setTmpUrl(URL.createObjectURL(e.target.files[0]));
     const file = e.target.files[0];
-    convertToBase64(file);
+    setImageFlag(true);
+    await convertToBase64(file);
   };
 
-  const onClickImageUp = async () => {
+  useEffect(() => {
+    if (imageFlag) {
+      const iconURL = uploadEventImage();
+      console.log(iconURL);
+      setImageFlag(false);
+    }
+  }, [base64]);
+
+  const uploadEventImage = async () => {
     try {
       const azureStorageURL = await base64ImageUp(base64);
       setValue("event_image", azureStorageURL);
+      setTmpUrl(azureStorageURL);
+      return azureStorageURL;
     } catch {
       console.log("error");
     }
@@ -99,38 +109,26 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             イベント編集画面
           </div>
         </div>
-        <label>
-          <input
-            type="file"
-            accept="image/*"
-            name="event_image"
-            readOnly
-            className="hidden"
-            onChange={handleChange}
+
+        {/* <img src={tmpUrl} alt="イベント画像" /> */}
+        <figure className="flex items-center justify-center w-full h-auto p-4">
+          <img
+            src={tmpUrl ?? `${process.env.PUBLIC_URL}/images/main_1.png`}
+            className="h-auto max-h-64 md:max-h-full md:h-full w-auto object-contain rounded-md"
+            alt="画像がないよ"
           />
-          {/* <img src={tmpUrl} alt="イベント画像" /> */}
-          <figure className="flex items-center justify-center w-full h-auto p-4">
-            <img
-              src={tmpUrl ?? `${process.env.PUBLIC_URL}/images/main_1.png`}
-              className="h-auto max-h-64 md:max-h-full md:h-full w-auto object-contain rounded-md"
-              alt="画像がないよ"
-            />
-          </figure>
-          <input
-            defaultValue={event?.event_image}
-            className="hidden"
-            {...register("event_image")}
-          />
-        </label>
+        </figure>
+        <input
+          type="file"
+          accept="image/*"
+          name="event_image"
+          // readOnly
+          // className="hidden"
+          onChange={handleChange}
+        />
 
         {/* 条件付きレンダリングが必要では？ */}
         {/* 選択した時点でアップロードするのはどうかな？？ */}
-        <span
-          className="w-full rounded-md text-center border-2 border-gray-700"
-          onClick={onClickImageUp}
-        >
-          UpLoad
-        </span>
 
         <div className="w-full flex flex-col border-2 items-center rounded-md border-gray-600 gap-10 py-10 px-2">
           <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
@@ -207,7 +205,8 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                 defaultValue={event?.event_place}
                 {...register("event_place")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
-              />{""}
+              />
+              {""}
             </div>
           </div>
 
@@ -229,11 +228,38 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             <div className="w-full">
               <div className="flex flex-row flex-wrap gap-y-2">
                 {/* タグを保持するもの */}
-                <div className="w-full md:w-36">
+                {allTags?.map(function (tag, i) {
+                  return (
+                    <label key={i} className="px-4">
+                      {checkedTag?.includes(tag.tag_id) ? (
+                        <>
+                          <input
+                            {...register("event_tags_id")}
+                            type="checkbox"
+                            defaultChecked={true}
+                            value={tag.tag_id}
+                          />
+                          {tag.tag_value}
+                        </>
+                      ) : (
+                        <>
+                          <input
+                            {...register("event_tags_id")}
+                            type="checkbox"
+                            defaultChecked={false}
+                            value={tag.tag_id}
+                          />
+                          {tag.tag_value}
+                        </>
+                      )}
+                    </label>
+                  );
+                })}
+                {/* <div className="w-full md:w-36">
                   <div className="w-full flex flex-row items-center justify-around py-1 px-8 bg-gray-400/80 rounded-xl ring-2 ring-gray-200 hover:cursor-pointer">
                     <span className="text-sm mx-2 font-bold">編集</span>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

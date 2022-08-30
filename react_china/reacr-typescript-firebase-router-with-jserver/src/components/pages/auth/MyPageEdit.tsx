@@ -156,7 +156,7 @@ export const MyPageEdit: FC = () => {
             </div>
             <div className="flex flex-col justify-center w-full text-xl md:w-2/5 gap-1">
               <div className="font-bold">本名</div>
-              <div>{userInfo?.user_name ?? "tanaka ryunosuke"}</div>
+              <div>{userInfo?.user_name}</div>
             </div>
             <div className="flex flex-col justify-center w-full text-xl md:w-2/5 gap-1">
               <div className="font-bold">所属CoE</div>
@@ -319,7 +319,7 @@ export const MyPageEdit: FC = () => {
 
             <div className="w-full flex justify-center items-center flex-col">
               <img
-                src={tmpLineUrl ?? "https://placehold.jp/150x150.png"}
+                src={tmpLineUrl}
                 className="w-1/2 h-auto object-contain"
                 alt=""
               />
