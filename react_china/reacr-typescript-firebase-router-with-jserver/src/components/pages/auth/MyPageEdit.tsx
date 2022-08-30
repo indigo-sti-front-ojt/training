@@ -1,4 +1,4 @@
-import React, { FC, useState, ChangeEvent } from "react";
+import React, { FC, useState, ChangeEvent, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { User } from "../../../types/api/User";
 import { useAllTagsContext } from "../../../context/AllTagsContext";
@@ -29,10 +29,12 @@ export const MyPageEdit: FC = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitSuccessful },
+    //formState: { errors, isSubmitSuccessful },
   } = useForm<User>({
     defaultValues: {
       user_tags_id: [],
+      user_icon: userInfo?.user_icon,
+      user_lineqr: userInfo?.user_lineqr,
     },
   });
 
@@ -51,50 +53,73 @@ export const MyPageEdit: FC = () => {
     console.log("temp", temp);
   };
 
+  const [iconFlag, setIconFlag] = useState(false);
+  const [QRFlag, setQRFlag] = useState(false);
+
   const [tmpUrl, setTmpUrl] = useState(userInfo?.user_icon);
   const [tmpLineUrl, setTmpLineUrl] = useState(userInfo?.user_lineqr);
   const [base64, setBase64] = useState<string>("");
   const [base64QR, setBase64QR] = useState<string>("");
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    setTmpUrl(URL.createObjectURL(e.target.files[0]));
-    const file = e.target.files[0];
-    convertToBase64("icon", file);
+    const iconFile = e.target.files[0];
+    setIconFlag(true);
+    await convertToBase64("icon", iconFile);
   };
 
-  const handleChangeLine = (e: ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (iconFlag) {
+      const iconURL = uploadUserIcon();
+      console.log(iconURL);
+      setIconFlag(false);
+    }
+  }, [base64]);
+
+  const handleChangeLine = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    setTmpLineUrl(URL.createObjectURL(e.target.files[0]));
-    const file = e.target.files[0];
-    convertToBase64("qr", file);
+    const lineQRFile = e.target.files[0];
+    setQRFlag(true);
+    await convertToBase64("qr", lineQRFile);
   };
+
+  useEffect(() => {
+    if (QRFlag) {
+      const lineQRURL = uploadLineQR();
+      console.log(lineQRURL);
+      setQRFlag(false);
+    }
+  }, [base64QR]);
 
   const convertToBase64 = async (key: string, file: File) => {
     const reader = new FileReader();
-    await reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
     reader.onload = () => {
       const base64URI: string = reader.result as string;
       const tempBase64: string = base64URI.replace(/data:.*\/.*;base64,/, "");
-      console.log(tempBase64);
+      //console.log(tempBase64);
       if (key === "icon") setBase64(tempBase64);
       if (key === "qr") setBase64QR(tempBase64);
     };
   };
 
-  const onClickImageUserIconUp = async () => {
+  const uploadUserIcon = async () => {
     try {
       const azureStorageURL = await base64ImageUp(base64);
       setValue("user_icon", azureStorageURL);
+      setTmpUrl(azureStorageURL);
+      return azureStorageURL;
     } catch {
       console.log("error");
     }
   };
 
-  const onClickImageLineQRUp = async () => {
+  const uploadLineQR = async () => {
     try {
       const azureStorageURL = await base64ImageUp(base64QR);
       setValue("user_lineqr", azureStorageURL);
+      setTmpLineUrl(azureStorageURL);
+      return azureStorageURL;
     } catch {
       console.log("error");
     }
@@ -108,13 +133,14 @@ export const MyPageEdit: FC = () => {
       >
         <div className="flex flex-col md:w-32">
           {/* この部分はちょっと検討が必要かも？ */}
-          {/* 要検討 */}
-          <img
-            src={"https://placehold.jp/150x150.png"}
-            className="object-contain w-auto h-auto"
-            alt=""
+          アイコン画像
+          <img src={tmpUrl} className="object-contain w-auto h-auto" alt="" />
+          <input
+            type="file"
+            accept="image/*"
+            name="user_icon"
+            onChange={handleChange}
           />
-          <div>編集する</div>
         </div>
         <div className="w-full flex flex-col gap-3">
           <div className="nameToSL flex flex-col gap-2 md:w-full md:flex-row md:flex-wrap md:gap-y-0 md:gap-x-4">
@@ -232,8 +258,8 @@ export const MyPageEdit: FC = () => {
                   <input
                     type="text"
                     placeholder="input"
-                    readOnly
-                    value="ry-tanaka@sios.com"
+                    defaultValue={userInfo?.user_email}
+                    {...register("user_email")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
                   />
                 </div>
@@ -288,13 +314,20 @@ export const MyPageEdit: FC = () => {
                 </div>
               </div>
             </div>
-            {/*  画像UPLOAD部分の作成 */}
-            {/* 要検討 */}
-            <div className="w-full flex justify-center items-center">
+            {/*  画像UPLOAD部分の作成 要検討 */}
+            <div className="text-xl font-bold">LINEQR</div>
+
+            <div className="w-full flex justify-center items-center flex-col">
               <img
                 src={tmpLineUrl ?? "https://placehold.jp/150x150.png"}
-                alt=""
                 className="w-1/2 h-auto object-contain"
+                alt=""
+              />
+              <input
+                type="file"
+                accept="image/*"
+                name="user_LineQR"
+                onChange={handleChangeLine}
               />
             </div>
           </div>

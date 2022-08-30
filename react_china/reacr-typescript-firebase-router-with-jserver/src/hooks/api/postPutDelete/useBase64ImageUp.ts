@@ -7,7 +7,7 @@ export const useBase64ImageUp = () => {
         "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/upload_image/",
         { base64: base64 }
       );
-      const tempIconData = res.data.url;
+      const tempIconData:string = res.data.url;
       return tempIconData;
     } catch {
       console.log("error");
