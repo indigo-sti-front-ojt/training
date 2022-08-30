@@ -23,13 +23,13 @@ export const useImage = () => {
   const { setLoging } = LodingContainer.useContainer();
 
   const imageDataCreate = async (data: ImagesDBType) => {
-    console.log("firestore upload");
+    // console.log("firestore upload");
     const dataDoc = collection(db, "images");
     await addDoc(dataDoc, { url: data.url, fullPath: data.fullPath });
     setImageEditFlag(!imageEditFlag);
   };
   const imageDataDelete = async (data: ImagesDBType) => {
-    console.log("firestore delete");
+    // console.log("firestore delete");
     const target = doc(db, "images", data.uid);
     await deleteDoc(target);
     setImageEditFlag(!imageEditFlag);
@@ -50,7 +50,7 @@ export const useImage = () => {
   };
 
   const imageUpload = async (fileName: string, file: File) => {
-    console.log("image upload");
+    // console.log("image upload");
     setLoging(true);
     const storageRef = ref(storage, `images/${fileName}`);
     try {

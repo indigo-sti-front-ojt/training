@@ -62,7 +62,7 @@ export const ItemFormComponent = (props: Props) => {
         mainImage: formData.mainImage,
         access: formData.access,
         map: formData.map,
-        price: formData.price,
+        price: Number(formData.price),
         closingDay: formData.closingDay,
         fromOpenToCleseTime: formData.fromOpenToCleseTime,
         phoneNumber: formData.phoneNumber,
@@ -85,7 +85,7 @@ export const ItemFormComponent = (props: Props) => {
         mainImage: formData.mainImage,
         access: formData.access,
         map: formData.map,
-        price: formData.price,
+        price: Number(formData.price),
         closingDay: formData.closingDay,
         fromOpenToCleseTime: formData.fromOpenToCleseTime,
         phoneNumber: formData.phoneNumber,
@@ -143,6 +143,7 @@ export const ItemFormComponent = (props: Props) => {
       setValue("areaTag", []);
     }
   }, [data]);
+
   return (
     <>
       <form
@@ -163,6 +164,7 @@ export const ItemFormComponent = (props: Props) => {
           <Controller
             control={control}
             name="mainImage"
+            rules={{ required: true }}
             render={({ field }) => (
               <InputPhotoComponent
                 value={field.value}
@@ -171,7 +173,6 @@ export const ItemFormComponent = (props: Props) => {
               />
             )}
           />
-          {/* <>{errors.mainImage?.type == "required" && "入力頼んま"}</> */}
         </div>
         <div className="form-div">
           <span className="form-title">名前</span>
@@ -209,10 +210,14 @@ export const ItemFormComponent = (props: Props) => {
             <input
               className="form-input"
               type="number"
-              {...register("price")}
+              {...register("price", { min: 0 })}
             />
             <span className="w-40">円以下</span>
           </div>
+          <>
+            {errors.price?.type == "min" &&
+              "食べに行ってお金がもらえるそんな世界線にあこがれるっす"}
+          </>
         </div>
         <div className="form-div">
           <span className="form-title">営業日</span>
@@ -242,7 +247,16 @@ export const ItemFormComponent = (props: Props) => {
         </div>
         <div className="form-div">
           <span className="form-title">電話番号</span>
-          <input className="form-input" {...register("phoneNumber")} />
+          <input
+            className="form-input"
+            {...register("phoneNumber", {
+              pattern: /^0\d{9,10}$/,
+            })}
+          />
+          <>
+            {errors.phoneNumber?.type == "pattern" &&
+              "本当に存在する電話番号ですか？ ハイフンは抜いて登録お願いします"}
+          </>
         </div>
         <div className="form-div">
           <span className="form-title">Links</span>
@@ -259,7 +273,11 @@ export const ItemFormComponent = (props: Props) => {
         </div>
         <div className="form-div">
           <span className="form-title">お店のURL</span>
-          <input className="form-input" {...register("ShopLink")} />
+          <input
+            className="form-input"
+            {...register("ShopLink", { pattern: /https([^">]+)/g })}
+          />
+          <>{errors.ShopLink?.type == "pattern" && "無効なURLです"}</>
         </div>
 
         <div className="form-div">
@@ -267,6 +285,11 @@ export const ItemFormComponent = (props: Props) => {
           <Controller
             control={control}
             name="freeTag"
+            rules={{
+              validate: {
+                minSelect: (value) => value?.length != 0,
+              },
+            }}
             render={({ field }) => (
               <InputTagDataComponent
                 data={freeDataList}
@@ -275,12 +298,22 @@ export const ItemFormComponent = (props: Props) => {
               />
             )}
           />
+          <>
+            {errors.freeTag?.type == "minSelect" &&
+              "最低一つはタグに紐づけをお願いします"}
+          </>
         </div>
         <div className="form-div">
           <span className="form-title">AreaTag</span>
           <Controller
             control={control}
             name="areaTag"
+            rules={{
+              validate: {
+                minSelect: (value) => value?.length != 0,
+                maxSelect: (value) => (value ? value.length < 3 : false),
+              },
+            }}
             render={({ field }) => (
               <InputTagDataComponent
                 data={areaDataList}
@@ -289,6 +322,14 @@ export const ItemFormComponent = (props: Props) => {
               />
             )}
           />
+          <>
+            {errors.areaTag?.type == "minSelect" &&
+              "最低一つはタグに紐づけをお願いします"}
+          </>
+          <>
+            {errors.areaTag?.type == "maxSelect" &&
+              "付けられるタグは最大二つです"}
+          </>
         </div>
         <div className="form-div">
           <span className="form-title">画像集</span>

@@ -33,7 +33,7 @@ export const useUserDB = () => {
 
     const tempDatas: UserDBType[] = [];
     dataResults.forEach((doc) => {
-      console.log(doc.id, ":", doc.data());
+      // console.log(doc.id, ":", doc.data());
       const tempData: UserDBType = {
         uid: doc.id,
         photoIcon: doc.data().photoIcon,

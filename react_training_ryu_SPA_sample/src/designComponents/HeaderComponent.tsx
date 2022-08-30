@@ -21,7 +21,7 @@ export const HeaderComponent = () => {
           </header>
           <div
             className={
-              "fixed flex flex-col z-50 top-12 md:static md:flex md:flex-row justify-between items-center w-screen pb-12 md:p-0 h-full md:h-14 flex-shrink-0 transition-all bg-gray-500/90 " +
+              "fixed flex flex-col z-50 top-12 md:static md:flex md:flex-row justify-between items-center w-screen pb-12 md:p-0 md:px-10 h-full md:h-14 flex-shrink-0 transition-all bg-gray-500/90 " +
               (open ? "  left-0" : " -left-full")
             }
           >

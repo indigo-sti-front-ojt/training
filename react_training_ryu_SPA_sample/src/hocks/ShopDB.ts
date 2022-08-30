@@ -6,8 +6,6 @@ import {
   getDoc,
   getDocs,
   query,
-  setDoc,
-  Timestamp,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -160,7 +158,7 @@ export const useShopDB = () => {
   const ShopDataRead = async (uid: string) => {
     const target = doc(db, targetTableName, uid);
     const dataResult = await getDoc(target);
-    console.log("shopDataRead");
+    // console.log("shopDataRead");
     const data = dataResult.data();
     const tempData: ShopDBType = {
       uid: uid,

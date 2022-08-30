@@ -4,17 +4,17 @@ import { AboutPage } from "../views/AboutPage";
 import { HomePage } from "../views/HomePage";
 import { ItemListPage } from "../views/ItemListPage";
 import { ItemPage } from "../views/ItemPage";
-import { Layout } from "../views/Layout";
+import { Layout } from "../layout/Layout";
 import { LoginPage } from "../views/LoginPage";
 import { NotFoundPage } from "../views/NotFoundPage";
 import { OwnerItemCreatePage } from "../views/OwnerItemCreatePage";
 import { OwnerItemEditPage } from "../views/OwnerItemEditPage";
 import { OwnerItemListPage } from "../views/OwnerItemListPage";
 import { OwnerItemPage } from "../views/OwnerItemPage";
-import { OwnerLayout } from "../views/OwnerLayout";
+import { OwnerLayout } from "../layout/OwnerLayout";
 import { OwnerTagPage } from "../views/OwnerTagPage";
 import { OwnerUserEditPage } from "../views/OwnerUserEditPage";
-import { OutletLayout } from "../views/OutletLayout";
+import { OutletLayout } from "../layout/OutletLayout";
 import { OwnerUserPage } from "../views/OwnerUserPage";
 // import { TestView } from "../views/TestView";
 // import { UserLayout } from "../views/UserLayout";
@@ -22,11 +22,13 @@ import { OwnerUserPage } from "../views/OwnerUserPage";
 import { RouteAuthGate } from "./RouteAuthGate";
 import { RouteAuthGateReverse } from "./RouteAuthGateReverse";
 import { OwnerImageUp } from "../views/OwnerImageUp";
+import { ScrollTop } from "./ScrollTop";
 
 export const RouterConfig = () => {
   return (
     <>
       <BrowserRouter>
+        <ScrollTop />
         <Routes>
           <Route path="/" element={<Layout />}>
             {/* 一般ページ */}
