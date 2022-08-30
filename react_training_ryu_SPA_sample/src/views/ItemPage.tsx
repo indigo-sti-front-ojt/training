@@ -6,7 +6,7 @@ import { ShopDBContainer } from "../provider/ShopDBProvider";
 
 export const ItemPage = () => {
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
   const { ShopDataRead } = useShopDB();
   const { shopData } = ShopDBContainer.useContainer();
   useEffect(() => {

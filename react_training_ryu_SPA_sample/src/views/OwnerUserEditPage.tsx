@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useUserDB } from "../hocks/UserDB";
@@ -62,10 +62,19 @@ export const OwnerUserEditPage = () => {
               type="text"
               {...register("name", { required: true })}
             />
+            <>
+              {errors.name?.type == "required" &&
+                "名無しさんではないですよね？"}
+            </>
           </label>
           <label className="form-div">
             <span className="form-title">一言自己紹介</span>
-            <input className="form-input" type="text" {...register("bio")} />
+            <input
+              className="form-input"
+              type="text"
+              {...register("bio", { required: true })}
+            />
+            <>{errors.bio?.type == "required" && "ご挨拶だけでも...."}</>
           </label>
           <button className="form-input bg-blue-400 text-white">送信</button>
         </form>

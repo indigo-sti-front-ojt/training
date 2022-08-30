@@ -30,7 +30,7 @@ export const TagFormComponent = (props: Props) => {
   const onSubmit: SubmitHandler<tagFormType> = async (
     formData: tagFormType
   ) => {
-    console.log(formData);
+    // console.log(formData);
     if (data.id != "") {
       await sendDataEdit({ ...formData, id: data.id });
     } else {
@@ -59,11 +59,16 @@ export const TagFormComponent = (props: Props) => {
         className="w-full flex flex-col flex-grow max-w-lg gap-10"
       >
         <div className="flex flex-col gap-5">
-          <label className="flex flex-col md:flex-row gap-2">
+          <label className="flex flex-col gap-2">
             <span className="form-title">テキスト</span>
-            <input type="text" {...register("text")} className="form-input" />
+            <input
+              type="text"
+              {...register("text", { required: true })}
+              className="form-input"
+            />
+            <>{errors.text?.type == "required" && "入力お願いします"}</>
           </label>
-          <label className="flex flex-col md:flex-row gap-2">
+          <label className="flex flex-col gap-2">
             <span className="form-title">カラー</span>
             <Controller
               control={control}

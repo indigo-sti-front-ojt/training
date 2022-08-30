@@ -25,7 +25,7 @@ export const OwnerImageUp = () => {
     if (!imageData) return;
     if (!imageData.name) return;
     const result = await imageUpload(imageData.name + v4(), imageData);
-    console.log(result);
+    // console.log(result);
     window.location.reload();
   };
   const onChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {

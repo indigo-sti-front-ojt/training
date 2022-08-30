@@ -34,7 +34,7 @@ export const useSampleDB = () => {
 
     const tempDatas: SampleDBType[] = [];
     dataResults.forEach((doc) => {
-      console.log(doc.id, ":", doc.data());
+      // console.log(doc.id, ":", doc.data());
       const tempData: SampleDBType = {
         uid: doc.id,
         text: doc.data().text,
