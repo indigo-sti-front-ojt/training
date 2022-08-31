@@ -1,14 +1,14 @@
 import React, { useEffect, FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useLoginUserContext } from "../../context/LoginUserContext";
-import { LinkToUserButton } from "../atoms/buttons/LinkToUserButton";
-import { useEvent } from "../../hooks/api/get/useEvent";
+import { useLoginUserContext } from "../../../context/LoginUserContext";
+import { LinkToUserButton } from "../../atoms/buttons/LinkToUserButton";
+import { useEvent } from "../../../hooks/api/get/useEvent";
 import {
   EventApplyInfo,
   useEventApply,
-} from "../../hooks/api/postPutDelete/useEventApply";
-import { useEventCreateEditDelete } from "../../hooks/api/postPutDelete/useEventCreateEditDelete";
+} from "../../../hooks/api/postPutDelete/useEventApply";
+import { useEventCreateEditDelete } from "../../../hooks/api/postPutDelete/useEventCreateEditDelete";
 
 type Props = {
   event_id: number;

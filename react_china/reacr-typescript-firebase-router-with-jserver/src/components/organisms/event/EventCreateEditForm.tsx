@@ -1,11 +1,11 @@
 import React, { useState, ChangeEvent, FC, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { Event } from "../../types/api/Event";
-import { useAllTagsContext } from "../../context/AllTagsContext";
-import { useLoginUserContext } from "../../context/LoginUserContext";
-import { useEventCreateEditDelete } from "../../hooks/api/postPutDelete/useEventCreateEditDelete";
-import { useBase64ImageUp } from "../../hooks/api/postPutDelete/useBase64ImageUp";
+import { Event } from "../../../types/api/Event";
+import { useAllTagsContext } from "../../../context/AllTagsContext";
+import { useLoginUserContext } from "../../../context/LoginUserContext";
+import { useEventCreateEditDelete } from "../../../hooks/api/postPutDelete/useEventCreateEditDelete";
+import { useBase64ImageUp } from "../../../hooks/api/postPutDelete/useBase64ImageUp";
 
 type Props = {
   event?: Event;
@@ -31,7 +31,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitSuccessful },
+    formState: { isSubmitSuccessful },
   } = useForm<Event>({
     defaultValues: {
       event_tags_id: [],
@@ -104,11 +104,25 @@ export const EventCreateEditForm: FC<Props> = (props) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-row items-center w-full max-w-4xl flex-wrap gap-10 gap-x-0"
       >
-        <div className="w-full flex flex-col-reverse md:flex-row md:items-end">
-          <div className="w-full md:w-1/2 text-2xl md:text-3xl font-bold border-b-2 border-black">
-            イベント編集画面
-          </div>
-        </div>
+        {method === "put" && (
+          <>
+            <div className="w-full flex flex-col-reverse md:flex-row md:items-end">
+              <div className="w-full md:w-1/2 text-2xl md:text-3xl font-bold border-b-2 border-black">
+                イベント編集画面
+              </div>
+            </div>
+          </>
+        )}
+
+        {method === "post" && (
+          <>
+            <div className="w-full flex flex-col-reverse md:flex-row md:items-end">
+              <div className="w-full md:w-1/2 text-2xl md:text-3xl font-bold border-b-2 border-black">
+                イベント作成画面
+              </div>
+            </div>
+          </>
+        )}
 
         {/* <img src={tmpUrl} alt="イベント画像" /> */}
         <figure className="flex items-center justify-center w-full h-auto p-4">

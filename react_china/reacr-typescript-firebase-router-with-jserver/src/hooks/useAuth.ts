@@ -14,7 +14,6 @@ import { useUserCreateEdit } from "./api/postPutDelete/useUserCreateEdit";
 import { UserMinInfo } from "../types/api/UserMinInfo";
 import { useLoginUserContext } from "../context/LoginUserContext";
 import { useUser } from "./api/get/useUser";
-import { useUserInfoContext } from "../context/UserInfoContext";
 
 const fireauth = firebaseApp.fireauth;
 
@@ -25,9 +24,11 @@ export const useLoginWithGoogle = () => {
   // ユーザー作成apihooks
   const { userCreateEdit } = useUserCreateEdit();
 
-  // ユーザDB確認のためのユーザコンテキスト更新用hooks と ユーザコンテキスト
+  // logout用hooks
+  const { logout } = useLogout();
+
+  // ユーザDB確認のためのユーザ情報取得hooks
   const { getUser } = useUser();
-  const { userInfo } = useUserInfoContext();
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -45,7 +46,7 @@ export const useLoginWithGoogle = () => {
       // --初めてのログインの場合・firebaseユーザ情報を利用してユーザDBを作成--
       const isNewUser = getAdditionalUserInfo(res)?.isNewUser;
       if (isNewUser) {
-        console.log("isNewUser");
+        console.log("初回ログイン");
         const userRegister: UserMinInfo = {
           user_email: res.user.email ?? undefined,
           user_name: res.user.displayName ?? undefined,
@@ -54,16 +55,37 @@ export const useLoginWithGoogle = () => {
         };
         console.log(userRegister);
         await userCreateEdit("post", userRegister);
-        navigate("/welcome");
-      } else {
-        // ユーザ情報をコンテキストにセット
-        getUser(res.user.uid);
 
-        // --初めてのログインではない場合・ユーザDBが存在すればトップページへ遷移する--
-        if (userInfo) {
+        // DB作成が行われた後にユーザDB情報を取得
+        getUser(res.user.uid);
+        const { userTempInfo } = useUser();
+
+        // --ユーザ作成api実行後、DBが存在すればwelcomeページへ遷移する・存在しなければエラーとしログアウトする--
+
+        if (userTempInfo) {
+          // ユーザDBが存在する場合
+          console.log("DBのユーザがある");
+          navigate("/welcome");
+        } else {
+          // ユーザDBが存在しない場合
+          console.log("DBのユーザがない");
+          setError(true);
+          logout();
+        }
+      } else {
+        // --2度目以降のログインの場合もユーザDBが存在しない場合はエラーとしてログアウトする--
+
+        // ユーザDB情報を取得
+        getUser(res.user.uid);
+        const { userTempInfo } = useUser();
+
+        if (userTempInfo) {
+          // ユーザDBが存在する場合
           navigate("/");
         } else {
-          // --さらにユーザDBが存在しない場合・DB作成apiを叩いてwelcomeページへ遷移する--
+          // ユーザDBが存在しない場合
+          // 再度DB作成apiを叩いてDBの存在を確認しあればwelcomeページへ遷移する
+          // なければエラー出してログアウト
           const userRegister: UserMinInfo = {
             user_email: res.user.email ?? undefined,
             user_name: res.user.displayName ?? undefined,
@@ -72,7 +94,20 @@ export const useLoginWithGoogle = () => {
           };
           console.log(userRegister);
           await userCreateEdit("post", userRegister);
-          navigate("/welcome");
+
+          // ユーザ作成api実行後・確認のためユーザDB情報を取得
+          getUser(res.user.uid);
+          const { userTempInfo } = useUser();
+
+          if (userTempInfo) {
+            // ユーザDBが存在する場合
+            navigate("/welcome");
+          } else {
+            // ユーザDBが存在しない場合
+            console.log("DBのユーザがない");
+            setError(true);
+            logout();
+          }
         }
       }
 

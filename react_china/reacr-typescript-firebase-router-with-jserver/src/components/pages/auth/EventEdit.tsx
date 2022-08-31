@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 import { Event } from "../../../types/api/Event";
 
-import { EventCreateEditForm } from "../../organisms/EventCreateEditForm";
+import { EventCreateEditForm } from "../../organisms/event/EventCreateEditForm";
 
 type State = {
   event: Event;
@@ -18,7 +18,6 @@ export const EventEdit: FC = () => {
 
   return (
     <>
-      <h2>イベント編集</h2>
       <EventCreateEditForm event={event} method={"put"} />
     </>
   );

@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { EventCard } from "../../organisms/EventCatd";
 import { PersonalInfo } from "../../organisms/user/PersonalInfo";
 import { useUserInfoContext } from "../../../context/UserInfoContext";
+import { CardLists } from "../../organisms/events/CardLists";
 
 export const MyPage: FC = () => {
   const { userInfo } = useUserInfoContext();
@@ -22,18 +22,12 @@ export const MyPage: FC = () => {
           </div>
         </>
       ))} */}
-      <div className="w-full flex flex-row flex-wrap gap-2 justify-center">
-        <div className="w-3/4 md:w-full text-2xl md:text-3xl font-bold border-b-2 border-black">
-          参加予定のイベント
-        </div>
-        {userInfo?.join_event?.map((event, i) => (
-          <>
-            <div key={i}>
-              <EventCard event={event} />
-            </div>
-          </>
-        ))}
-      </div>
+
+      <CardLists
+        events={userInfo?.join_event}
+        eventListTitle="参加予定のイベント"
+      ></CardLists>
+
       {/* <h2>主催イベント</h2>
       <hr />
       {userInfo?.host_event?.map((event, i) => (
@@ -43,18 +37,11 @@ export const MyPage: FC = () => {
           </div>
         </>
       ))} */}
-      <div className="w-full flex flex-row flex-wrap gap-2 justify-center">
-        <div className="w-3/4 md:w-full text-2xl md:text-3xl font-bold border-b-2 border-black">
-          主催イベント
-        </div>
-        {userInfo?.host_event?.map((event, i) => (
-          <>
-            <div key={i}>
-              <EventCard event={event} />
-            </div>
-          </>
-        ))}
-      </div>
+
+      <CardLists
+        events={userInfo?.host_event}
+        eventListTitle="主催イベント"
+      ></CardLists>
 
       <PersonalInfo user={userInfo} onClickButtonToEdit={onClickButtonToEdit} />
 
@@ -67,18 +54,11 @@ export const MyPage: FC = () => {
           </div>
         </>
       ))} */}
-      <div className="w-full flex flex-row flex-wrap gap-2 justify-center">
-        <div className="w-3/4 md:w-full text-2xl md:text-3xl font-bold border-b-2 border-black">
-          過去に参加したイベント
-        </div>
-        {userInfo?.past_event?.map((event, i) => (
-          <>
-            <div key={i}>
-              <EventCard event={event} />
-            </div>
-          </>
-        ))}
-      </div>
+
+      <CardLists
+        events={userInfo?.past_event}
+        eventListTitle="過去に参加したイベント"
+      ></CardLists>
     </>
   );
 };

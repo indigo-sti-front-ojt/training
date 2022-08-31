@@ -113,6 +113,10 @@ export const Header = () => {
           </svg>
           <span className="hidden text-xl font-bold md:block">my-page</span>
         </button>
+
+        {/* // テストのためにログアウト機能を追加 */}
+        {/* <button onClick={handleLogout}>logout</button> */}
+
       </header>
     </>
   );
