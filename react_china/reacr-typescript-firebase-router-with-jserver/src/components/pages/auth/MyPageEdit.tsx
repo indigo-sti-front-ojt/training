@@ -56,11 +56,11 @@ export const MyPageEdit: FC = () => {
   const [base64, setBase64] = useState<string>("");
   const [base64QR, setBase64QR] = useState<string>("");
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     setTmpUrl(URL.createObjectURL(e.target.files[0]));
     const file = e.target.files[0];
-    convertToBase64("icon", file);
+    await convertToBase64("icon", file);
   };
 
   const handleChangeLine = (e: ChangeEvent<HTMLInputElement>) => {
