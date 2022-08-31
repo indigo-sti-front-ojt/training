@@ -6,6 +6,7 @@ import { InputTest2 } from "./components/InputTest2";
 
 import { JSONSchema7 } from "json-schema";
 import { JsonSchemaComponent } from "./components/JsonSchemaComponent";
+import { InputTest3 } from "./components/InputTest3";
 
 const schemaSample: JSONSchema7 = {
   // $id: "https://example.com/person.schema.json",
@@ -86,6 +87,7 @@ function App() {
         UISchema={UI_schemaSample}
         UIType={UI_Frame}
       />
+      <InputTest3 />
     </div>
   );
 }

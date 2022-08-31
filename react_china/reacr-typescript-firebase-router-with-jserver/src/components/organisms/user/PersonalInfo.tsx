@@ -13,7 +13,7 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
   const { loginUser } = useLoginUserContext();
   const { user, onClickButtonToEdit } = props;
   console.log(user);
-  
+
   return (
     <>
       <div className="flex flex-col w-72 m-2 px-4 gap-1 shadow-xl rounded md:w-full max-w-4xl md:flex-row">
@@ -120,9 +120,7 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
               <div className="font-bold border-b-2 border-black">
                 一言自己紹介
               </div>
-              <div>
-                {user?.user_comment}
-              </div>
+              <div>{user?.user_comment}</div>
             </div>
           </div>
 
@@ -134,7 +132,10 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
               <div className="flex flex-row flex-wrap gap-y-2">
                 {user?.user_tags?.map((tag, i) => (
                   <>
-                    <span key={i} className="mx-2 px-4 py-1 rounded-lg bg-orange-500 font-bold text-white ring-2 ring-orange-200 text-sm">
+                    <span
+                      key={i}
+                      className="mx-2 px-4 py-1 rounded-lg bg-orange-500 font-bold text-white ring-2 ring-orange-200 text-sm"
+                    >
                       {tag.tag_color} {tag.tag_value}
                     </span>
                   </>
