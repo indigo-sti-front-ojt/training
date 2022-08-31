@@ -1,7 +1,7 @@
 import React from "react";
-import { EventCard } from "../organisms/EventCatd";
-import { Event } from "../../types/api/Event";
-import { SearchEventList } from "../../types/react-hook-form/SearchEventList";
+import { CardLists } from "../events/CardLists";
+import { Event } from "../../../types/api/Event";
+import { SearchEventList } from "../../../types/react-hook-form/SearchEventList";
 
 type Props = {
   events: Event[] | undefined;
@@ -50,22 +50,10 @@ export const EventSearchResult = (props: Props) => {
         <input type="submit" />
       </form> */}
 
-      {events && (
-        <>
-          <div className="flex flex-col md:flex-row items-center w-full max-w-4xl flex-wrap gap-2">
-            <div className="w-full text-2xl md:text-3xl font-bold border-b-2 border-black">
-              検索結果
-            </div>
-
-            {/* event 検索結果 */}
-            {events?.map((event) => (
-              <>
-                <EventCard key={event.event_id} event={event} />
-              </>
-            ))}
-          </div>
-        </>
-      )}
+      <CardLists
+        events={events}
+        eventListTitle="検索結果"
+      ></CardLists>
 
       {/* 
       <h2>検索結果</h2>

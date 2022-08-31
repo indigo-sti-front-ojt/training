@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { useOthers } from "../../../hooks/api/get/useProfile";
-import { EventCard } from "../../organisms/EventCatd";
 import { PersonalInfo } from "../../organisms/user/PersonalInfo";
+import { CardLists } from "../../organisms/events/CardLists";
 
 type State = {
   user_id: string;
@@ -19,35 +19,22 @@ export const Profile = () => {
 
   return (
     <>
-      <h1>Profileページです</h1>
       <PersonalInfo user={othersInfo} />
-      <h2>参加予定のイベント</h2>
-      <hr />
-      {othersInfo?.join_event?.map((event, i) => (
-        <>
-          <div key={i}>
-            <EventCard event={event} />
-          </div>
-        </>
-      ))}
-      <h2>主催イベント</h2>
-      <hr />
-      {othersInfo?.host_event?.map((event, i) => (
-        <>
-          <div key={i}>
-            <EventCard event={event} />
-          </div>
-        </>
-      ))}
-      <h2>過去に参加したイベント</h2>
-      <hr />
-      {othersInfo?.past_event?.map((event, i) => (
-        <>
-          <div key={i}>
-            <EventCard event={event} />
-          </div>
-        </>
-      ))}
+
+      <CardLists
+        events={othersInfo?.join_event}
+        eventListTitle="参加予定のイベント"
+      ></CardLists>
+
+      <CardLists
+        events={othersInfo?.host_event}
+        eventListTitle="主催イベント"
+      ></CardLists>
+
+      <CardLists
+        events={othersInfo?.past_event}
+        eventListTitle="過去に参加したイベント"
+      ></CardLists>
     </>
   );
 };

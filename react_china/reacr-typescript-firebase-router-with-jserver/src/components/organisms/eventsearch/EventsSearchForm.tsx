@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { SearchEventList } from "../../types/react-hook-form/SearchEventList";
-import { useEventSearch } from "../../hooks/api/get/useEventSearch";
-import { useAllTagsContext } from "../../context/AllTagsContext";
-import { Event } from "../../types/api/Event";
+import { SearchEventList } from "../../../types/react-hook-form/SearchEventList";
+import { useEventSearch } from "../../../hooks/api/get/useEventSearch";
+import { useAllTagsContext } from "../../../context/AllTagsContext";
+import { Event } from "../../../types/api/Event";
 
 type Props = {
   setEvents: React.Dispatch<React.SetStateAction<Event[] | undefined>>;

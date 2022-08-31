@@ -12,10 +12,8 @@ export const GenreSearchCard = (props: Props) => {
     `${process.env.PUBLIC_URL}/images/main_1.png`
   );
 
-
   const tag_id_temp = Number(tag_id);
   const tags_arr = [tag_id_temp];
-
 
   const imageURL = (): string => {
     switch (tag_id) {
@@ -59,10 +57,11 @@ export const GenreSearchCard = (props: Props) => {
               <path d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </div>
-          <Link 
+          <Link
             className="hidden mx-2 flex-row items-center justify-around py-2 px-4 bg-gray-400/80 rounded-lg ring-2 ring-gray-200 md:flex"
             to="/events"
-            state={{genreData:{tagsid: tags_arr}}}>
+            state={{ genreData: { tagsid: tags_arr } }}
+          >
             <span className="text-sm mx-2 font-bold">詳しく見る</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"

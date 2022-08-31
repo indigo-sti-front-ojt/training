@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
 
-import { EventCard } from "../../organisms/EventCatd";
-import { LinkToEventSearch } from "../../organisms/LinkToEventSearch";
-import { GenreSearchCard } from "../../organisms/GenreSearchCard";
+import { CardLists } from "../../organisms/events/CardLists";
+import { LinkToEventSearch } from "../../organisms/home/LinkToEventSearch";
+import { GenreSearchCard } from "../../organisms/home/GenreSearchCard";
 import { CreateNewEventButton } from "../../atoms/buttons/CreateNewEventButton";
 import { useUserInfoContext } from "../../../context/UserInfoContext";
 import { useEventSearch } from "../../../hooks/api/get/useEventSearch";
@@ -60,45 +60,15 @@ export const Home: FC = () => {
         <GenreSearchCard tag_id="3" tag_name="勉強" />
       </div>
 
-      <div className="w-full flex flex-row flex-wrap gap-2 justify-center">
-        <div className="w-3/4 md:w-full text-2xl md:text-3xl font-bold border-b-2 border-black">
-          締め切りが近いイベント
-        </div>
-      </div>
+      <CardLists
+        events={nearEvents}
+        eventListTitle="締め切りが近いイベント"
+      ></CardLists>
 
-      {nearEvents ? (
-        <>
-          {nearEvents.map((event) => (
-            <>
-              <div key={event.event_id}>
-                <EventCard event={event} />
-              </div>
-            </>
-          ))}
-        </>
-      ) : (
-        <span>締め切りが近いイベントはありません</span>
-      )}
-
-      <div className="w-full flex flex-row flex-wrap gap-2 justify-center">
-        <div className="w-3/4 md:w-full text-2xl md:text-3xl font-bold border-b-2 border-black">
-          あなたが関心ありそうなイベント
-        </div>
-      </div>
-
-      {tagEvents ? (
-        <>
-          {tagEvents.map((event) => (
-            <>
-              <div key={event.event_id}>
-                <EventCard event={event} />
-              </div>
-            </>
-          ))}
-        </>
-      ) : (
-        <span>あなたが関心のあるイベントはありません</span>
-      )}
+      <CardLists
+        events={tagEvents}
+        eventListTitle="あなたが関心のありそうなイベント"
+      ></CardLists>
     </>
   );
 };

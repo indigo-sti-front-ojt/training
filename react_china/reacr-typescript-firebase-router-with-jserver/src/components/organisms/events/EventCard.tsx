@@ -2,7 +2,7 @@ import React from "react";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 
-import { Event } from "../../types/api/Event";
+import { Event } from "../../../types/api/Event";
 
 type Props = {
   event: Event;

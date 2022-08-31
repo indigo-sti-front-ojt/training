@@ -3,8 +3,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 
 import { CommentPost } from "../../../types/react-hook-form/CommentPost";
 import { Comment } from "../../organisms/comment/Comment";
-import { LinkToEventSearch } from "../../organisms/LinkToEventSearch";
-import { EventDetail } from "../../organisms/EventDetail";
+import { LinkToEventSearch } from "../../organisms/home/LinkToEventSearch";
+import { EventDetail } from "../../organisms/event/EventDetail";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
 import { useLocation } from "react-router-dom";
 import { useCommentCreate } from "../../../hooks/api/postPutDelete/useCommentCreate";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { EventSerchForm } from "../../organisms/EventsSearchForm";
+import { EventSerchForm } from "../../organisms/eventsearch/EventsSearchForm";
 import { Event } from "../../../types/api/Event";
-import { EventSearchResult } from "../../organisms/EventSearchResult";
+import { EventSearchResult } from "../../organisms/eventsearch/EventSearchResult";
 import { useLocation } from "react-router-dom";
 import { SearchEventList } from "../../../types/react-hook-form/SearchEventList";
 
