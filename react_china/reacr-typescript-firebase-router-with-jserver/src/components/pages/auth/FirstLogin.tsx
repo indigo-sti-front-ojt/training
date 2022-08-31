@@ -44,8 +44,11 @@ export const FirstLogin = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {allTags?.map((tag, i) => (
+      <form
+        className="w-full flex flex-col items-center gap-10"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        {/* {allTags?.map((tag, i) => (
           <>
             <div key={i}>
               <label>
@@ -58,8 +61,33 @@ export const FirstLogin = () => {
               </label>
             </div>
           </>
-        ))}
-        <button type="submit">決定</button>
+        ))} */}
+        <div className="w-full flex flex-col md:flex-row items-center flex-wrap gap-5">
+          {allTags?.map((tag, i) => (
+            <>
+              <label key={i} className="">
+                <input
+                  type="checkbox"
+                  className="peer hidden"
+                  {...register("user_tags_id")}
+                  value={tag.tag_id}
+                />
+                <div className="tips-checkbox border-green-500 bg-green-400 text-white">
+                  {tag.tag_value}
+                </div>
+              </label>
+            </>
+          ))}
+        </div>
+
+        {/* <button type="submit">決定</button> */}
+        <button
+          type="submit"
+          className="flex justify-center items-center w-48 h-12 text-white font-bold hover:cursor-pointer bg-black relative overflow-hidden group transition-colors delay-100 hover:text-black"
+        >
+          <span className="z-10">PUSH!</span>
+          <div className="z-0 absolute top-0 left-0 w-96 h-96 transition-transform origin-top-left rotate-45 group-hover:-translate-y-1/2 gruop-hover:translate-x-1/2 bg-red-600"></div>
+        </button>
       </form>
     </>
   );

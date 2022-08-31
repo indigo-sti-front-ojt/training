@@ -93,19 +93,19 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
           <div className="nameToSL flex flex-col gap-2 md:w-full md:flex-row md:flex-wrap md:gap-y-0 md:gap-x-4">
             <div className="flex flex-col justify-center h-16 w-full text-xl md:w-2/5">
               <div className="font-bold border-b-2 border-black">名前</div>
-              <div className="">{user?.user_nickname}</div>
+              <div className="h-1/2">{user?.user_nickname}</div>
             </div>
             <div className="flex flex-col justify-center h-16 w-full text-xl md:w-2/5">
               <div className="font-bold border-b-2 border-black">本名</div>
-              <div>{user?.user_name}</div>
+              <div className="h-1/2">{user?.user_name}</div>
             </div>
             <div className="flex flex-col justify-center h-16 w-full text-xl md:w-2/5">
               <div className="font-bold border-b-2 border-black">所属CoE</div>
-              <div>{user?.user_coe}</div>
+              <div className="h-1/2">{user?.user_coe}</div>
             </div>
             <div className="flex flex-col justify-center h-16 w-full text-xl md:w-2/5">
               <div className="font-bold border-b-2 border-black">所属SL</div>
-              <div>{user?.user_sl}</div>
+              <div className="h-1/2">{user?.user_sl}</div>
             </div>
             <div className="flex flex-col justify-center h-16 w-full text-xl md:hidden">
               <div className="font-bold border-b-2 border-black">
@@ -120,7 +120,7 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
               <div className="font-bold border-b-2 border-black">
                 一言自己紹介
               </div>
-              <div>{user?.user_comment}</div>
+              <div className="h-24">{user?.user_comment}</div>
             </div>
           </div>
 
@@ -130,6 +130,9 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
                 興味のあるタグ
               </div>
               <div className="flex flex-row flex-wrap gap-y-2">
+                {user && user.user_tags?.length == 0
+                  ? "タグが設定されていません"
+                  : ""}
                 {user?.user_tags?.map((tag, i) => (
                   <>
                     <span

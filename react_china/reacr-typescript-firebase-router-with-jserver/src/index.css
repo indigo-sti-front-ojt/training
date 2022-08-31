@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.tips-checkbox {
+  @apply flex justify-center items-center h-9 w-48 px-10 py-4 rounded-xl font-bold border-2 hover:cursor-pointer transition-opacity opacity-30 peer-checked:opacity-100;
+}
+
 /* 
 @charset "UTF-8";
 html,
