@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 import { useOthers } from "../../../hooks/api/get/useProfile";
 import { PersonalInfo } from "../../organisms/user/PersonalInfo";
-import { CardLists } from "../../organisms/events/CardLists";
+import { CardListsUser } from "../../organisms/events/CardListsUser";
 
 type State = {
   user_id: string;
@@ -21,20 +21,20 @@ export const Profile = () => {
     <>
       <PersonalInfo user={othersInfo} />
 
-      <CardLists
+      <CardListsUser
         events={othersInfo?.join_event}
         eventListTitle="参加予定のイベント"
-      ></CardLists>
+      ></CardListsUser>
 
-      <CardLists
+      <CardListsUser
         events={othersInfo?.host_event}
         eventListTitle="主催イベント"
-      ></CardLists>
+      ></CardListsUser>
 
-      <CardLists
+      <CardListsUser
         events={othersInfo?.past_event}
         eventListTitle="過去に参加したイベント"
-      ></CardLists>
+      ></CardListsUser>
     </>
   );
 };

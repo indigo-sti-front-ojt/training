@@ -21,10 +21,12 @@ export const EventList = () => {
 
   return (
     <>
-      {/* 検索フォームと検索結果を別々のコンポーネントで書いてもらえるとうれしいね */}
       {genreData ? (
         <>
-          <EventSerchForm setEvents={setEvents} genreData={genreData?.genreData} />
+          <EventSerchForm
+            setEvents={setEvents}
+            genreData={genreData?.genreData}
+          />
         </>
       ) : (
         <>

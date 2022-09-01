@@ -6,39 +6,59 @@ import { User } from "../../../types/api/User";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
 import { useAllTagsContext } from "../../../context/AllTagsContext";
 import { useUserCreateEdit } from "../../../hooks/api/postPutDelete/useUserCreateEdit";
+import { UserMinInfo } from "../../../types/api/UserMinInfo";
+import { useUser } from "../../../hooks/api/get/useUser";
 
 export const FirstLogin = () => {
   const { loginUser } = useLoginUserContext();
   const { allTags } = useAllTagsContext();
   const { userCreateEdit } = useUserCreateEdit();
 
+  // ユーザー情報更新のためのhooksを定義
+  const { getUser } = useUser();
+
+  const userRegister: UserMinInfo = {
+    user_email: loginUser?.email ?? undefined,
+    user_name: loginUser?.displayName ?? undefined,
+    user_icon: loginUser?.photoURL ?? undefined,
+    user_id: loginUser?.uid,
+  };
+
   const {
     register,
     handleSubmit,
     setValue,
     //formState: { errors },
-  } = useForm<User>();
+  } = useForm<User>({
+    defaultValues: {
+      user_email: userRegister.user_email,
+      user_name: userRegister.user_name,
+      user_icon: userRegister.user_icon,
+      user_id: userRegister.user_id,
+      user_tags_id: [],
+      user_coe: "",
+      user_comment: "",
+      user_facebookid: "",
+      user_instagramid: "",
+      user_lineqr: "",
+      user_nickname: "",
+      user_sl: "",
+      user_twitterid: "",
+    },
+  });
 
   setValue("user_id", loginUser?.uid);
 
   const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<User> = (data) => {
-    console.log("onSubmit", data);
-    userCreateEdit("put", {
-      user_id: "sios5105",
-      user_icon: "test",
-      user_nickname: "aaa",
-      user_coe: "偉い人CoE",
-      user_sl: "鉄道SL",
-      user_comment:
-        "右膝がブラックホールになった時全世界のお風呂が34度になる事実はまだ周知されていない",
-      user_lineqr: "https:/abcde~",
-      user_twitterid: "aaaa",
-      user_instagramid: "aaaa",
-      user_facebookid: "aaaa",
-      user_tags_id: [1, 2, 3],
-    });
+  const onSubmit: SubmitHandler<User> = async (data) => {
+    const temp: User = {
+      ...data,
+      user_tags_id: data.user_tags_id?.map(Number),
+    };
+    console.log("onSubmit", temp);
+    await userCreateEdit("put", temp);
+    getUser(loginUser?.uid);
     navigate("/");
   };
 

@@ -75,9 +75,16 @@ export const useLoginWithGoogle = () => {
       } else {
         // --2度目以降のログインの場合もユーザDBが存在しない場合はエラーとしてログアウトする--
 
+        console.log("既存ユーザ");
+        
         // ユーザDB情報を取得
         getUser(res.user.uid);
+        console.log("getUserを実行");
+        
         const { userTempInfo } = useUser();
+
+        console.log("既存ユーザ・情報の取得完了");
+        
 
         if (userTempInfo) {
           // ユーザDBが存在する場合

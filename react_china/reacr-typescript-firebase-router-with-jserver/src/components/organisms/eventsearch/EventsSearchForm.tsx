@@ -7,6 +7,7 @@ import { Event } from "../../../types/api/Event";
 
 type Props = {
   setEvents: React.Dispatch<React.SetStateAction<Event[] | undefined>>;
+  events?: Event[];
   genreData?: SearchEventList;
 };
 
@@ -17,7 +18,7 @@ type Props = {
 
 export const EventSerchForm = (props: Props) => {
   const { allTags } = useAllTagsContext();
-  const { setEvents, genreData } = props;
+  const { events, setEvents, genreData } = props;
 
   const { getSearchEvents } = useEventSearch();
 
@@ -61,33 +62,34 @@ export const EventSerchForm = (props: Props) => {
             {/* タグの表示 */}
             {genreData ? (
               <>
-                {/* <p>stateでタグが渡された</p> */}
-                {allTags?.map((tag) => {
+                <p>stateでタグが渡された</p>
+                {allTags?.map((alltag) => {
                   return (
                     <>
                       {genreData.tagsid &&
-                      !(tag.tag_id === genreData.tagsid[0]) ? (
+                      genreData.tagsid.includes(alltag.tag_id) ? (
+                        // (tag.tag_id === genreData.tagsid[0]) ? (
                         <>
-                          <label key={tag.tag_id} className="px-4">
+                          <label key={alltag.tag_id} className="px-4">
                             <input
                               type="checkbox"
                               {...register("tagsid")}
-                              value={tag.tag_id}
-                              defaultChecked={false}
+                              value={alltag.tag_id}
+                              defaultChecked={true}
                             />
-                            {tag.tag_value}
+                            {alltag.tag_value}
                           </label>
                         </>
                       ) : (
                         <>
-                          <label key={tag.tag_id} className="px-4">
+                          <label key={alltag.tag_id} className="px-4">
                             <input
                               type="checkbox"
                               {...register("tagsid")}
-                              value={tag.tag_id}
-                              defaultChecked={true}
+                              value={alltag.tag_id}
+                              defaultChecked={false}
                             />
-                            {tag.tag_value}
+                            {alltag.tag_value}
                           </label>
                         </>
                       )}
@@ -97,7 +99,7 @@ export const EventSerchForm = (props: Props) => {
               </>
             ) : (
               <>
-                {/* <p>stateでタグが渡されてない</p> */}
+                <p>stateでタグが渡されてない</p>
                 {allTags?.map((tag) => (
                   <label key={tag.tag_id} className="px-4">
                     <input
