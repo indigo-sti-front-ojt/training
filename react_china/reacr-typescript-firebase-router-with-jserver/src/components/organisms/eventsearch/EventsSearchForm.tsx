@@ -18,7 +18,7 @@ type Props = {
 
 export const EventSerchForm = (props: Props) => {
   const { allTags } = useAllTagsContext();
-  const { events, setEvents, genreData } = props;
+  const { setEvents, genreData } = props;
 
   const { getSearchEvents } = useEventSearch();
 

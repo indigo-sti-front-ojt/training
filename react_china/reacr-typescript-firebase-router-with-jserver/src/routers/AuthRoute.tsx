@@ -23,9 +23,9 @@ export const AuthRoute = (props: Props) => {
   useEffect(() => {
     getLoginUser();
     getAllTags();
+
     if (isAuthChecked && loginUser) {
       getUser(loginUser?.uid);
-      // console.log("getUser");
     }
   }, [loginUser]);
 

@@ -27,6 +27,7 @@ export const useLoginWithGoogle = () => {
   // logout用hooks
   const { logout } = useLogout();
 
+
   // ユーザDB確認のためのユーザ情報取得hooks
   const { getUser } = useUser();
 
@@ -75,15 +76,11 @@ export const useLoginWithGoogle = () => {
       } else {
         // --2度目以降のログインの場合もユーザDBが存在しない場合はエラーとしてログアウトする--
 
-        console.log("既存ユーザ");
-        
         // ユーザDB情報を取得
         getUser(res.user.uid);
-        console.log("getUserを実行");
-        
         const { userTempInfo } = useUser();
 
-        console.log("既存ユーザ・情報の取得完了");
+        console.log("ユーザ情報の取得");
         
 
         if (userTempInfo) {
@@ -143,6 +140,23 @@ export const useLogout = () => {
 
 // ログインユーザー取得hooks
 export const useLoginUser = () => {
+  const { setLoginUser, setIsAuthChecked } = useLoginUserContext();
+
+  const getLoginUser = async () => {
+    const auth = getAuth();
+    await onAuthStateChanged(auth, async (loginUser) => {
+      if (loginUser) {
+        setLoginUser(loginUser);
+      }
+      setIsAuthChecked(true);
+    });
+  };
+
+  return { getLoginUser };
+};
+
+// ユーザDB取得hooks
+export const useUserDB = () => {
   const { setLoginUser, setIsAuthChecked } = useLoginUserContext();
 
   const getLoginUser = async () => {

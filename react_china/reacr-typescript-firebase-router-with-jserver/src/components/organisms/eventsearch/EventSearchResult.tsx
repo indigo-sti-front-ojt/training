@@ -11,6 +11,8 @@ type Props = {
 export const EventSearchResult = (props: Props) => {
   const { events } = props;
 
+  console.log("resultの再レンダリング");
+  
   return (
     <>
       {/* <form onSubmit={handleSubmit(onSubmit)}>
