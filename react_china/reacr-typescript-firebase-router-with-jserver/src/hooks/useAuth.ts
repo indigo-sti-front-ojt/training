@@ -1,11 +1,10 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { firebaseApp } from "../firebase/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import {
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
-  getAdditionalUserInfo,
   getAuth,
   onAuthStateChanged,
 } from "firebase/auth";
@@ -13,7 +12,7 @@ import {
 import { useUserCreateEdit } from "./api/postPutDelete/useUserCreateEdit";
 import { UserMinInfo } from "../types/api/UserMinInfo";
 import { useLoginUserContext } from "../context/LoginUserContext";
-import { useUserInfoContext } from "../context/UserInfoContext";
+//import { useUserInfoContext } from "../context/UserInfoContext";
 import { useUser } from "./api/get/useUser";
 
 const fireauth = firebaseApp.fireauth;
@@ -27,7 +26,7 @@ export const useLoginWithGoogle = () => {
   //ユーザー取得api hooks
   const { getUser } = useUser();
   // ユーザ情報取得判別
-  const { isUserChecked } = useUserInfoContext();
+  //const { isUserChecked, userInfo } = useUserInfoContext();
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -43,10 +42,10 @@ export const useLoginWithGoogle = () => {
       const res = await signInWithPopup(fireauth, provider);
 
       // ユーザーDBの有無から初回ログインを判定
-      getUser(res.user.uid);
-      
-      if (isUserChecked) {
-        console.log("初回ログイン");
+      const res2 = await getUser(res.user.uid);
+
+      if (!res2) {
+        console.log("ユーザDBが存在しないためDBを作成して初回ログインページへ");
         const userRegister: UserMinInfo = {
           user_email: res.user.email ?? undefined,
           user_name: res.user.displayName ?? undefined,
@@ -57,7 +56,7 @@ export const useLoginWithGoogle = () => {
         await userCreateEdit("post", userRegister);
         navigate("/welcome");
       } else {
-        console.log("再ログイン");
+        console.log("ログイン成功");
         navigate("/");
       }
 
