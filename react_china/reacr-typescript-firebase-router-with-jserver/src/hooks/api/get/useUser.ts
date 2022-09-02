@@ -21,9 +21,11 @@ export const useUser = () => {
       console.log(res_user.data);
       setUserTempInfo(res_user.data);
       setIsUserChecked(true);
+      // return { resUser: { isUserChecked: true, res_user } };
       return true;
     } catch (error) {
       console.log("ユーザーが取得できません");
+      // return { resUser: { isUserChecked: true } };
       return false;
     }
   };

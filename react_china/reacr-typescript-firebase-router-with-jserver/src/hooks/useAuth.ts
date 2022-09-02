@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { firebaseApp } from "../firebase/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import {
@@ -26,7 +26,7 @@ export const useLoginWithGoogle = () => {
   //ユーザー取得api hooks
   const { getUser } = useUser();
   // ユーザ情報取得判別
-  //const { userInfo } = useUserInfoContext();
+  //const { isUserChecked, userInfo } = useUserInfoContext();
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -37,7 +37,6 @@ export const useLoginWithGoogle = () => {
       hd: "sios.com",
     });
     try {
-      setError(false);
       // ログイン
       const res = await signInWithPopup(fireauth, provider);
 
@@ -45,7 +44,7 @@ export const useLoginWithGoogle = () => {
       const isUserChecked = await getUser(res.user.uid);
 
       if (!isUserChecked) {
-        console.log("ユーザDBが存在しないためDBを作成して初回ログインページへ");
+        //ユーザDBが存在しない(初回ログインの)場合
         const userRegister: UserMinInfo = {
           user_email: res.user.email ?? undefined,
           user_name: res.user.displayName ?? undefined,
@@ -53,34 +52,25 @@ export const useLoginWithGoogle = () => {
           user_id: res.user.uid,
         };
         console.log("初回ログイン登録情報", userRegister);
-        await userCreateEdit("post", userRegister);
-        navigate("/welcome");
+
+        // ユーザ情報をDBに登録
+        const userCreateSuccess = await userCreateEdit("post", userRegister);
+        if (userCreateSuccess) {
+          setSuccess(true);
+          console.log("初回ログイン成功");
+          navigate("/welcome");
+        } else {
+          setError(true);
+          console.log("初回ログイン失敗");
+        }
       } else {
+        setSuccess(true);
         console.log("ログイン成功");
         navigate("/");
       }
-
-      // const isNewUser = getAdditionalUserInfo(res)?.isNewUser;
-
-      // if (isNewUser) {
-      //   console.log("初回ログイン");
-      //   const userRegister: UserMinInfo = {
-      //     user_email: res.user.email ?? undefined,
-      //     user_name: res.user.displayName ?? undefined,
-      //     user_icon: res.user.photoURL ?? undefined,
-      //     user_id: res.user.uid,
-      //   };
-      //   console.log(userRegister);
-      //   await userCreateEdit("post", userRegister);
-      //   navigate("/welcome");
-      // } else {
-      //   navigate("/");
-      // }
-
-      setSuccess(true);
     } catch {
-      console.log("ログインに失敗しました");
       setError(true);
+      console.log("ログインに失敗しました");
     }
   };
   return { success, error, loginWithGoogle };
