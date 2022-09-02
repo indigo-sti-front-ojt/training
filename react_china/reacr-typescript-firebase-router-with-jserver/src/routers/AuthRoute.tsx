@@ -30,7 +30,7 @@ export const AuthRoute = (props: Props) => {
     if (isAuthChecked && loginUser) {
       getUser(loginUser?.user_id);
     }
-  }, [loginUser]);
+  }, [isAuthChecked]);
 
   if (!isAuthChecked) return <p>認証中</p>;
   if (loginUser === null) {
