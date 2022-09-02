@@ -62,7 +62,7 @@ export const EventSerchForm = (props: Props) => {
             {/* タグの表示 */}
             {genreData ? (
               <>
-                <p>stateでタグが渡された</p>
+                {/* <p>stateでタグが渡された</p> */}
                 {allTags?.map((alltag) => {
                   return (
                     <>
@@ -99,7 +99,7 @@ export const EventSerchForm = (props: Props) => {
               </>
             ) : (
               <>
-                <p>stateでタグが渡されてない</p>
+                {/* <p>stateでタグが渡されてない</p> */}
                 {allTags?.map((tag) => (
                   <label key={tag.tag_id} className="px-4">
                     <input

@@ -117,7 +117,7 @@ export const Header = () => {
         </button>
 
         {/* // テストのためにログアウト機能を追加 */}
-        <button onClick={handleLogout}>logout</button>
+        {/* <button onClick={handleLogout}>logout</button> */}
       </header>
     </>
   );
