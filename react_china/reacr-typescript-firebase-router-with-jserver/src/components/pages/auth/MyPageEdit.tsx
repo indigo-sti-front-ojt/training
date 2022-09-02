@@ -33,8 +33,8 @@ export const MyPageEdit: FC = () => {
   } = useForm<User>({
     defaultValues: {
       user_tags_id: [],
-      user_icon: userInfo?.user_icon,
-      user_lineqr: userInfo?.user_lineqr,
+      user_icon: userInfo?.user_icon ?? "",
+      user_lineqr: userInfo?.user_lineqr ?? "",
     },
   });
 
