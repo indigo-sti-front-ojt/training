@@ -12,13 +12,14 @@ type State = {
 export const EventList = () => {
   const [events, setEvents] = useState<Event[]>();
 
-  // ジャンルのタグ情報を読み込む
+  // ジャンルのタグ情報を受け取った場合 読み込み
+  let state = null;
   const location = useLocation();
-  const state = location.state as State;
+  if (location) state = location.state as State;
 
   return (
     <>
-      {state.genreData ? (
+      {state && state.genreData ? (
         <>
           <EventSerchForm setEvents={setEvents} genreData={state?.genreData} />
         </>

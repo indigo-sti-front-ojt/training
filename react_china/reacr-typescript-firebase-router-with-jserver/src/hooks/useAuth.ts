@@ -26,7 +26,7 @@ export const useLoginWithGoogle = () => {
   //ユーザー取得api hooks
   const { getUser } = useUser();
   // ユーザ情報取得判別
-  //const { isUserChecked, userInfo } = useUserInfoContext();
+  //const { userInfo } = useUserInfoContext();
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -42,9 +42,9 @@ export const useLoginWithGoogle = () => {
       const res = await signInWithPopup(fireauth, provider);
 
       // ユーザーDBの有無から初回ログインを判定
-      const res2 = await getUser(res.user.uid);
+      const isUserChecked = await getUser(res.user.uid);
 
-      if (!res2) {
+      if (!isUserChecked) {
         console.log("ユーザDBが存在しないためDBを作成して初回ログインページへ");
         const userRegister: UserMinInfo = {
           user_email: res.user.email ?? undefined,
