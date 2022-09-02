@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { TagComponent } from "../designComponents/TagComponent";
 
 import { TagDBContainer } from "../provider/TagDBProvider";
@@ -10,8 +10,10 @@ import { useAreaTagDB } from "../hocks/AreaTagDB";
 export const OwnerTagPage = () => {
   const { areaDataList, freeDataList } = TagDBContainer.useContainer();
 
-  const { FreeDataEdit, FreeDataAdd, FreeDataDelete } = useFreeTagDB();
-  const { AreaDataEdit, AreaDataAdd, AreaDataDelete } = useAreaTagDB();
+  const { FreeDataReads, FreeDataEdit, FreeDataAdd, FreeDataDelete } =
+    useFreeTagDB();
+  const { AreaDataReads, AreaDataEdit, AreaDataAdd, AreaDataDelete } =
+    useAreaTagDB();
 
   const [viewFlagFree, setviewFlagFree] = useState<boolean>(false);
   const [viewFlagArea, setviewFlagArea] = useState<boolean>(false);
@@ -61,6 +63,8 @@ export const OwnerTagPage = () => {
       setviewFlagFree(false);
     };
   }, []);
+  if (!areaDataList || !freeDataList)
+    throw Promise.all([AreaDataReads(), FreeDataReads()]);
   return (
     <>
       <div className="w-full h-16 flex justify-center items-center">
@@ -81,11 +85,13 @@ export const OwnerTagPage = () => {
             </button>
           </div>
           <div className="flex flex-row flex-wrap gap-y-2">
-            {areaDataList.map((data) => (
-              <div key={data.id} onClick={() => onClickAreaEdit(data)}>
-                <TagComponent data={data} />
-              </div>
-            ))}
+            <Suspense fallback={<>loading...</>}>
+              {areaDataList.map((data) => (
+                <div key={data.id} onClick={() => onClickAreaEdit(data)}>
+                  <TagComponent data={data} />
+                </div>
+              ))}
+            </Suspense>
           </div>
         </div>
         <div className="w-5/6 md:w-full md:h-full p-2 shadow-md flex flex-col gap-y-2">
@@ -102,11 +108,13 @@ export const OwnerTagPage = () => {
           </div>
 
           <div className="flex flex-row flex-wrap gap-y-2">
-            {freeDataList.map((data) => (
-              <div key={data.id} onClick={() => onClickFreeEdit(data)}>
-                <TagComponent data={data} />
-              </div>
-            ))}
+            <Suspense fallback={<>loading...</>}>
+              {freeDataList.map((data) => (
+                <div key={data.id} onClick={() => onClickFreeEdit(data)}>
+                  <TagComponent data={data} />
+                </div>
+              ))}
+            </Suspense>
           </div>
         </div>
       </div>

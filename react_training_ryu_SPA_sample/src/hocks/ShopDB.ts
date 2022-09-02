@@ -14,6 +14,7 @@ import { ShopDBContainer } from "../provider/ShopDBProvider";
 import { ShopDBType } from "../types/ShopDBType";
 
 import { format } from "date-fns";
+import { LodingContainer } from "../provider/LoadingProvider";
 
 // 単一階層の情報の場合
 export const useShopDB = () => {
@@ -24,6 +25,8 @@ export const useShopDB = () => {
     setShopDataList,
     setShopDataAll,
   } = ShopDBContainer.useContainer();
+
+  const { setFirst } = LodingContainer.useContainer();
 
   const targetTableName = "shops";
 
@@ -77,11 +80,11 @@ export const useShopDB = () => {
       collection(db, targetTableName),
       where("writer", "==", user_uid)
     );
-    const dataResults = await getDocs(target);
+    const dataResults = getDocs(target);
 
     const tempDatas: ShopDBType[] = [];
 
-    dataResults.forEach((doc) => {
+    (await dataResults).forEach((doc) => {
       // console.log(doc.id, ":", doc.data());
       const data = doc.data();
       const tempData: ShopDBType = {
@@ -116,8 +119,8 @@ export const useShopDB = () => {
   const ShopDataReads_ALL = async () => {
     const tempDatas: ShopDBType[] = [];
     const target = collection(db, targetTableName);
-    const dataResults = await getDocs(target);
-    dataResults.forEach((doc) => {
+    const dataResults = getDocs(target);
+    (await dataResults).forEach((doc) => {
       const data = doc.data();
       const tempData: ShopDBType = {
         uid: doc.id,
@@ -144,6 +147,7 @@ export const useShopDB = () => {
     // sort
     tempDatas.sort(ShopDataSortProgram);
     setShopDataAll(tempDatas);
+    setFirst(true);
   };
   // sort program
   const ShopDataSortProgram = (
@@ -157,9 +161,9 @@ export const useShopDB = () => {
 
   const ShopDataRead = async (uid: string) => {
     const target = doc(db, targetTableName, uid);
-    const dataResult = await getDoc(target);
+    const dataResult = getDoc(target);
     // console.log("shopDataRead");
-    const data = dataResult.data();
+    const data = (await dataResult).data();
     const tempData: ShopDBType = {
       uid: uid,
       name: data?.name,

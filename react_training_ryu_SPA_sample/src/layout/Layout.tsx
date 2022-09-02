@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { useAuthUser } from "../hocks/AuthUser";
 import { useImage } from "../hocks/Image";
@@ -7,12 +7,13 @@ import { useAreaTagDB } from "../hocks/AreaTagDB";
 import { useFreeTagDB } from "../hocks/FreeTagDB";
 import { useUserDB } from "../hocks/UserDB";
 import { AuthUserContainer } from "../provider/AuthUserProvider";
-import { ImageContainer } from "../provider/ImageProvider";
-import { TagDBContainer } from "../provider/TagDBProvider";
+
 import { UserDBContainer } from "../provider/UserDBProvider";
 import { FooterComponet } from "../designComponents/FooterComponent";
 import { HeaderComponent } from "../designComponents/HeaderComponent";
 import { LodingContainer } from "../provider/LoadingProvider";
+import { TagDBContainer } from "../provider/TagDBProvider";
+import { ImageContainer } from "../provider/ImageProvider";
 
 export const Layout = () => {
   const { changeUserState } = useAuthUser();
@@ -20,7 +21,7 @@ export const Layout = () => {
   const { FreeDataReads } = useFreeTagDB();
   const { AreaDataReads } = useAreaTagDB();
 
-  const { UserDataRead, UserDataReads } = useUserDB();
+  const { UserDataRead } = useUserDB();
   const { isLoggined, user } = AuthUserContainer.useContainer();
   const { changeFlag } = UserDBContainer.useContainer();
   const { TagChangeFlag } = TagDBContainer.useContainer();
@@ -34,7 +35,6 @@ export const Layout = () => {
 
   useEffect(() => {
     changeUserState();
-    UserDataReads();
     ShopDataReads_ALL();
   }, []);
 
@@ -56,15 +56,16 @@ export const Layout = () => {
   return (
     <>
       <HeaderComponent />
-      <main className="flex-grow flex justify-center relative">
-        <div
-          className={
-            "flex flex-col items-center w-full max-w-4xl gap-16 flex-grow-0" +
-            (location.pathname.includes("owner") ? " pt-0" : " pt-12 md:pt-0")
-          }
-        >
-          <Outlet />
-        </div>
+      <main
+        className={
+          "flex flex-col gap-16 m-auto pt-12 md:pt-0 items-center w-full max-w-4xl" +
+          (location.pathname.includes("owner") ? " md:pl-11" : " ")
+        }
+      >
+        {/* <Suspense fallback={<>loading ...</>}>
+          <DataView />
+        </Suspense> */}
+        <Outlet />
       </main>
       <FooterComponet />
       {loading ? (

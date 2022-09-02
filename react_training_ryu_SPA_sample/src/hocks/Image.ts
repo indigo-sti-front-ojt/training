@@ -23,7 +23,6 @@ export const useImage = () => {
   const { setLoging } = LodingContainer.useContainer();
 
   const imageDataCreate = async (data: ImagesDBType) => {
-    // console.log("firestore upload");
     const dataDoc = collection(db, "images");
     await addDoc(dataDoc, { url: data.url, fullPath: data.fullPath });
     setImageEditFlag(!imageEditFlag);
@@ -34,11 +33,12 @@ export const useImage = () => {
     await deleteDoc(target);
     setImageEditFlag(!imageEditFlag);
   };
+
   const imageDataReads = async () => {
     const target = collection(db, "images");
-    const dataResults = await getDocs(target);
+    const dataResults = getDocs(target);
     const tempDataList: ImagesDBType[] = [];
-    dataResults.forEach((doc) => {
+    (await dataResults).forEach((doc) => {
       const temp: ImagesDBType = {
         uid: doc.id,
         url: doc.data().url,
@@ -50,7 +50,6 @@ export const useImage = () => {
   };
 
   const imageUpload = async (fileName: string, file: File) => {
-    // console.log("image upload");
     setLoging(true);
     const storageRef = ref(storage, `images/${fileName}`);
     try {
@@ -74,7 +73,9 @@ export const useImage = () => {
     setLoging(true);
     const storageRef = ref(storage, data.fullPath);
     try {
+      // firestorage delete
       await deleteObject(storageRef);
+      // firesotre delete
       await imageDataDelete(data);
       setLoging(false);
       return true;

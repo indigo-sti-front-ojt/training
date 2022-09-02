@@ -12,6 +12,7 @@ export const ItemPage = () => {
   useEffect(() => {
     ShopDataRead(id ?? "");
   }, []);
+
   return (
     <>
       <PageItemComponent data={shopData} />

@@ -30,6 +30,8 @@ export const useAuthUser = () => {
   const changeUserState = async () => {
     setisAuthChecked(false);
     await onAuthStateChanged(auth, (getAuthUser: User | null) => {
+      console.log("change state");
+
       if (getAuthUser) {
         const current_User: userType = {
           uid: getAuthUser.uid,

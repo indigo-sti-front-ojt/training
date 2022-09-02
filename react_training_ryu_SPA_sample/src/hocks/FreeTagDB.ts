@@ -4,7 +4,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { LodingContainer } from "../provider/LoadingProvider";
@@ -30,7 +30,7 @@ export const useFreeTagDB = () => {
   const FreeDataEdit = async (data: TagDBType) => {
     await setLoging(true);
     const target = doc(db, targetTableName, data.id);
-    await setDoc(target, { text: data.text, color: data.color });
+    await updateDoc(target, { text: data.text, color: data.color });
     setTagChangeFlag(!TagChangeFlag);
     setLoging(false);
   };
@@ -44,9 +44,9 @@ export const useFreeTagDB = () => {
 
   const FreeDataReads = async () => {
     const targetFree = collection(db, targetTableName);
-    const dataFreeResults = await getDocs(targetFree);
+    const dataFreeResults = getDocs(targetFree);
     const tempFreeDatas: TagDBType[] = [];
-    dataFreeResults.forEach((doc) => {
+    (await dataFreeResults).forEach((doc) => {
       const data = doc.data();
       const temp: TagDBType = {
         id: doc.id,
