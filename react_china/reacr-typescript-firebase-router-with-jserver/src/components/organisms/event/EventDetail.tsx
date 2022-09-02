@@ -184,7 +184,13 @@ export const EventDetail: FC<Props> = (props) => {
           />
         </figure>
         <div className="flex flex-row flex-wrap gap-y-2 w-full">
-          {/* tag */}
+          {event?.event_tags?.map((value) => (
+            <>
+              <span className="tag" key={value.tag_id}>
+                {value.tag_value}
+              </span>
+            </>
+          ))}
         </div>
         <div className="w-full text-2xl">{event?.event_name}</div>
         <div className="w-full text-md">{event?.event_note}</div>

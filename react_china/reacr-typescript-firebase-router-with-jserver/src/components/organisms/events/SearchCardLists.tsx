@@ -13,7 +13,7 @@ export const SearchCardLists: FC<Props> = (props) => {
 
   return (
     <>
-      <div className="w-full flex flex-row flex-wrap gap-2 justify-center">
+      <div className="w-full flex flex-row flex-wrap gap-2 justify-start">
         <div className="w-3/4 md:w-full text-2xl md:text-3xl font-bold border-b-2 border-black">
           {eventListTitle}
         </div>
