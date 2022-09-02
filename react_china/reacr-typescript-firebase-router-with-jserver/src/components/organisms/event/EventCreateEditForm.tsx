@@ -40,7 +40,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   });
 
   useEffect(() => {
-    setValue("user_id", loginUser?.uid);
+    setValue("user_id", loginUser?.user_id);
     setValue("event_id", event?.event_id);
   }, [event, loginUser]);
 

@@ -18,10 +18,10 @@ export const FirstLogin = () => {
   const { getUser } = useUser();
 
   const userRegister: UserMinInfo = {
-    user_email: loginUser?.email ?? undefined,
-    user_name: loginUser?.displayName ?? undefined,
-    user_icon: loginUser?.photoURL ?? undefined,
-    user_id: loginUser?.uid,
+    user_email: loginUser?.user_email ?? undefined,
+    user_name: loginUser?.user_name ?? undefined,
+    user_icon: loginUser?.user_icon ?? undefined,
+    user_id: loginUser?.user_id,
   };
 
   const {
@@ -47,7 +47,7 @@ export const FirstLogin = () => {
     },
   });
 
-  setValue("user_id", loginUser?.uid);
+  setValue("user_id", loginUser?.user_id);
 
   const navigate = useNavigate();
 
@@ -58,7 +58,7 @@ export const FirstLogin = () => {
     };
     console.log("onSubmit", temp);
     await userCreateEdit("put", temp);
-    getUser(loginUser?.uid);
+    loginUser && getUser(loginUser.user_id);
     navigate("/");
   };
 

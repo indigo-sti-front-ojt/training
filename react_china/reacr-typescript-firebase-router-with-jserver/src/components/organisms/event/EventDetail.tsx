@@ -31,7 +31,7 @@ export const EventDetail: FC<Props> = (props) => {
     if (loginUser && event_id) {
       setApplyEvent({
         event_id: event_id,
-        user_id: loginUser?.uid,
+        user_id: loginUser?.user_id,
       });
     }
   }, [loginUser, event_id]);
@@ -85,7 +85,7 @@ export const EventDetail: FC<Props> = (props) => {
 
   const old = (
     <>
-      {loginUser?.uid === event?.event_owner?.user_id ? (
+      {loginUser?.user_id === event?.event_owner?.user_id ? (
         <>
           <button type="button" onClick={onClickButtonToEdit}>
             編集
@@ -99,7 +99,7 @@ export const EventDetail: FC<Props> = (props) => {
         //   <button onClick={onClickApplyCancel}>参加登録解除</button>
         // </>
         <>
-          {guestID?.includes(loginUser?.uid) && (
+          {guestID?.includes(loginUser?.user_id) && (
             <>
               <button onClick={onClickApplyCancel}>参加登録解除</button>
             </>
@@ -259,7 +259,7 @@ export const EventDetail: FC<Props> = (props) => {
         </div>
       </div>
       <div className="flex flex-row items-center justify-center w-full max-w-4xl">
-        {guestID?.includes(loginUser?.uid) ? (
+        {guestID?.includes(loginUser?.user_id) ? (
           <>
             <button
               className="border border-gray-300 rounded-md flex flex-col justify-center items-center py-8 px-20"
@@ -278,7 +278,7 @@ export const EventDetail: FC<Props> = (props) => {
             </button>
           </>
         )}
-        {loginUser?.uid === event?.event_owner?.user_id ? (
+        {loginUser?.user_id === event?.event_owner?.user_id ? (
           <>
             <button
               className="border border-gray-300 rounded-md flex flex-col justify-center items-center py-8 px-20"

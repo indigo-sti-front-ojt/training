@@ -25,7 +25,7 @@ export const Comment: FC<Props> = (props) => {
   } = useForm<CommentPost>();
 
   if (loginUser) {
-    setValue("user_id", loginUser?.uid);
+    setValue("user_id", loginUser.user_id);
   }
   if (event_id) setValue("event_id", event_id);
 

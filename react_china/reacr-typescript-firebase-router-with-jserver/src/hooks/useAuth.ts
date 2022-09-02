@@ -13,6 +13,7 @@ import {
 import { useUserCreateEdit } from "./api/postPutDelete/useUserCreateEdit";
 import { UserMinInfo } from "../types/api/UserMinInfo";
 import { useLoginUserContext } from "../context/LoginUserContext";
+import { useUserInfoContext } from "../context/UserInfoContext";
 import { useUser } from "./api/get/useUser";
 
 const fireauth = firebaseApp.fireauth;
@@ -23,13 +24,10 @@ export const useLoginWithGoogle = () => {
 
   // ユーザー作成apihooks
   const { userCreateEdit } = useUserCreateEdit();
-
-  // logout用hooks
-  const { logout } = useLogout();
-
-
-  // ユーザDB確認のためのユーザ情報取得hooks
+  //ユーザー取得api hooks
   const { getUser } = useUser();
+  // ユーザ情報取得判別
+  const { isUserChecked } = useUserInfoContext();
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -44,9 +42,10 @@ export const useLoginWithGoogle = () => {
       // ログイン
       const res = await signInWithPopup(fireauth, provider);
 
-      // --初めてのログインの場合・firebaseユーザ情報を利用してユーザDBを作成--
-      const isNewUser = getAdditionalUserInfo(res)?.isNewUser;
-      if (isNewUser) {
+      // ユーザーDBの有無から初回ログインを判定
+      getUser(res.user.uid);
+      
+      if (isUserChecked) {
         console.log("初回ログイン");
         const userRegister: UserMinInfo = {
           user_email: res.user.email ?? undefined,
@@ -54,66 +53,30 @@ export const useLoginWithGoogle = () => {
           user_icon: res.user.photoURL ?? undefined,
           user_id: res.user.uid,
         };
-        console.log(userRegister);
+        console.log("初回ログイン登録情報", userRegister);
         await userCreateEdit("post", userRegister);
-
-        // DB作成が行われた後にユーザDB情報を取得
-        getUser(res.user.uid);
-        const { userTempInfo } = useUser();
-
-        // --ユーザ作成api実行後、DBが存在すればwelcomeページへ遷移する・存在しなければエラーとしログアウトする--
-
-        if (userTempInfo) {
-          // ユーザDBが存在する場合
-          console.log("DBのユーザがある");
-          navigate("/welcome");
-        } else {
-          // ユーザDBが存在しない場合
-          console.log("DBのユーザがない");
-          setError(true);
-          logout();
-        }
+        navigate("/welcome");
       } else {
-        // --2度目以降のログインの場合もユーザDBが存在しない場合はエラーとしてログアウトする--
-
-        // ユーザDB情報を取得
-        getUser(res.user.uid);
-        const { userTempInfo } = useUser();
-
-        console.log("ユーザ情報の取得");
-        
-
-        if (userTempInfo) {
-          // ユーザDBが存在する場合
-          navigate("/");
-        } else {
-          // ユーザDBが存在しない場合
-          // 再度DB作成apiを叩いてDBの存在を確認しあればwelcomeページへ遷移する
-          // なければエラー出してログアウト
-          const userRegister: UserMinInfo = {
-            user_email: res.user.email ?? undefined,
-            user_name: res.user.displayName ?? undefined,
-            user_icon: res.user.photoURL ?? undefined,
-            user_id: res.user.uid,
-          };
-          console.log(userRegister);
-          await userCreateEdit("post", userRegister);
-
-          // ユーザ作成api実行後・確認のためユーザDB情報を取得
-          getUser(res.user.uid);
-          const { userTempInfo } = useUser();
-
-          if (userTempInfo) {
-            // ユーザDBが存在する場合
-            navigate("/welcome");
-          } else {
-            // ユーザDBが存在しない場合
-            console.log("DBのユーザがない");
-            setError(true);
-            logout();
-          }
-        }
+        console.log("再ログイン");
+        navigate("/");
       }
+
+      // const isNewUser = getAdditionalUserInfo(res)?.isNewUser;
+
+      // if (isNewUser) {
+      //   console.log("初回ログイン");
+      //   const userRegister: UserMinInfo = {
+      //     user_email: res.user.email ?? undefined,
+      //     user_name: res.user.displayName ?? undefined,
+      //     user_icon: res.user.photoURL ?? undefined,
+      //     user_id: res.user.uid,
+      //   };
+      //   console.log(userRegister);
+      //   await userCreateEdit("post", userRegister);
+      //   navigate("/welcome");
+      // } else {
+      //   navigate("/");
+      // }
 
       setSuccess(true);
     } catch {
@@ -146,24 +109,13 @@ export const useLoginUser = () => {
     const auth = getAuth();
     await onAuthStateChanged(auth, async (loginUser) => {
       if (loginUser) {
-        setLoginUser(loginUser);
-      }
-      setIsAuthChecked(true);
-    });
-  };
-
-  return { getLoginUser };
-};
-
-// ユーザDB取得hooks
-export const useUserDB = () => {
-  const { setLoginUser, setIsAuthChecked } = useLoginUserContext();
-
-  const getLoginUser = async () => {
-    const auth = getAuth();
-    await onAuthStateChanged(auth, async (loginUser) => {
-      if (loginUser) {
-        setLoginUser(loginUser);
+        const loginUserInfo = {
+          user_email: loginUser.email,
+          user_name: loginUser.displayName,
+          user_icon: loginUser.photoURL,
+          user_id: loginUser.uid,
+        };
+        setLoginUser(loginUserInfo);
       }
       setIsAuthChecked(true);
     });

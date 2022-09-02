@@ -212,7 +212,7 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
             </div>
           </div>
 
-          {loginUser?.uid === user?.user_id ? (
+          {loginUser?.user_id === user?.user_id ? (
             <div>
               <div className="w-full my-6 flex justify-end">
                 <button
