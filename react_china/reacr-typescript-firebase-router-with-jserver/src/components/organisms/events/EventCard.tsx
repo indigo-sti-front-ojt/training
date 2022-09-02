@@ -1,6 +1,6 @@
 import React from "react";
 import { FC } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Event } from "../../../types/api/Event";
 

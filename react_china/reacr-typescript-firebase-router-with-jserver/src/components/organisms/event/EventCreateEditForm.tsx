@@ -34,12 +34,13 @@ export const EventCreateEditForm: FC<Props> = (props) => {
     formState: { isSubmitSuccessful },
   } = useForm<Event>({
     defaultValues: {
+      event_image: "",
       event_tags_id: [],
     },
   });
 
   useEffect(() => {
-    setValue("user_id", loginUser?.uid);
+    setValue("user_id", loginUser?.user_id);
     setValue("event_id", event?.event_id);
   }, [event, loginUser]);
 

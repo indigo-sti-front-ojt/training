@@ -49,7 +49,7 @@ export const MyPageEdit: FC = () => {
       user_tags_id: data.user_tags_id?.map(Number),
     };
     await userCreateEdit("put", temp);
-    getUser(loginUser?.uid);
+    loginUser && getUser(loginUser?.user_id);
     console.log("temp", temp);
   };
 

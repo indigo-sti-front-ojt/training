@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useLoginUserContext } from "../context/LoginUserContext";
-import { useLoginUser } from "../hooks/useAuth";
 
 type Props = {
   component: React.ReactNode;

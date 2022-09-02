@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { EventSerchForm } from "../../organisms/eventsearch/EventsSearchForm";
 import { Event } from "../../../types/api/Event";
 import { EventSearchResult } from "../../organisms/eventsearch/EventSearchResult";
@@ -11,20 +11,16 @@ type State = {
 
 export const EventList = () => {
   const [events, setEvents] = useState<Event[]>();
-  const [genreData, setGenreData] = useState<State>();
 
   // ジャンルのタグ情報を読み込む
   const location = useLocation();
-  useEffect(() => {
-    if (location.state) setGenreData(location.state as State);
-  }, []);
+  const state = location.state as State;
 
   return (
     <>
-      {/* 検索フォームと検索結果を別々のコンポーネントで書いてもらえるとうれしいね */}
-      {genreData ? (
+      {state.genreData ? (
         <>
-          <EventSerchForm setEvents={setEvents} genreData={genreData?.genreData} />
+          <EventSerchForm setEvents={setEvents} genreData={state?.genreData} />
         </>
       ) : (
         <>

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { PersonalInfo } from "../../organisms/user/PersonalInfo";
 import { useUserInfoContext } from "../../../context/UserInfoContext";
-import { CardLists } from "../../organisms/events/CardLists";
+import { CardListsUser } from "../../organisms/events/CardListsUser";
 
 export const MyPage: FC = () => {
   const { userInfo } = useUserInfoContext();
@@ -23,10 +23,10 @@ export const MyPage: FC = () => {
         </>
       ))} */}
 
-      <CardLists
+      <CardListsUser
         events={userInfo?.join_event}
         eventListTitle="参加予定のイベント"
-      ></CardLists>
+      ></CardListsUser>
 
       {/* <h2>主催イベント</h2>
       <hr />
@@ -38,10 +38,10 @@ export const MyPage: FC = () => {
         </>
       ))} */}
 
-      <CardLists
+      <CardListsUser
         events={userInfo?.host_event}
         eventListTitle="主催イベント"
-      ></CardLists>
+      ></CardListsUser>
 
       <PersonalInfo user={userInfo} onClickButtonToEdit={onClickButtonToEdit} />
 
@@ -55,10 +55,10 @@ export const MyPage: FC = () => {
         </>
       ))} */}
 
-      <CardLists
+      <CardListsUser
         events={userInfo?.past_event}
         eventListTitle="過去に参加したイベント"
-      ></CardLists>
+      ></CardListsUser>
     </>
   );
 };

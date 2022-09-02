@@ -1,5 +1,5 @@
 import React from "react";
-import { CardLists } from "../events/CardLists";
+import { SearchCardLists } from "../events/SearchCardLists";
 import { Event } from "../../../types/api/Event";
 import { SearchEventList } from "../../../types/react-hook-form/SearchEventList";
 
@@ -11,6 +11,8 @@ type Props = {
 export const EventSearchResult = (props: Props) => {
   const { events } = props;
 
+  console.log("resultの再レンダリング");
+  
   return (
     <>
       {/* <form onSubmit={handleSubmit(onSubmit)}>
@@ -50,10 +52,10 @@ export const EventSearchResult = (props: Props) => {
         <input type="submit" />
       </form> */}
 
-      <CardLists
+      <SearchCardLists
         events={events}
         eventListTitle="検索結果"
-      ></CardLists>
+      ></SearchCardLists>
 
       {/* 
       <h2>検索結果</h2>
