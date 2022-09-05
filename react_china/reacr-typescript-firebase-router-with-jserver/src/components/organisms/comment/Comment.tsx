@@ -1,10 +1,12 @@
 import React, { useEffect, FC, useState } from "react";
 import { useComments } from "../../../hooks/api/get/useComment";
+import { useNavigate } from "react-router-dom";
 import { Comment as typeComment } from "../../../types/api/Comment";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CommentPost } from "../../../types/react-hook-form/CommentPost";
 import { useCommentCreate } from "../../../hooks/api/postPutDelete/useCommentCreate";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
+import {} from "../../../components/atoms/buttons/LinkToUserButton";
 
 type Props = {
   event_id: number;
@@ -12,6 +14,7 @@ type Props = {
 
 export const Comment: FC<Props> = (props) => {
   const { loginUser } = useLoginUserContext();
+  const navigate = useNavigate();
 
   const { getComments } = useComments();
   const [comments, setComments] = useState<typeComment[]>();
@@ -31,7 +34,7 @@ export const Comment: FC<Props> = (props) => {
   }
   if (event_id) setValue("event_id", event_id);
 
-  // コメントの
+  // コメントのフォーム送信関数
   const onSubmit: SubmitHandler<CommentPost> = async (data) => {
     console.log("onSubmit", data);
     await commentCreate(data);
@@ -43,13 +46,22 @@ export const Comment: FC<Props> = (props) => {
   const readData = async () => {
     const comments = await getComments(event_id);
     setComments(comments);
-    console.log("更新後コメントリスト", comments);
+    console.log("取得コメントリスト", comments);
     // console.log("isSubmitSuccesful", isSubmitSuccessful);
   };
 
+  // 初回レンダリング時にコメントを取得
   useEffect(() => {
     readData();
   }, []);
+
+  // クリックするとユーザページへ
+  const onClickUser = (userID?: string) => {
+    if (userID) {
+      const url = "/user?userid=" + userID;
+      navigate(url, { state: { user_id: userID } });
+    }
+  };
 
   return (
     <>
@@ -67,10 +79,13 @@ export const Comment: FC<Props> = (props) => {
                   }
                 >
                   <div className="h-10 w-10 flex-shrink-0">
-                    <img
-                      src={comment.user_icon}
-                      className="w-full h-full object-contain rounded-full ring-2 ring-gray-500"
-                    />
+                    <figure>
+                      <img
+                        onClick={() => onClickUser(comment.user_id)}
+                        src={comment.user_icon}
+                        className="w-full h-full object-contain rounded-full ring-2 ring-gray-500"
+                      />
+                    </figure>
                   </div>
                   <div className="p-2 w-1/3 border border-r-black">
                     {comment.comment_text}

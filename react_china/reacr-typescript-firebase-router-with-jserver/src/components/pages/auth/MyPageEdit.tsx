@@ -32,7 +32,7 @@ export const MyPageEdit: FC = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitSuccessful },
+    formState: { isSubmitSuccessful },
   } = useForm<User>({
     defaultValues: {
       user_tags_id: [],
