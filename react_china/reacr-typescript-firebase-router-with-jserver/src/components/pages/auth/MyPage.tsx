@@ -13,30 +13,11 @@ export const MyPage: FC = () => {
   };
   return (
     <>
-      {/* <h2>参加予定のイベント</h2>
-      <hr />
-      {userInfo?.join_event?.map((event, i) => (
-        <>
-          <div key={i}>
-            <EventCard event={event} />
-          </div>
-        </>
-      ))} */}
 
       <CardListsUser
         events={userInfo?.join_event}
         eventListTitle="参加予定のイベント"
       ></CardListsUser>
-
-      {/* <h2>主催イベント</h2>
-      <hr />
-      {userInfo?.host_event?.map((event, i) => (
-        <>
-          <div key={i}>
-            <EventCard event={event} />
-          </div>
-        </>
-      ))} */}
 
       <CardListsUser
         events={userInfo?.host_event}
@@ -44,16 +25,6 @@ export const MyPage: FC = () => {
       ></CardListsUser>
 
       <PersonalInfo user={userInfo} onClickButtonToEdit={onClickButtonToEdit} />
-
-      {/* <h2>過去に参加したイベント</h2>
-      <hr />
-      {userInfo?.past_event?.map((event, i) => (
-        <>
-          <div key={i}>
-            <EventCard event={event} />
-          </div>
-        </>
-      ))} */}
 
       <CardListsUser
         events={userInfo?.past_event}

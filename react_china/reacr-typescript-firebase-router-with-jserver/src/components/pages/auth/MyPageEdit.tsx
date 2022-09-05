@@ -7,10 +7,13 @@ import { useUserCreateEdit } from "../../../hooks/api/postPutDelete/useUserCreat
 import { useUser } from "../../../hooks/api/get/useUser";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
 import { useBase64ImageUp } from "../../../hooks/api/postPutDelete/useBase64ImageUp";
+import { useNavigate } from "react-router-dom";
 
 // import { useImageUp } from "../../../hooks/useImageUp";
 
 export const MyPageEdit: FC = () => {
+  const navigate = useNavigate();
+
   // image upload用のhooksの定義
   const { base64ImageUp } = useBase64ImageUp();
 
@@ -29,12 +32,12 @@ export const MyPageEdit: FC = () => {
     register,
     handleSubmit,
     setValue,
-    //formState: { errors, isSubmitSuccessful },
+    formState: { isSubmitSuccessful },
   } = useForm<User>({
     defaultValues: {
       user_tags_id: [],
-      user_icon: userInfo?.user_icon,
-      user_lineqr: userInfo?.user_lineqr,
+      user_icon: userInfo?.user_icon ?? "",
+      user_lineqr: userInfo?.user_lineqr ?? "",
     },
   });
 
@@ -124,6 +127,10 @@ export const MyPageEdit: FC = () => {
       console.log("error");
     }
   };
+
+  useEffect(() => {
+    if (isSubmitSuccessful) navigate("/user/mypage");
+  }, [isSubmitSuccessful]);
 
   return (
     <>

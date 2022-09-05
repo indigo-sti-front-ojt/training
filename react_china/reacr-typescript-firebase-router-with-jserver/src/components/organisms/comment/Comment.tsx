@@ -1,9 +1,12 @@
-import React, { useEffect, FC } from "react";
+import React, { useEffect, FC, useState } from "react";
 import { useComments } from "../../../hooks/api/get/useComment";
+import { useNavigate } from "react-router-dom";
+import { Comment as typeComment } from "../../../types/api/Comment";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CommentPost } from "../../../types/react-hook-form/CommentPost";
-import { useLoginUserContext } from "../../../context/LoginUserContext";
 import { useCommentCreate } from "../../../hooks/api/postPutDelete/useCommentCreate";
+import { useLoginUserContext } from "../../../context/LoginUserContext";
+import {} from "../../../components/atoms/buttons/LinkToUserButton";
 
 type Props = {
   event_id: number;
@@ -11,17 +14,19 @@ type Props = {
 
 export const Comment: FC<Props> = (props) => {
   const { loginUser } = useLoginUserContext();
+  const navigate = useNavigate();
 
-  const { getComments, comments } = useComments();
+  const { getComments } = useComments();
+  const [comments, setComments] = useState<typeComment[]>();
   const { event_id } = props;
-  useEffect(() => getComments(event_id), [comments]);
+
   const { commentCreate } = useCommentCreate();
 
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm<CommentPost>();
 
   if (loginUser) {
@@ -29,14 +34,34 @@ export const Comment: FC<Props> = (props) => {
   }
   if (event_id) setValue("event_id", event_id);
 
-  const onSubmit: SubmitHandler<CommentPost> = (data) => {
+  // コメントのフォーム送信関数
+  const onSubmit: SubmitHandler<CommentPost> = async (data) => {
     console.log("onSubmit", data);
-    commentCreate(data);
+    await commentCreate(data);
+    await readData();
+    setValue("comment_text", "");
   };
 
+  // コメント取得関数
+  const readData = async () => {
+    const comments = await getComments(event_id);
+    setComments(comments);
+    console.log("取得コメントリスト", comments);
+    // console.log("isSubmitSuccesful", isSubmitSuccessful);
+  };
+
+  // 初回レンダリング時にコメントを取得
   useEffect(() => {
-    setValue("comment_text", "");
-  }, [isSubmitSuccessful]);
+    readData();
+  }, []);
+
+  // クリックするとユーザページへ
+  const onClickUser = (userID?: string) => {
+    if (userID) {
+      const url = "/user?userid=" + userID;
+      navigate(url, { state: { user_id: userID } });
+    }
+  };
 
   return (
     <>
@@ -45,14 +70,24 @@ export const Comment: FC<Props> = (props) => {
           {comments?.map((comment, i) => (
             <>
               <div className="flex flex-col w-full" key={i}>
-                <div className="flex flex-row gap-x-2">
+                <div
+                  className={
+                    "flex gap-x-2 " +
+                    (loginUser && loginUser.user_id === comment.user_id)
+                      ? "flex-row-reverse"
+                      : "flex-row"
+                  }
+                >
                   <div className="h-10 w-10 flex-shrink-0">
-                    <img
-                      src={comment.user_icon}
-                      className="w-full h-full object-contain rounded-full ring-2 ring-gray-500"
-                    />
+                    <figure>
+                      <img
+                        onClick={() => onClickUser(comment.user_id)}
+                        src={comment.user_icon}
+                        className="w-full h-full object-contain rounded-full ring-2 ring-gray-500"
+                      />
+                    </figure>
                   </div>
-                  <div className="p-2 border border-r-black">
+                  <div className="p-2 w-1/3 border border-r-black">
                     {comment.comment_text}
                   </div>
                 </div>

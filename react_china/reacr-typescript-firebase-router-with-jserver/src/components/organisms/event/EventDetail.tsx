@@ -2,7 +2,6 @@ import React, { useEffect, FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useLoginUserContext } from "../../../context/LoginUserContext";
-import { LinkToUserButton } from "../../atoms/buttons/LinkToUserButton";
 import { useEvent } from "../../../hooks/api/get/useEvent";
 import {
   EventApplyInfo,
@@ -45,6 +44,11 @@ export const EventDetail: FC<Props> = (props) => {
   // ゲストのIDを配列化
   const guestID = event?.event_guests?.map((guest) => guest?.user_id);
 
+  // レンダリング時の参加登録の有無を表すフラグの定義
+  const [eventJoinFlag, setEventJoinFlag] = useState(
+    guestID?.includes(loginUser?.user_id)
+  );
+
   const navigate = useNavigate();
 
   // イベント編集ボタン
@@ -68,14 +72,17 @@ export const EventDetail: FC<Props> = (props) => {
   const onClickApply = async () => {
     console.log(applyEvent);
     await eventApply("post", applyEvent);
+    setEventJoinFlag(!eventJoinFlag);
   };
 
   // イベント参加登録解除ボタン
   const onClickApplyCancel = async () => {
     console.log(applyEvent);
     await eventApply("delete", applyEvent);
+    setEventJoinFlag(!eventJoinFlag);
   };
 
+  // クリックするとユーザページへ
   const onClickUser = (userInfo?: UserMinInfo) => {
     if (userInfo) {
       const url = "/user?userid=" + userInfo.user_id;
@@ -83,85 +90,80 @@ export const EventDetail: FC<Props> = (props) => {
     }
   };
 
-  const old = (
-    <>
-      {loginUser?.user_id === event?.event_owner?.user_id ? (
-        <>
-          <button type="button" onClick={onClickButtonToEdit}>
-            編集
-          </button>
-          <button type="button" onClick={onClickButtonToDelete}>
-            削除
-          </button>
-        </>
-      ) : (
-        // <>
-        //   <button onClick={onClickApplyCancel}>参加登録解除</button>
-        // </>
-        <>
-          {guestID?.includes(loginUser?.user_id) && (
-            <>
-              <button onClick={onClickApplyCancel}>参加登録解除</button>
-            </>
-          )}
-        </>
-      )}
-      <p>応募締め切り{event?.event_deadline}</p>
-      <img src={event?.event_image} alt="イベントヘッダー画像" />
-      {event?.event_tags?.map((tag, i) => (
-        <>
-          <div key={i}>
-            <span style={{ color: tag.tag_color }}>{tag.tag_value}</span>
-          </div>
-        </>
-      ))}
-      <h3>{event?.event_name}</h3>
-      <p>{event?.event_note}</p>
-      <div>
-        <div>
-          <p>最小募集人数</p>
-          <p>{event?.event_min_guest}人</p>
-        </div>
-        <div>
-          <p>最大募集人数</p>
-          <p>{event?.event_max_guest}人</p>
-        </div>
-        <div>
-          <p>主催者</p>
-          <LinkToUserButton user_info={event?.event_owner} />
-          <p>{event?.event_owner?.user_name}</p>
-        </div>
-        <div>
-          <p>予算</p>
-          <p>{event?.event_budget}円以下</p>
-        </div>
-        <div>
-          <p>日時</p>
-          <p>{event?.event_date}</p>
-        </div>
-        <div>
-          <p>場所</p>
-          <p>{event?.event_place}</p>
-        </div>
-        <h4>参加者</h4>
-        <div>
-          {event?.event_guests?.map((guest, i) => (
-            <>
-              <div key={i}>
-                <LinkToUserButton user_info={guest} />
-              </div>
-            </>
-          ))}
-        </div>
-        {/* {isSubmitSuccessful && (
-  <>
-    <p>参加登録が完了しました</p>
-  </>
-)} */}
-        <button onClick={onClickApply}>参加登録</button>
-      </div>
-    </>
-  );
+  // const old = (
+  //   <>
+  //     {loginUser?.user_id === event?.event_owner?.user_id ? (
+  //       <>
+  //         <button type="button" onClick={onClickButtonToEdit}>
+  //           編集
+  //         </button>
+  //         <button type="button" onClick={onClickButtonToDelete}>
+  //           削除
+  //         </button>
+  //       </>
+  //     ) : (
+  //       // <>
+  //       //   <button onClick={onClickApplyCancel}>参加登録解除</button>
+  //       // </>
+  //       <>
+  //         {guestID?.includes(loginUser?.user_id) && (
+  //           <>
+  //             <button onClick={onClickApplyCancel}>参加登録解除</button>
+  //           </>
+  //         )}
+  //       </>
+  //     )}
+  //     <p>応募締め切り{event?.event_deadline}</p>
+  //     <img src={event?.event_image} alt="イベントヘッダー画像" />
+  //     {event?.event_tags?.map((tag, i) => (
+  //       <>
+  //         <div key={i}>
+  //           <span style={{ color: tag.tag_color }}>{tag.tag_value}</span>
+  //         </div>
+  //       </>
+  //     ))}
+  //     <h3>{event?.event_name}</h3>
+  //     <p>{event?.event_note}</p>
+  //     <div>
+  //       <div>
+  //         <p>最小募集人数</p>
+  //         <p>{event?.event_min_guest}人</p>
+  //       </div>
+  //       <div>
+  //         <p>最大募集人数</p>
+  //         <p>{event?.event_max_guest}人</p>
+  //       </div>
+  //       <div>
+  //         <p>主催者</p>
+  //         <LinkToUserButton user_info={event?.event_owner} />
+  //         <p>{event?.event_owner?.user_name}</p>
+  //       </div>
+  //       <div>
+  //         <p>予算</p>
+  //         <p>{event?.event_budget}円以下</p>
+  //       </div>
+  //       <div>
+  //         <p>日時</p>
+  //         <p>{event?.event_date}</p>
+  //       </div>
+  //       <div>
+  //         <p>場所</p>
+  //         <p>{event?.event_place}</p>
+  //       </div>
+  //       <h4>参加者</h4>
+  //       <div>
+  //         {event?.event_guests?.map((guest, i) => (
+  //           <>
+  //             <div key={i}>
+  //               <LinkToUserButton user_info={guest} />
+  //             </div>
+  //           </>
+  //         ))}
+  //       </div>
+  //       <button onClick={onClickApply}>参加登録</button>
+  //     </div>
+  //   </>
+  // );
 
   return (
     <>
@@ -240,32 +242,40 @@ export const EventDetail: FC<Props> = (props) => {
               <span className="text-4xl">{event?.event_place}</span>
             </div>
           </div>
+
           <div className="flex flex-col w-full items-center md:w-3/4 gap-4">
             <div className="w-1/2 text-center text-3xl border-b-2 border-gray-800">
               参加者
             </div>
-            <div className="w-full flex flex-row flex-wrap justify-center gap-5">
-              {event?.event_guests?.map((guest, i) => (
-                <>
-                  <figure
-                    key={i}
-                    className="w-10 h-10 overflow-hidden rounded-full"
-                    onClick={() => onClickUser(guest)}
-                  >
-                    <img
-                      src={guest.user_icon}
-                      className="w-full h-full object-cover object-bottom"
-                      alt=""
-                    />
-                  </figure>
-                </>
-              ))}
-            </div>
+
+            {event?.event_guests?.length ? (
+              <>
+                <div className="w-full flex flex-row flex-wrap justify-center gap-5">
+                  {event?.event_guests?.map((guest, i) => (
+                    <>
+                      <figure
+                        key={i}
+                        className="w-10 h-10 overflow-hidden rounded-full"
+                        onClick={() => onClickUser(guest)}
+                      >
+                        <img
+                          src={guest.user_icon}
+                          className="w-full h-full object-cover object-bottom"
+                          alt=""
+                        />
+                      </figure>
+                    </>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <span>参加者はまだいません</span>
+            )}
           </div>
         </div>
       </div>
       <div className="flex flex-row items-center justify-center w-full max-w-4xl">
-        {guestID?.includes(loginUser?.user_id) ? (
+        {eventJoinFlag ? (
           <>
             <button
               className="border border-gray-300 rounded-md flex flex-col justify-center items-center py-8 px-20"

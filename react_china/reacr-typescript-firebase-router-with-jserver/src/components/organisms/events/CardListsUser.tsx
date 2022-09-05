@@ -41,7 +41,7 @@ export const CardListsUser: FC<Props> = (props) => {
           <span>{eventListTitle}はありません</span>
         )}
         {/* イベントが3つよりあるときもっと見るボタンを表示 */}
-        {sliceEvent && sliceEvent.length > 3 ? (
+        {events && events.length > 3 ? (
           <>
             <div className="w-full flex justify-center items-center">
               <button
@@ -66,7 +66,7 @@ export const CardListsUser: FC<Props> = (props) => {
         }
         onClick={onClickParent}
       >
-        <div className="w-4/5 max-w-4xl h-3/4 shadow-md bg-white relative flex flex-col py-2">
+        <div className="max-w-5xl h-3/4 shadow-md bg-white relative flex flex-col py-2">
           <div
             className="absolute -top-10 right-0 w-10 h-10 text-white"
             onClick={onClickCross}
@@ -81,8 +81,16 @@ export const CardListsUser: FC<Props> = (props) => {
               <path d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
-          <div className="w-full h-full flex flex-col gap-5 p-5">
-            {/* ここに書く */}
+          <div className="w-full h-full flex flex-row gap-1 m-auto flex-wrap overflow-scroll">
+            {events?.length && (
+              <>
+                {events?.map((event) => (
+                  <>
+                    <EventCard event={event} key={event.event_id} />
+                  </>
+                ))}
+              </>
+            )}
           </div>
         </div>
       </div>
