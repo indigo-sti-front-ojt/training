@@ -242,27 +242,35 @@ export const EventDetail: FC<Props> = (props) => {
               <span className="text-4xl">{event?.event_place}</span>
             </div>
           </div>
+
           <div className="flex flex-col w-full items-center md:w-3/4 gap-4">
             <div className="w-1/2 text-center text-3xl border-b-2 border-gray-800">
               参加者
             </div>
-            <div className="w-full flex flex-row flex-wrap justify-center gap-5">
-              {event?.event_guests?.map((guest, i) => (
-                <>
-                  <figure
-                    key={i}
-                    className="w-10 h-10 overflow-hidden rounded-full"
-                    onClick={() => onClickUser(guest)}
-                  >
-                    <img
-                      src={guest.user_icon}
-                      className="w-full h-full object-cover object-bottom"
-                      alt=""
-                    />
-                  </figure>
-                </>
-              ))}
-            </div>
+
+            {event?.event_guests?.length ? (
+              <>
+                <div className="w-full flex flex-row flex-wrap justify-center gap-5">
+                  {event?.event_guests?.map((guest, i) => (
+                    <>
+                      <figure
+                        key={i}
+                        className="w-10 h-10 overflow-hidden rounded-full"
+                        onClick={() => onClickUser(guest)}
+                      >
+                        <img
+                          src={guest.user_icon}
+                          className="w-full h-full object-cover object-bottom"
+                          alt=""
+                        />
+                      </figure>
+                    </>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <span>参加者はまだいません</span>
+            )}
           </div>
         </div>
       </div>
