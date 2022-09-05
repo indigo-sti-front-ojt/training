@@ -53,7 +53,7 @@ export const EventCard: FC<Props> = (props) => {
             </div>
             <div className="w-1/2">予算:{event?.event_budget}円</div>
             <div className="w-1/2">
-              人数:{event?.event_min_guest}/{event?.event_max_guest}
+              人数:{event?.event_guest_length}/{event?.event_max_guest}
             </div>
           </div>
           <div className="w-full h-14 flex justify-center flex-grow items-center">

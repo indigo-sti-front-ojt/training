@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FC, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-
+import { useNavigate } from "react-router-dom";
 import { Event } from "../../../types/api/Event";
 import { useAllTagsContext } from "../../../context/AllTagsContext";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
@@ -13,6 +13,8 @@ type Props = {
 };
 
 export const EventCreateEditForm: FC<Props> = (props) => {
+  const navigate = useNavigate();
+
   const { loginUser } = useLoginUserContext();
   const { allTags } = useAllTagsContext();
 
@@ -38,6 +40,14 @@ export const EventCreateEditForm: FC<Props> = (props) => {
       event_tags_id: [],
     },
   });
+
+  useEffect(() => {
+    if (isSubmitSuccessful && method === "post") navigate("/");
+    if (isSubmitSuccessful && method === "put")
+      navigate(`/events/event?eventid=${event?.user_id}`, {
+        state: { event_id: event?.event_id },
+      });
+  }, [isSubmitSuccessful]);
 
   useEffect(() => {
     setValue("user_id", loginUser?.user_id);
@@ -395,13 +405,8 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             {...register("event_max_guest")}
           />
         </label> */}
-        {isSubmitSuccessful && (
-          <>
-            <p>データを送信しました</p>
-          </>
-        )}
 
-        <div className=" flex flex-row items-center justify-center w-full max-w-4xl">
+        <div className="flex flex-row items-center justify-center w-full max-w-4xl">
           <input
             type="submit"
             className="border border-gray-300 rounded-md flex flex-col justify-center items-center py-8 px-20"

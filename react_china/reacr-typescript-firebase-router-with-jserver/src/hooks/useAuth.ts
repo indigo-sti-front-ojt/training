@@ -5,7 +5,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
-  getAdditionalUserInfo,
+  // getAdditionalUserInfo,
   getAuth,
   onAuthStateChanged,
 } from "firebase/auth";
