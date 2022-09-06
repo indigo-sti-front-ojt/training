@@ -25,15 +25,19 @@ export const EventSerchForm = (props: Props) => {
   const {
     register,
     handleSubmit,
-    //formState: { errors },
-  } = useForm<SearchEventList>();
+    formState: { errors },
+  } = useForm<SearchEventList>({
+    defaultValues: {
+      tagsid: [],
+    },
+  });
 
   const onSubmit: SubmitHandler<SearchEventList> = async (data) => {
     const temp = {
       ...data,
-      budget: Number(data.budget),
-      minguest: Number(data.minguest),
-      maxguest: Number(data.maxguest),
+      // budget: Number(data.budget),
+      // minguest: Number(data.minguest),
+      // maxguest: Number(data.maxguest),
       tags: data?.tagsid?.map(Number),
     };
     console.log("onSubmit", temp);
@@ -149,7 +153,7 @@ export const EventSerchForm = (props: Props) => {
           <div className="flex flex-row flex-wrap gap-y-2">
             <div className="w-2/5 flex flex-row items-center">
               <input
-                type="text"
+                type="number"
                 placeholder="0"
                 defaultValue=""
                 {...register("minguest")}
@@ -162,7 +166,7 @@ export const EventSerchForm = (props: Props) => {
             </div>
             <div className="w-2/5 flex flex-row items-center">
               <input
-                type="text"
+                type="number"
                 placeholder="5"
                 defaultValue=""
                 {...register("maxguest")}
@@ -177,7 +181,7 @@ export const EventSerchForm = (props: Props) => {
           <div className="font-bold">予算</div>
           <div className="flex flex-row flex-wrap gap-y-2 justify-center items-center">
             <input
-              type="text"
+              type="number"
               placeholder="2000"
               defaultValue=""
               {...register("budget")}
@@ -195,7 +199,12 @@ export const EventSerchForm = (props: Props) => {
                 type="text"
                 placeholder="2022-10-25"
                 defaultValue=""
-                {...register("fromdate")}
+                {...register("fromdate", {
+                  pattern: {
+                    value: /^\d{4}-\d{2}-\d{2}$/,
+                    message: "日程（検索開始）の値が不正です",
+                  },
+                })}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
               />
               <div className="w-1/3 flex justify-center items-center">
@@ -218,7 +227,12 @@ export const EventSerchForm = (props: Props) => {
                 type="text"
                 placeholder="2022-10-30"
                 defaultValue=""
-                {...register("todate")}
+                {...register("todate", {
+                  pattern: {
+                    value: /^\d{4}-\d{2}-\d{2}$/,
+                    message: "日程（検索終了）の値が不正です",
+                  },
+                })}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
               />
               <div className="w-1/3 flex justify-center items-center">
@@ -251,6 +265,19 @@ export const EventSerchForm = (props: Props) => {
             <input type="submit" className="hidden" />
           </label>
         </div>
+
+        {errors.fromdate && (
+          // 検索開始日付エラー
+          <>
+            <p>{errors.fromdate?.message}</p>
+          </>
+        )}
+        {errors.todate && (
+          // 検索終了日付エラー
+          <>
+            <p>{errors.todate?.message}</p>
+          </>
+        )}
       </form>
       {/* <form onSubmit={handleSubmit(onSubmit)}>
         <p>イベントタグ</p>

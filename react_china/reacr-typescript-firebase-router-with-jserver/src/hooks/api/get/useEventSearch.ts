@@ -36,7 +36,7 @@ export const useEventSearch = () => {
 
     let maxguestQuery = "";
     if (data?.maxguest) {
-      maxguestQuery = `?minguest=${data?.maxguest}`;
+      maxguestQuery = `?maxguest=${data?.maxguest}`;
     }
 
     let fromdateQuery = "";
