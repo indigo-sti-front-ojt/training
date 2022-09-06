@@ -6,6 +6,7 @@ import { useAllTagsContext } from "../../../context/AllTagsContext";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
 import { useEventCreateEditDelete } from "../../../hooks/api/postPutDelete/useEventCreateEditDelete";
 import { useBase64ImageUp } from "../../../hooks/api/postPutDelete/useBase64ImageUp";
+import { useUser } from "../../../hooks/api/get/useUser";
 
 type Props = {
   event?: Event;
@@ -15,8 +16,12 @@ type Props = {
 export const EventCreateEditForm: FC<Props> = (props) => {
   const navigate = useNavigate();
 
+  // ユーザのid等の情報とタグ情報をコンテキストから取得
   const { loginUser } = useLoginUserContext();
   const { allTags } = useAllTagsContext();
+
+  // ユーザコンテキストの更新用関数
+  const { getUser } = useUser();
 
   const { event, method } = props;
 
@@ -65,8 +70,10 @@ export const EventCreateEditForm: FC<Props> = (props) => {
     };
     // console.log(typeof temp.event_max_guest);
     console.log("onSubmit", temp);
-
+    // イベント情報を更新
     await eventCreateEditDelete(method, temp);
+    // データ変更後にユーザ情報を更新
+    loginUser && getUser(loginUser?.user_id);
   };
 
   const convertToBase64 = async (file: File) => {
@@ -135,7 +142,6 @@ export const EventCreateEditForm: FC<Props> = (props) => {
           </>
         )}
 
-        {/* <img src={tmpUrl} alt="イベント画像" /> */}
         <figure className="flex items-center justify-center w-full h-auto p-4">
           <img
             src={tmpUrl ?? `${process.env.PUBLIC_URL}/images/main_1.png`}
@@ -161,7 +167,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             <div className="w-full">
               <input
                 type="text"
-                placeholder="input"
+                placeholder="React勉強会"
                 defaultValue={event?.event_name}
                 {...register("event_name", { required: true })}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-full"
@@ -173,6 +179,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             <div className="w-full">
               <textarea
                 defaultValue={event?.event_note}
+                placeholder="コメントを入力"
                 {...register("event_note")}
                 className="h-52 border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-full"
               ></textarea>
@@ -183,7 +190,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             <div className="w-full flex flex-row items-center">
               <input
                 type="text"
-                placeholder="input"
+                placeholder="2020-09-06"
                 defaultValue={event?.event_deadline}
                 {...register("event_deadline")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
@@ -204,7 +211,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             <div className="w-full flex flex-row items-center">
               <input
                 type="text"
-                placeholder="input"
+                placeholder="2020-09-15"
                 defaultValue={event?.event_date}
                 {...register("event_date")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
@@ -226,12 +233,11 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             <div className="w-full">
               <input
                 type="text"
-                placeholder="input"
+                placeholder="オンライン"
                 defaultValue={event?.event_place}
                 {...register("event_place")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
               />
-              {""}
             </div>
           </div>
 
@@ -240,7 +246,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             <div className="w-full">
               <input
                 type="text"
-                placeholder="input"
+                placeholder="0"
                 defaultValue={event?.event_budget}
                 {...register("event_budget")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
@@ -295,7 +301,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                 <div className="w-2/5 flex flex-row items-center">
                   <input
                     type="text"
-                    placeholder="input"
+                    placeholder="2"
                     defaultValue={event?.event_min_guest}
                     {...register("event_min_guest")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
@@ -308,7 +314,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                 <div className="w-2/5 flex flex-row items-center">
                   <input
                     type="text"
-                    placeholder="input"
+                    placeholder="6"
                     defaultValue={event?.event_max_guest}
                     {...register("event_max_guest")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"

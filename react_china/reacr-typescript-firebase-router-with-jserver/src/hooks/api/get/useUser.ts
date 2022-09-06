@@ -19,9 +19,10 @@ export const useUser = () => {
             user_id
         );
         setUserInfo(res_user.data);
-        console.log(res_user.data);
         setUserTempInfo(res_user.data);
         setIsUserChecked(true);
+
+        console.log(res_user.data);
       } catch (error) {
         console.log("ユーザーが取得できません");
       }

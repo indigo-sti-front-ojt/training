@@ -10,6 +10,7 @@ type State = {
 };
 
 export const Event = () => {
+  // stateから情報を取得
   const location = useLocation();
   const state = location.state as State;
 

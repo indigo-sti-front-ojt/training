@@ -45,7 +45,7 @@ export const MyPageEdit: FC = () => {
 
   // ユーザー編集のhooksの読み込み
   const { userCreateEdit } = useUserCreateEdit();
-
+  
   const onSubmit: SubmitHandler<User> = async (data: User) => {
     const temp: User = {
       ...data,
@@ -58,6 +58,7 @@ export const MyPageEdit: FC = () => {
 
   const [iconFlag, setIconFlag] = useState(false);
   const [QRFlag, setQRFlag] = useState(false);
+
 
   const [tmpUrl, setTmpUrl] = useState(userInfo?.user_icon);
   const [tmpLineUrl, setTmpLineUrl] = useState(userInfo?.user_lineqr);
@@ -139,7 +140,6 @@ export const MyPageEdit: FC = () => {
         className="flex flex-col w-3/4 m-2 px-4 gap-1 shadow-xl rounded md:w-full max-w-4xl md:flex-row md:items-start"
       >
         <div className="flex flex-col md:w-32">
-          {/* この部分はちょっと検討が必要かも？ */}
           アイコン画像
           <img src={tmpUrl} className="object-contain w-auto h-auto" alt="" />
           <input
@@ -155,7 +155,7 @@ export const MyPageEdit: FC = () => {
               <div className="font-bold">名前</div>
               <input
                 type="text"
-                placeholder="input"
+                placeholder="たろう"
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
                 defaultValue={userInfo?.user_nickname}
                 {...register("user_nickname", { required: true })}
@@ -169,7 +169,7 @@ export const MyPageEdit: FC = () => {
               <div className="font-bold">所属CoE</div>
               <input
                 type="text"
-                placeholder="input"
+                placeholder="エンジニア・リーダーシップ"
                 defaultValue={userInfo?.user_coe}
                 {...register("user_coe")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
@@ -179,7 +179,7 @@ export const MyPageEdit: FC = () => {
               <div className="font-bold">所属SL</div>
               <input
                 type="text"
-                placeholder="input"
+                placeholder="PS"
                 defaultValue={userInfo?.user_sl}
                 {...register("user_sl")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
@@ -192,6 +192,7 @@ export const MyPageEdit: FC = () => {
               <div className="font-bold">一言自己紹介</div>
               <textarea
                 defaultValue={userInfo?.user_comment}
+                placeholder="コメントを入力"
                 {...register("user_comment")}
                 className="h-52 border-2 border-gray-600 outline-1 outline-gray-700 p-2"
               ></textarea>
@@ -264,10 +265,11 @@ export const MyPageEdit: FC = () => {
                   </svg>
                   <input
                     type="text"
-                    placeholder="input"
+                    placeholder="abc@sios.com"
                     defaultValue={userInfo?.user_email}
                     {...register("user_email")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
+                    readOnly
                   />
                 </div>
                 <div className="w-full flex justify-start items-center">
@@ -280,7 +282,7 @@ export const MyPageEdit: FC = () => {
                   </svg>
                   <input
                     type="text"
-                    placeholder="input"
+                    placeholder="@instagram"
                     defaultValue={userInfo?.user_instagramid}
                     {...register("user_instagramid")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
@@ -296,7 +298,7 @@ export const MyPageEdit: FC = () => {
                   </svg>
                   <input
                     type="text"
-                    placeholder="input"
+                    placeholder="@twitter"
                     defaultValue={userInfo?.user_twitterid}
                     {...register("user_twitterid")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
@@ -313,7 +315,7 @@ export const MyPageEdit: FC = () => {
                   </svg>
                   <input
                     type="text"
-                    placeholder="input"
+                    placeholder="@facebook"
                     defaultValue={userInfo?.user_facebookid}
                     {...register("user_facebookid")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"

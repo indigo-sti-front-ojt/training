@@ -150,7 +150,7 @@ export const EventSerchForm = (props: Props) => {
             <div className="w-2/5 flex flex-row items-center">
               <input
                 type="text"
-                placeholder="input"
+                placeholder="0"
                 defaultValue=""
                 {...register("minguest")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
@@ -163,7 +163,7 @@ export const EventSerchForm = (props: Props) => {
             <div className="w-2/5 flex flex-row items-center">
               <input
                 type="text"
-                placeholder="input"
+                placeholder="5"
                 defaultValue=""
                 {...register("maxguest")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
@@ -178,7 +178,7 @@ export const EventSerchForm = (props: Props) => {
           <div className="flex flex-row flex-wrap gap-y-2 justify-center items-center">
             <input
               type="text"
-              placeholder="input"
+              placeholder="2000"
               defaultValue=""
               {...register("budget")}
               className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
@@ -193,7 +193,7 @@ export const EventSerchForm = (props: Props) => {
             <div className="w-2/5 flex flex-row items-center">
               <input
                 type="text"
-                placeholder="input"
+                placeholder="2022-10-25"
                 defaultValue=""
                 {...register("fromdate")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
@@ -216,7 +216,7 @@ export const EventSerchForm = (props: Props) => {
             <div className="w-2/5 flex flex-row items-center">
               <input
                 type="text"
-                placeholder="input"
+                placeholder="2022-10-30"
                 defaultValue=""
                 {...register("todate")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"

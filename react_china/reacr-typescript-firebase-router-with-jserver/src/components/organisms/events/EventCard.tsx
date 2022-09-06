@@ -21,10 +21,12 @@ export const EventCard: FC<Props> = (props) => {
         className="relative flex items-center flex-col h-96 w-72 md:w-1/4 rounded-md overflow-hidden shadow-md flex-grow md:max-w-[300px]"
         onClick={onClickLink}
       >
-        {event.event_left_date && event.event_left_date > 0 && (
+        {event.event_left_date && event.event_left_date > 0 ? (
           <div className="absolute flex justify-center items-center w-full h-10 bg-red-600 text-white origin-center left-[35%] rotate-[30deg] top-4">
             あと{event?.event_left_date}日
           </div>
+        ) : (
+          <></>
         )}
         <figure className="overflow-hidden w-full h-1/3 rounded-md">
           <img
