@@ -9,6 +9,7 @@ import {
 } from "../../../hooks/api/postPutDelete/useEventApply";
 import { useEventCreateEditDelete } from "../../../hooks/api/postPutDelete/useEventCreateEditDelete";
 import { UserMinInfo } from "../../../types/api/UserMinInfo";
+import { useUser } from "../../../hooks/api/get/useUser";
 
 type Props = {
   event_id: number;
@@ -18,6 +19,9 @@ export const EventDetail: FC<Props> = (props) => {
   const { loginUser } = useLoginUserContext();
 
   const { event_id } = props;
+
+  // ユーザコンテキストの更新用関数
+  const { getUser } = useUser();
 
   const { eventApply } = useEventApply();
 
@@ -66,19 +70,28 @@ export const EventDetail: FC<Props> = (props) => {
   const onClickButtonToDelete = async () => {
     console.log(event?.event_id);
     await eventCreateEditDelete("delete", { event_id: event_id });
+    // データ変更後にユーザ情報を更新
+    loginUser && getUser(loginUser?.user_id);
+    navigate(-1);
   };
 
   // イベント参加登録ボタン
   const onClickApply = async () => {
     console.log(applyEvent);
+    // イベント参加登録を行う
     await eventApply("post", applyEvent);
+    // データ変更後にユーザ情報を更新
+    loginUser && getUser(loginUser?.user_id);
     setEventJoinFlag(!eventJoinFlag);
   };
 
   // イベント参加登録解除ボタン
   const onClickApplyCancel = async () => {
     console.log(applyEvent);
+    // イベント参加登録解除を行う
     await eventApply("delete", applyEvent);
+    // データ変更後にユーザ情報を更新
+    loginUser && getUser(loginUser?.user_id);
     setEventJoinFlag(!eventJoinFlag);
   };
 
