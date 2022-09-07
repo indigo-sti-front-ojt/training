@@ -121,6 +121,7 @@ export const ItemListPage = () => {
           <div className="flex flex-row gap-y-2 justify-start items-center">
             <input
               type="number"
+              value={price}
               placeholder="input"
               className="form-input w-28"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -145,7 +146,7 @@ export const ItemListPage = () => {
           </span>
         </div>
         <div className="flex flex-col md:flex-row justify-center flex-wrap gap-3">
-          {ItemList()}
+          <ItemList />
         </div>
       </div>
     </>

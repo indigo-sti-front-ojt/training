@@ -4,8 +4,9 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  setDoc,
+  updateDoc,
 } from "firebase/firestore";
+import { useCallback } from "react";
 import { db } from "../firebase";
 import { LodingContainer } from "../provider/LoadingProvider";
 import { TagDBContainer } from "../provider/TagDBProvider";
@@ -30,7 +31,7 @@ export const useFreeTagDB = () => {
   const FreeDataEdit = async (data: TagDBType) => {
     await setLoging(true);
     const target = doc(db, targetTableName, data.id);
-    await setDoc(target, { text: data.text, color: data.color });
+    await updateDoc(target, { text: data.text, color: data.color });
     setTagChangeFlag(!TagChangeFlag);
     setLoging(false);
   };
@@ -42,11 +43,11 @@ export const useFreeTagDB = () => {
     setLoging(false);
   };
 
-  const FreeDataReads = async () => {
+  const FreeDataReads = useCallback(async () => {
     const targetFree = collection(db, targetTableName);
-    const dataFreeResults = await getDocs(targetFree);
+    const dataFreeResults = getDocs(targetFree);
     const tempFreeDatas: TagDBType[] = [];
-    dataFreeResults.forEach((doc) => {
+    (await dataFreeResults).forEach((doc) => {
       const data = doc.data();
       const temp: TagDBType = {
         id: doc.id,
@@ -56,7 +57,7 @@ export const useFreeTagDB = () => {
       tempFreeDatas.push(temp);
     });
     setFreeDataList(tempFreeDatas);
-  };
+  }, []);
 
   return {
     FreeDataReads,

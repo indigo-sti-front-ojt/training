@@ -1,18 +1,26 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useCallback } from "react";
 
 export const TestView = () => {
-  const sleep = (ms: number) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  };
+  const sleep = useCallback((ms: number) => {
+    return new Promise((resolve) => {
+      // console.log(ms);
+      setTimeout(resolve, ms);
+    });
+  }, []);
+  const dash = useCallback(async () => {
+    console.log("data");
+    return "data";
+  }, []);
 
   const AlwaysSuspend = () => {
-    const slash = Math.random();
-    console.log("loading...");
-    if (slash > 0.2) {
-      throw sleep(1000);
+    if (Math.random() > 0.2) {
+      throw Promise.all([sleep(100), sleep(5), dash()]);
     }
+    console.log("loading...");
     return <p>Hello, world!</p>;
   };
+  console.log("reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+
   return (
     <>
       <div>

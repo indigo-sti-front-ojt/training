@@ -5,6 +5,7 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
+import { useCallback } from "react";
 import { db } from "../firebase";
 import { AuthUserContainer } from "../provider/AuthUserProvider";
 import { UserDBContainer } from "../provider/UserDBProvider";
@@ -19,6 +20,8 @@ export const useUserDB = () => {
   const targetTableName = "users";
 
   const UserDataEdit = async (data: UserDBType) => {
+    console.log(data);
+
     const target = doc(db, targetTableName, data.uid);
     await updateDoc(target, {
       nickname: data.nickname,
@@ -27,13 +30,12 @@ export const useUserDB = () => {
     setChangeFlag(!changeFlag);
   };
 
-  const UserDataReads = async () => {
+  const UserDataReads = useCallback(async () => {
     const target = collection(db, targetTableName);
-    const dataResults = await getDocs(target);
+    const dataResults = getDocs(target);
 
     const tempDatas: UserDBType[] = [];
-    dataResults.forEach((doc) => {
-      // console.log(doc.id, ":", doc.data());
+    (await dataResults).forEach((doc) => {
       const tempData: UserDBType = {
         uid: doc.id,
         photoIcon: doc.data().photoIcon,
@@ -43,24 +45,26 @@ export const useUserDB = () => {
       tempDatas.push(tempData);
     });
     setUserDataList(tempDatas);
-  };
-  const UserDataRead = async (uid: string) => {
-    const target = doc(db, targetTableName, uid);
-    const dataResult = await getDoc(target);
+  }, []);
 
-    if (dataResult.data()) {
+  const UserDataRead = useCallback(async (uid: string) => {
+    const target = doc(db, targetTableName, uid);
+    const dataResult = getDoc(target);
+    const userData = (await dataResult).data();
+
+    if (userData) {
       // data 格納処理
       const tempData: UserDBType = {
-        uid: user.uid,
-        photoIcon: dataResult.data()?.photoIcon,
-        nickname: dataResult.data()?.nickname,
-        singleBio: dataResult.data()?.singleBio,
+        uid: uid,
+        photoIcon: userData.photoIcon,
+        nickname: userData.nickname,
+        singleBio: userData.singleBio,
       };
       setUserData(tempData);
     } else {
       // data 登録処理
-      await UserDataEdit({
-        uid: user.uid,
+      UserDataEdit({
+        uid: uid,
         photoIcon: user.photoIcon,
         nickname: user.nickname,
         singleBio: "",
@@ -72,7 +76,7 @@ export const useUserDB = () => {
         singleBio: "",
       });
     }
-  };
+  }, []);
 
   return {
     UserDataEdit,

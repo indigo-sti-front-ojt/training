@@ -14,6 +14,7 @@ import { ShopDBContainer } from "../provider/ShopDBProvider";
 import { ShopDBType } from "../types/ShopDBType";
 
 import { format } from "date-fns";
+import { useCallback } from "react";
 
 // 単一階層の情報の場合
 export const useShopDB = () => {
@@ -72,16 +73,16 @@ export const useShopDB = () => {
     setChangeFlag(!changeFlag);
   };
 
-  const ShopDataReads_AfterLogin = async (user_uid: string) => {
+  const ShopDataReads_AfterLogin = useCallback(async (user_uid: string) => {
     const target = query(
       collection(db, targetTableName),
       where("writer", "==", user_uid)
     );
-    const dataResults = await getDocs(target);
+    const dataResults = getDocs(target);
 
     const tempDatas: ShopDBType[] = [];
 
-    dataResults.forEach((doc) => {
+    (await dataResults).forEach((doc) => {
       // console.log(doc.id, ":", doc.data());
       const data = doc.data();
       const tempData: ShopDBType = {
@@ -112,12 +113,13 @@ export const useShopDB = () => {
     tempDatas.sort(ShopDataSortProgram);
 
     setShopDataList(tempDatas);
-  };
-  const ShopDataReads_ALL = async () => {
+  }, []);
+
+  const ShopDataReads_ALL = useCallback(async () => {
     const tempDatas: ShopDBType[] = [];
     const target = collection(db, targetTableName);
-    const dataResults = await getDocs(target);
-    dataResults.forEach((doc) => {
+    const dataResults = getDocs(target);
+    (await dataResults).forEach((doc) => {
       const data = doc.data();
       const tempData: ShopDBType = {
         uid: doc.id,
@@ -144,7 +146,7 @@ export const useShopDB = () => {
     // sort
     tempDatas.sort(ShopDataSortProgram);
     setShopDataAll(tempDatas);
-  };
+  }, []);
   // sort program
   const ShopDataSortProgram = (
     firstObject: ShopDBType,
@@ -155,11 +157,13 @@ export const useShopDB = () => {
       ? -1
       : 1;
 
-  const ShopDataRead = async (uid: string) => {
+  const ShopDataRead = useCallback(async (uid: string) => {
+    console.log("FireStore ShopDataRead");
+
     const target = doc(db, targetTableName, uid);
-    const dataResult = await getDoc(target);
-    // console.log("shopDataRead");
-    const data = dataResult.data();
+    const dataResult = getDoc(target);
+    const data = (await dataResult).data();
+
     const tempData: ShopDBType = {
       uid: uid,
       name: data?.name,
@@ -181,7 +185,8 @@ export const useShopDB = () => {
       createDate: data?.createData,
     };
     setShopData(tempData);
-  };
+  }, []);
+
   const ShopDataDelete = async (uid: string) => {
     const target = doc(db, targetTableName, uid);
     await deleteDoc(target);

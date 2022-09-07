@@ -1,20 +1,36 @@
-import React, { useEffect } from "react";
+import React, { Suspense } from "react";
 import { useParams } from "react-router-dom";
 import { PageItemComponent } from "../designComponents/PageItemComponent";
 import { useShopDB } from "../hocks/ShopDB";
 import { ShopDBContainer } from "../provider/ShopDBProvider";
+import { NotFoundPage } from "./NotFoundPage";
 
 export const ItemPage = () => {
   const { id } = useParams();
-  // console.log(id);
+
   const { ShopDataRead } = useShopDB();
   const { shopData } = ShopDBContainer.useContainer();
-  useEffect(() => {
-    ShopDataRead(id ?? "");
-  }, []);
+
+  const ViewPageItem = () => {
+    if (shopData.uid != id && shopData.uid == "" && id) {
+      throw ShopDataRead(id);
+    }
+    return (
+      <>
+        {shopData.writer ? (
+          <PageItemComponent data={shopData} />
+        ) : (
+          <NotFoundPage />
+        )}
+      </>
+    );
+  };
+
   return (
     <>
-      <PageItemComponent data={shopData} />
+      <Suspense fallback={<p>wait......</p>}>
+        <ViewPageItem />
+      </Suspense>
     </>
   );
 };

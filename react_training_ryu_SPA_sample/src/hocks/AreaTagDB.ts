@@ -4,8 +4,9 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  setDoc,
+  updateDoc,
 } from "firebase/firestore";
+import { useCallback } from "react";
 import { db } from "../firebase";
 import { LodingContainer } from "../provider/LoadingProvider";
 import { TagDBContainer } from "../provider/TagDBProvider";
@@ -30,7 +31,7 @@ export const useAreaTagDB = () => {
   const AreaDataEdit = async (data: TagDBType) => {
     await setLoging(true);
     const target = doc(db, targetTableName, data.id);
-    await setDoc(target, { text: data.text, color: data.color });
+    await updateDoc(target, { text: data.text, color: data.color });
     setTagChangeFlag(!TagChangeFlag);
     setLoging(false);
   };
@@ -42,11 +43,11 @@ export const useAreaTagDB = () => {
     setLoging(false);
   };
 
-  const AreaDataReads = async () => {
+  const AreaDataReads = useCallback(async () => {
     const targetArea = collection(db, targetTableName);
-    const dataAreaResults = await getDocs(targetArea);
+    const dataAreaResults = getDocs(targetArea);
     const tempAreaDatas: TagDBType[] = [];
-    dataAreaResults.forEach((doc) => {
+    (await dataAreaResults).forEach((doc) => {
       const data = doc.data();
       const temp: TagDBType = {
         id: doc.id,
@@ -56,7 +57,7 @@ export const useAreaTagDB = () => {
       tempAreaDatas.push(temp);
     });
     setAreaDataList(tempAreaDatas);
-  };
+  }, []);
 
   return {
     AreaDataReads,
