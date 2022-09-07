@@ -6,6 +6,7 @@ import {
   getDocs,
   setDoc,
 } from "firebase/firestore";
+import { useCallback } from "react";
 import { db } from "../firebase";
 import { LodingContainer } from "../provider/LoadingProvider";
 import { TagDBContainer } from "../provider/TagDBProvider";
@@ -66,11 +67,16 @@ export const useTagDB = () => {
     setLoging(false);
   };
 
-  const TagDataReads = async () => {
+  const TagDataReads = useCallback(async () => {
     const targetArea = collection(db, targetTableNameArea);
     const dataAreaResults = await getDocs(targetArea);
     const tempAreaDatas: TagDBType[] = [];
-    dataAreaResults.forEach((doc) => {
+
+    const targetFree = collection(db, targetTableNameFree);
+    const dataFreeResults = getDocs(targetFree);
+    const tempFreeDatas: TagDBType[] = [];
+
+    (await dataAreaResults).forEach((doc) => {
       const data = doc.data();
       const temp: TagDBType = {
         id: doc.id,
@@ -81,10 +87,7 @@ export const useTagDB = () => {
     });
     setAreaDataList(tempAreaDatas);
 
-    const targetFree = collection(db, targetTableNameFree);
-    const dataFreeResults = await getDocs(targetFree);
-    const tempFreeDatas: TagDBType[] = [];
-    dataFreeResults.forEach((doc) => {
+    (await dataFreeResults).forEach((doc) => {
       const data = doc.data();
       const temp: TagDBType = {
         id: doc.id,
@@ -94,7 +97,7 @@ export const useTagDB = () => {
       tempFreeDatas.push(temp);
     });
     setFreeDataList(tempFreeDatas);
-  };
+  }, []);
 
   return {
     TagDataReads,

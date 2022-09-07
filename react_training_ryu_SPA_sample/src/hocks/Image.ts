@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { ImageContainer } from "../provider/ImageProvider";
 import { LodingContainer } from "../provider/LoadingProvider";
+import { useCallback } from "react";
 
 export const useImage = () => {
   const { setImageDataList, imageEditFlag, setImageEditFlag } =
@@ -34,7 +35,7 @@ export const useImage = () => {
     setImageEditFlag(!imageEditFlag);
   };
 
-  const imageDataReads = async () => {
+  const imageDataReads = useCallback(async () => {
     const target = collection(db, "images");
     const dataResults = getDocs(target);
     const tempDataList: ImagesDBType[] = [];
@@ -47,7 +48,7 @@ export const useImage = () => {
       tempDataList.push(temp);
     });
     setImageDataList(tempDataList);
-  };
+  }, []);
 
   const imageUpload = async (fileName: string, file: File) => {
     setLoging(true);

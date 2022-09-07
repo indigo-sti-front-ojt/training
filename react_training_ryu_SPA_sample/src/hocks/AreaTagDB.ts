@@ -6,6 +6,7 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
+import { useCallback } from "react";
 import { db } from "../firebase";
 import { LodingContainer } from "../provider/LoadingProvider";
 import { TagDBContainer } from "../provider/TagDBProvider";
@@ -42,7 +43,7 @@ export const useAreaTagDB = () => {
     setLoging(false);
   };
 
-  const AreaDataReads = async () => {
+  const AreaDataReads = useCallback(async () => {
     const targetArea = collection(db, targetTableName);
     const dataAreaResults = getDocs(targetArea);
     const tempAreaDatas: TagDBType[] = [];
@@ -56,7 +57,7 @@ export const useAreaTagDB = () => {
       tempAreaDatas.push(temp);
     });
     setAreaDataList(tempAreaDatas);
-  };
+  }, []);
 
   return {
     AreaDataReads,

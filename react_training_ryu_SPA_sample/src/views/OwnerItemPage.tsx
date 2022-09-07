@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { Suspense } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { PageItemComponent } from "../designComponents/PageItemComponent";
 import { useShopDB } from "../hocks/ShopDB";
@@ -8,22 +8,29 @@ export const OwnerItemPage = () => {
   const { id } = useParams();
   const { ShopDataRead } = useShopDB();
   const { shopData } = ShopDBContainer.useContainer();
-  useLayoutEffect(() => {
-    if (shopData.uid != id && shopData.uid == "") {
-      ShopDataRead(id ?? "");
-    }
-  }, []);
 
   const navigation = useNavigate();
   const onClickLink = () => {
     navigation("edit");
   };
+
+  const ViewPageItem = () => {
+    if (shopData.uid != id && shopData.uid == "") {
+      throw ShopDataRead(id ?? "");
+    }
+    return (
+      <>
+        <PageItemComponent data={shopData} />
+      </>
+    );
+  };
   return (
     <>
       {/* <Link to={"edit"}>edit</Link> */}
 
-      <PageItemComponent data={shopData} />
-
+      <Suspense fallback={<p>wait......</p>}>
+        <ViewPageItem />
+      </Suspense>
       <div
         className="fixed w-10 h-10 md:w-20 md:h-20 right-0 bottom-0 m-2 bg-gray-300 rounded-full overflow-hidden"
         onClick={onClickLink}

@@ -5,6 +5,7 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
+import { useCallback } from "react";
 import { db } from "../firebase";
 import { AuthUserContainer } from "../provider/AuthUserProvider";
 import { UserDBContainer } from "../provider/UserDBProvider";
@@ -19,6 +20,8 @@ export const useUserDB = () => {
   const targetTableName = "users";
 
   const UserDataEdit = async (data: UserDBType) => {
+    console.log(data);
+
     const target = doc(db, targetTableName, data.uid);
     await updateDoc(target, {
       nickname: data.nickname,
@@ -27,7 +30,7 @@ export const useUserDB = () => {
     setChangeFlag(!changeFlag);
   };
 
-  const UserDataReads = async () => {
+  const UserDataReads = useCallback(async () => {
     const target = collection(db, targetTableName);
     const dataResults = getDocs(target);
 
@@ -42,9 +45,9 @@ export const useUserDB = () => {
       tempDatas.push(tempData);
     });
     setUserDataList(tempDatas);
-  };
+  }, []);
 
-  const UserDataRead = async (uid: string) => {
+  const UserDataRead = useCallback(async (uid: string) => {
     const target = doc(db, targetTableName, uid);
     const dataResult = getDoc(target);
     const userData = (await dataResult).data();
@@ -52,7 +55,7 @@ export const useUserDB = () => {
     if (userData) {
       // data 格納処理
       const tempData: UserDBType = {
-        uid: user.uid,
+        uid: uid,
         photoIcon: userData.photoIcon,
         nickname: userData.nickname,
         singleBio: userData.singleBio,
@@ -61,7 +64,7 @@ export const useUserDB = () => {
     } else {
       // data 登録処理
       UserDataEdit({
-        uid: user.uid,
+        uid: uid,
         photoIcon: user.photoIcon,
         nickname: user.nickname,
         singleBio: "",
@@ -73,7 +76,7 @@ export const useUserDB = () => {
         singleBio: "",
       });
     }
-  };
+  }, []);
 
   return {
     UserDataEdit,

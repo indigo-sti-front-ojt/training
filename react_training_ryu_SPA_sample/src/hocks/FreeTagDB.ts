@@ -6,6 +6,7 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
+import { useCallback } from "react";
 import { db } from "../firebase";
 import { LodingContainer } from "../provider/LoadingProvider";
 import { TagDBContainer } from "../provider/TagDBProvider";
@@ -42,7 +43,7 @@ export const useFreeTagDB = () => {
     setLoging(false);
   };
 
-  const FreeDataReads = async () => {
+  const FreeDataReads = useCallback(async () => {
     const targetFree = collection(db, targetTableName);
     const dataFreeResults = getDocs(targetFree);
     const tempFreeDatas: TagDBType[] = [];
@@ -56,7 +57,7 @@ export const useFreeTagDB = () => {
       tempFreeDatas.push(temp);
     });
     setFreeDataList(tempFreeDatas);
-  };
+  }, []);
 
   return {
     FreeDataReads,

@@ -9,28 +9,29 @@ import {
 
 import { userType } from "../types/userType";
 import { AuthUserContainer } from "../provider/AuthUserProvider";
+import { useCallback } from "react";
 
 export const useAuthUser = () => {
   const { setUser, setisLoggined, setisAuthChecked } =
     AuthUserContainer.useContainer();
 
-  const login = async () => {
+  const login = useCallback(async () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
     } catch (e) {
       console.log(e);
     }
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     await signOut(auth);
-  };
+  }, []);
 
-  const changeUserState = async () => {
+  const changeUserState = useCallback(() => {
     setisAuthChecked(false);
-    await onAuthStateChanged(auth, (getAuthUser: User | null) => {
-      console.log("change state");
+    onAuthStateChanged(auth, async (getAuthUser: User | null) => {
+      console.log(getAuthUser);
 
       if (getAuthUser) {
         const current_User: userType = {
@@ -53,7 +54,7 @@ export const useAuthUser = () => {
       }
       setisAuthChecked(true);
     });
-  };
+  }, []);
 
   return { login, logout, changeUserState };
 };

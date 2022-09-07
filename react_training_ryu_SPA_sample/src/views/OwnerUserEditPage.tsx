@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useUserDB } from "../hocks/UserDB";
+import { AuthUserContainer } from "../provider/AuthUserProvider";
 import { UserDBContainer } from "../provider/UserDBProvider";
 import { UserDBType } from "../types/UserDBType";
 
@@ -11,6 +12,7 @@ type ownerFormType = {
 };
 
 export const OwnerUserEditPage = () => {
+  const { user } = AuthUserContainer.useContainer();
   const { userData } = UserDBContainer.useContainer();
   const { UserDataEdit } = useUserDB();
   const img_url: string = userData.photoIcon ?? "";
@@ -37,7 +39,7 @@ export const OwnerUserEditPage = () => {
     formData: ownerFormType
   ) => {
     const tempData: UserDBType = {
-      uid: userData.uid,
+      uid: user.uid,
       photoIcon: userData.photoIcon,
       nickname: formData.name,
       singleBio: formData.bio,

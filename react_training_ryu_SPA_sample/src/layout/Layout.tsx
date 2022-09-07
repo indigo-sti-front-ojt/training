@@ -19,9 +19,6 @@ export const Layout = () => {
           (location.pathname.includes("owner") ? " md:pl-11" : " ")
         }
       >
-        {/* <Suspense fallback={<>loading ...</>}>
-          <DataView />
-        </Suspense> */}
         <Outlet />
       </main>
       <FooterComponet />

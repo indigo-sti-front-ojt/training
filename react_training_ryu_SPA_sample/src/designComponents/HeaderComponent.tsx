@@ -47,7 +47,7 @@ export const HeaderComponent = () => {
                   to="/"
                   onClick={() => setOpen(false)}
                 >
-                  home
+                  HOME
                 </Link>
                 <Link
                   className={
@@ -57,7 +57,7 @@ export const HeaderComponent = () => {
                   to="/about"
                   onClick={() => setOpen(false)}
                 >
-                  about
+                  ABOUT
                 </Link>
                 <Link
                   className={
@@ -67,7 +67,7 @@ export const HeaderComponent = () => {
                   to="/pages"
                   onClick={() => setOpen(false)}
                 >
-                  pages
+                  PAGES
                 </Link>
                 <Link
                   className={

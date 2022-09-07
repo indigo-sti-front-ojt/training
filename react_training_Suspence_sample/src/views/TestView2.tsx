@@ -1,12 +1,12 @@
 import axios from "axios";
-import React, { memo, Suspense, useCallback, useState } from "react";
+import React, { memo, Suspense, useCallback } from "react";
+import { TestDBContainer } from "../provider/TestDBProvider";
 
-export const TestView1 = memo(() => {
+export const TestView2 = memo(() => {
   const URL =
     "https://script.google.com/macros/s/AKfycbznt5MYiWRqIuBv_R2dtZudVw2WUtZFBywyfuHKr5-CqdUPgFpwa7HG1izHsaANxT0qAg/exec?";
 
-  const [data1, setData1] = useState<string>();
-  const [data2, setData2] = useState<string>();
+  const { data1, data2, setData1, setData2 } = TestDBContainer.useContainer();
 
   const dataReadGet1 = useCallback(async () => {
     const result = axios.get(URL);
@@ -22,9 +22,10 @@ export const TestView1 = memo(() => {
   }, []);
 
   const data = useCallback(async () => {
-    console.log("data");
+    console.log("promise data");
   }, []);
 
+  // suspenseの内部にthrowが入ってないといけない
   const DataView = () => {
     if (!data1 || !data2) {
       throw Promise.all([dataReadGet1(), dataReadGet2(), data()]);
@@ -36,7 +37,7 @@ export const TestView1 = memo(() => {
       </>
     );
   };
-  console.log("renda");
+  console.log("rend");
 
   return (
     <>
@@ -50,4 +51,5 @@ export const TestView1 = memo(() => {
     </>
   );
 });
-TestView1.displayName = "testview1";
+
+TestView2.displayName = "testview2";

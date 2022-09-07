@@ -14,7 +14,7 @@ import { ShopDBContainer } from "../provider/ShopDBProvider";
 import { ShopDBType } from "../types/ShopDBType";
 
 import { format } from "date-fns";
-import { LodingContainer } from "../provider/LoadingProvider";
+import { useCallback } from "react";
 
 // 単一階層の情報の場合
 export const useShopDB = () => {
@@ -25,8 +25,6 @@ export const useShopDB = () => {
     setShopDataList,
     setShopDataAll,
   } = ShopDBContainer.useContainer();
-
-  const { setFirst } = LodingContainer.useContainer();
 
   const targetTableName = "shops";
 
@@ -75,7 +73,7 @@ export const useShopDB = () => {
     setChangeFlag(!changeFlag);
   };
 
-  const ShopDataReads_AfterLogin = async (user_uid: string) => {
+  const ShopDataReads_AfterLogin = useCallback(async (user_uid: string) => {
     const target = query(
       collection(db, targetTableName),
       where("writer", "==", user_uid)
@@ -115,8 +113,9 @@ export const useShopDB = () => {
     tempDatas.sort(ShopDataSortProgram);
 
     setShopDataList(tempDatas);
-  };
-  const ShopDataReads_ALL = async () => {
+  }, []);
+
+  const ShopDataReads_ALL = useCallback(async () => {
     const tempDatas: ShopDBType[] = [];
     const target = collection(db, targetTableName);
     const dataResults = getDocs(target);
@@ -147,8 +146,7 @@ export const useShopDB = () => {
     // sort
     tempDatas.sort(ShopDataSortProgram);
     setShopDataAll(tempDatas);
-    setFirst(true);
-  };
+  }, []);
   // sort program
   const ShopDataSortProgram = (
     firstObject: ShopDBType,
@@ -159,11 +157,13 @@ export const useShopDB = () => {
       ? -1
       : 1;
 
-  const ShopDataRead = async (uid: string) => {
+  const ShopDataRead = useCallback(async (uid: string) => {
+    console.log("FireStore ShopDataRead");
+
     const target = doc(db, targetTableName, uid);
     const dataResult = getDoc(target);
-    // console.log("shopDataRead");
     const data = (await dataResult).data();
+
     const tempData: ShopDBType = {
       uid: uid,
       name: data?.name,
@@ -185,7 +185,8 @@ export const useShopDB = () => {
       createDate: data?.createData,
     };
     setShopData(tempData);
-  };
+  }, []);
+
   const ShopDataDelete = async (uid: string) => {
     const target = doc(db, targetTableName, uid);
     await deleteDoc(target);
