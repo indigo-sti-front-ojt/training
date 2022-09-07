@@ -4,6 +4,8 @@ import { SearchEventList } from "../../../types/react-hook-form/SearchEventList"
 import { useEventSearch } from "../../../hooks/api/get/useEventSearch";
 import { useAllTagsContext } from "../../../context/AllTagsContext";
 import { Event } from "../../../types/api/Event";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 type Props = {
   setEvents: React.Dispatch<React.SetStateAction<Event[] | undefined>>;
@@ -11,10 +13,57 @@ type Props = {
   genreData?: SearchEventList;
 };
 
-// どうやってやる? stateで読み込んだ値をフォームに入れ、検索まで行う
-// 1.フォームに入れる
-// 2.タグをpropsで、読み込んで来た場合検索結果を表示する
-// ここで1と2を行う
+// yup スキーマ定義
+const schema = yup.object().shape({
+  tagsid: yup
+    .array()
+    .of(yup.number())
+    .nullable()
+    .transform((value, originalValue) =>
+      String(originalValue).trim() === "" ? null : value
+    ),
+  budget: yup
+    .number()
+    .typeError("数値を入力してください")
+    .positive()
+    .integer()
+    .nullable()
+    .transform((value, originalValue) =>
+      String(originalValue).trim() === "" ? null : value
+    ),
+  minguest: yup
+    .number()
+    .typeError("数値を入力してください")
+    .positive()
+    .integer()
+    .nullable()
+    .transform((value, originalValue) =>
+      String(originalValue).trim() === "" ? null : value
+    ),
+  maxguest: yup
+    .number()
+    .typeError("数値を入力してください")
+    .positive()
+    .integer()
+    .nullable()
+    .transform((value, originalValue) =>
+      String(originalValue).trim() === "" ? null : value
+    ),
+  fromdate: yup
+    .string()
+    .matches(/^\d{4}-\d{2}-\d{2}$/, { message: "開始日付の形式が不正です" })
+    .nullable()
+    .transform((value, originalValue) =>
+      String(originalValue).trim() === "" ? null : value
+    ),
+  todate: yup
+    .string()
+    .matches(/^\d{4}-\d{2}-\d{2}$/, { message: "終了日付の形式が不正です" })
+    .nullable()
+    .transform((value, originalValue) =>
+      String(originalValue).trim() === "" ? null : value
+    ),
+});
 
 export const EventSerchForm = (props: Props) => {
   const { allTags } = useAllTagsContext();
@@ -27,20 +76,21 @@ export const EventSerchForm = (props: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm<SearchEventList>({
+    resolver: yupResolver(schema),
     defaultValues: {
       tagsid: [],
     },
   });
 
   const onSubmit: SubmitHandler<SearchEventList> = async (data) => {
-    const temp = {
-      ...data,
-      // budget: Number(data.budget),
-      // minguest: Number(data.minguest),
-      // maxguest: Number(data.maxguest),
-      tags: data?.tagsid?.map(Number),
-    };
-    console.log("onSubmit", temp);
+    // const temp = {
+    //   ...data,
+    //   budget: Number(data.budget),
+    //   minguest: Number(data.minguest),
+    //   maxguest: Number(data.maxguest),
+    //   tags: data?.tagsid?.map(Number),
+    // };
+    console.log("onSubmit", data);
     const eventsdata = await getSearchEvents(data);
     setEvents(eventsdata);
   };
@@ -153,9 +203,8 @@ export const EventSerchForm = (props: Props) => {
           <div className="flex flex-row flex-wrap gap-y-2">
             <div className="w-2/5 flex flex-row items-center">
               <input
-                type="number"
+                type="text"
                 placeholder="0"
-                defaultValue=""
                 {...register("minguest")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
               />
@@ -166,9 +215,8 @@ export const EventSerchForm = (props: Props) => {
             </div>
             <div className="w-2/5 flex flex-row items-center">
               <input
-                type="number"
+                type="text"
                 placeholder="5"
-                defaultValue=""
                 {...register("maxguest")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
               />
@@ -181,9 +229,8 @@ export const EventSerchForm = (props: Props) => {
           <div className="font-bold">予算</div>
           <div className="flex flex-row flex-wrap gap-y-2 justify-center items-center">
             <input
-              type="number"
+              type="text"
               placeholder="2000"
-              defaultValue=""
               {...register("budget")}
               className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
             />
@@ -198,13 +245,7 @@ export const EventSerchForm = (props: Props) => {
               <input
                 type="text"
                 placeholder="2022-10-25"
-                defaultValue=""
-                {...register("fromdate", {
-                  pattern: {
-                    value: /^\d{4}-\d{2}-\d{2}$/,
-                    message: "日程（検索開始）の値が不正です",
-                  },
-                })}
+                {...register("fromdate")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
               />
               <div className="w-1/3 flex justify-center items-center">
@@ -226,13 +267,7 @@ export const EventSerchForm = (props: Props) => {
               <input
                 type="text"
                 placeholder="2022-10-30"
-                defaultValue=""
-                {...register("todate", {
-                  pattern: {
-                    value: /^\d{4}-\d{2}-\d{2}$/,
-                    message: "日程（検索終了）の値が不正です",
-                  },
-                })}
+                {...register("todate")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
               />
               <div className="w-1/3 flex justify-center items-center">
@@ -266,18 +301,14 @@ export const EventSerchForm = (props: Props) => {
           </label>
         </div>
 
-        {errors.fromdate && (
-          // 検索開始日付エラー
-          <>
-            <p>{errors.fromdate?.message}</p>
-          </>
-        )}
-        {errors.todate && (
-          // 検索終了日付エラー
-          <>
-            <p>{errors.todate?.message}</p>
-          </>
-        )}
+        {/* フォームの入力エラー */}
+        {errors.tagsid && errors.tagsid.message}
+        {errors.budget && errors.budget.message}
+        {errors.minguest && errors.minguest.message}
+        {errors.maxguest && errors.maxguest.message}
+        {errors.fromdate && errors.fromdate.message}
+        {errors.todate && errors.todate.message}
+        
       </form>
       {/* <form onSubmit={handleSubmit(onSubmit)}>
         <p>イベントタグ</p>
