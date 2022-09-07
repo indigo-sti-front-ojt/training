@@ -44,7 +44,7 @@ export const useLoginWithGoogle = () => {
 
       // ユーザーDBの有無から初回ログインを判定
       getUser(res.user.uid);
-      
+
       if (isUserChecked) {
         console.log("初回ログイン");
         const userRegister: UserMinInfo = {
@@ -55,6 +55,7 @@ export const useLoginWithGoogle = () => {
         };
         console.log("初回ログイン登録情報", userRegister);
         await userCreateEdit("post", userRegister);
+        // getUser(res.user.uid);
         navigate("/welcome");
       } else {
         console.log("再ログイン");

@@ -5,24 +5,22 @@ import { useNavigate } from "react-router-dom";
 import { User } from "../../../types/api/User";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
 import { useAllTagsContext } from "../../../context/AllTagsContext";
+import { useUserInfoContext } from "../../../context/UserInfoContext";
 import { useUserCreateEdit } from "../../../hooks/api/postPutDelete/useUserCreateEdit";
-import { UserMinInfo } from "../../../types/api/UserMinInfo";
 import { useUser } from "../../../hooks/api/get/useUser";
 
 export const FirstLogin = () => {
   const { loginUser } = useLoginUserContext();
   const { allTags } = useAllTagsContext();
+  const { userInfo } = useUserInfoContext();
   const { userCreateEdit } = useUserCreateEdit();
 
   // ユーザー情報更新のためのhooksを定義
   const { getUser } = useUser();
 
-  const userRegister: UserMinInfo = {
-    user_email: loginUser?.user_email ?? undefined,
-    user_name: loginUser?.user_name ?? undefined,
-    user_icon: loginUser?.user_icon ?? undefined,
-    user_id: loginUser?.user_id,
-  };
+  const user_tags_id: Array<number> | undefined = userInfo?.user_tags?.map(
+    (checkd_tag) => checkd_tag.tag_id
+  );
 
   const {
     register,
@@ -31,23 +29,22 @@ export const FirstLogin = () => {
     //formState: { errors },
   } = useForm<User>({
     defaultValues: {
-      user_email: userRegister.user_email,
-      user_name: userRegister.user_name,
-      user_icon: userRegister.user_icon,
-      user_id: userRegister.user_id,
-      user_nickname: userRegister.user_name,
-      user_tags_id: [],
-      user_coe: "",
-      user_comment: "",
-      user_facebookid: "",
-      user_instagramid: "",
-      user_lineqr: "",
-      user_sl: "",
-      user_twitterid: "",
+      user_tags_id: user_tags_id ?? [],
     },
   });
 
-  setValue("user_id", loginUser?.user_id);
+  setValue("user_id", userInfo.user_id);
+  setValue("user_email", userInfo.user_email);
+  setValue("user_icon", userInfo.user_icon);
+  setValue("user_nickname", userInfo.user_nickname);
+  setValue("user_tags_id", user_tags_id ?? []);
+  setValue("user_coe", userInfo.user_coe);
+  setValue("user_comment", userInfo.user_comment);
+  setValue("user_facebookid", userInfo.user_facebookid);
+  setValue("user_instagramid", userInfo.user_instagramid);
+  setValue("user_lineqr", userInfo.user_lineqr);
+  setValue("user_sl", userInfo.user_sl);
+  setValue("user_twitterid", userInfo.user_twitterid);
 
   const navigate = useNavigate();
 
