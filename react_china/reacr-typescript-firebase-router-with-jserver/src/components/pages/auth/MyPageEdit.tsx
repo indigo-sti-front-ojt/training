@@ -53,7 +53,7 @@ export const MyPageEdit: FC = () => {
   } = useForm<User>({
     resolver: yupResolver(schema),
     defaultValues: {
-      //user_nickname: userInfo?.user_nickname ?? "",
+      user_nickname: userInfo?.user_nickname ?? "",
       user_coe: userInfo?.user_coe ?? "",
       user_sl: userInfo?.user_sl ?? "",
       user_comment: userInfo?.user_comment ?? "",
@@ -73,13 +73,13 @@ export const MyPageEdit: FC = () => {
   const { userCreateEdit } = useUserCreateEdit();
 
   const onSubmit: SubmitHandler<User> = async (data: User) => {
-    const temp: User = {
-      ...data,
-      user_tags_id: data.user_tags_id?.map(Number),
-    };
-    await userCreateEdit("put", temp);
+    // const temp: User = {
+    //   ...data,
+    //   user_tags_id: data.user_tags_id?.map(Number),
+    // };
+    await userCreateEdit("put", data);
     loginUser && getUser(loginUser?.user_id);
-    console.log("temp", temp);
+    console.log("data", data);
   };
 
   const [iconFlag, setIconFlag] = useState(false);
