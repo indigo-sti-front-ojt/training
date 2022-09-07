@@ -61,7 +61,7 @@ export const useLoginWithGoogle = () => {
           // getUser(res.user.uid);
           navigate("/welcome");
           setSuccess(true);
-        } else {
+        } else if (userInfo) {
           // ユーザDBがある場合
           console.log("ログイン");
           navigate("/");
