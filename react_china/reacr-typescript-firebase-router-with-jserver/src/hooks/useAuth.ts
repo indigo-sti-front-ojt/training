@@ -26,8 +26,9 @@ export const useLoginWithGoogle = () => {
   const { userCreateEdit } = useUserCreateEdit();
   //ユーザー取得api hooks
   const { getUser } = useUser();
-  // ユーザ情報取得判別
-  const { isUserChecked, userInfo } = useUserInfoContext();
+
+  // ユーザ情報取得判別と初期化用
+  const { isUserChecked, userInfo, setIsUserChecked } = useUserInfoContext();
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -39,6 +40,7 @@ export const useLoginWithGoogle = () => {
     });
     try {
       setError(false);
+
       // ログイン
       const res = await signInWithPopup(fireauth, provider);
 
@@ -47,9 +49,12 @@ export const useLoginWithGoogle = () => {
 
       // ユーザのセットが完了したらログイン判定を行う
       if (isUserChecked) {
-        // ユーザDBがない場合
+        console.log("ユーザのセットが完了", isUserChecked);
+        setIsUserChecked(false);
+
         if (!userInfo) {
-          console.log("初回ログイン");
+          // ユーザDBがない場合
+          console.log("ユーザDBがない場合(初回ログイン)");
           const userRegister: UserMinInfo = {
             user_email: res.user.email ?? undefined,
             user_name: res.user.displayName ?? undefined,
@@ -96,7 +101,7 @@ export const useLoginUser = () => {
 
   const getLoginUser = async () => {
     const auth = getAuth();
-    await onAuthStateChanged(auth, async (loginUser) => {
+    onAuthStateChanged(auth, async (loginUser) => {
       if (loginUser) {
         const loginUserInfo = {
           user_email: loginUser.email,
