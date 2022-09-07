@@ -18,7 +18,7 @@ export const EventCard: FC<Props> = (props) => {
   return (
     <>
       <div
-        className="relative flex items-center flex-col h-96 w-72 md:w-1/4 rounded-md overflow-hidden shadow-md flex-grow md:max-w-[300px]"
+        className="relative flex items-center flex-col h-96 w-72 md:w-1/4 rounded-md overflow-hidden shadow-md flex-grow md:max-w-[300px] hover:cursor-pointer"
         onClick={onClickLink}
       >
         {event.event_left_date && event.event_left_date > 0 ? (

@@ -73,9 +73,9 @@ export const Comment: FC<Props> = (props) => {
                 <div
                   className={
                     "flex gap-x-2 " +
-                    (loginUser && loginUser.user_id === comment.user_id)
+                    (loginUser && loginUser.user_id === comment.user_id
                       ? "flex-row-reverse"
-                      : "flex-row"
+                      : "flex-row")
                   }
                 >
                   <div className="h-10 w-10 flex-shrink-0">
@@ -87,9 +87,7 @@ export const Comment: FC<Props> = (props) => {
                       />
                     </figure>
                   </div>
-                  <div className="p-2 w-1/3 border border-r-black">
-                    {comment.comment_text}
-                  </div>
+                  <div className="p-2 w-1/3 border">{comment.comment_text}</div>
                 </div>
               </div>
             </>
@@ -100,14 +98,16 @@ export const Comment: FC<Props> = (props) => {
           className="w-full flex flex-row gap-x-2"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <input
-            className="w-full border-2 border-gray-600 outline-1 outline-gray-700 p-2"
-            {...register("comment_text", { required: true })}
-          />
-          {errors.comment_text && (
-            <span style={{ color: "red" }}>コメントが入力されていません</span>
-          )}
-          <button className="flex-shrink-0 rounded-md flex flex-row py-2 px-8 border border-gray-600">
+          <div className="flex-grow">
+            <input
+              className="w-full border-2 border-gray-600 outline-1 outline-gray-700 p-2"
+              {...register("comment_text", { required: true })}
+            />
+            <div className="w-full h-6 text-xs text-red-500">
+              {errors.comment_text && "コメントが入力されていません"}
+            </div>
+          </div>
+          <button className="flex-shrink-0 rounded-md flex flex-row items-center py-2 px-8 border border-gray-600">
             <span>送信</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
