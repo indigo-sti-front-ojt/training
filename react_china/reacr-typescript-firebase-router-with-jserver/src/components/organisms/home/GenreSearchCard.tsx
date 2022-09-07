@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type Props = {
   tag_id: string;
@@ -32,9 +32,17 @@ export const GenreSearchCard = (props: Props) => {
   useLayoutEffect(() => {
     setImageURL(imageURL);
   }, []);
+
+  const navigate = useNavigate();
+  const onClickLink = () => {
+    navigate("/events", { state: { genreData: { tagsid: tags_arr } } });
+  };
   return (
     <>
-      <div className="relative w-3/4 h-24 flex flex-row bg-gray-100 items-center rounded-md shadow-md px-2 md:flex-col md:h-72 md:w-1/5 md:px-0 md:rounded-sm overflow-hidden md:flex-grow">
+      <div
+        onClick={onClickLink}
+        className="relative w-3/4 h-24 flex flex-row bg-gray-100 items-center rounded-md shadow-md px-2 md:flex-col md:h-72 md:w-1/5 md:px-0 md:rounded-sm overflow-hidden md:flex-grow hover:cursor-pointer"
+      >
         <figure className="w-20 h-20 bg-red-400 overflow-hidden rounded-full md:w-full md:h-1/2 md:rounded-none">
           <img
             src={imgURL}
@@ -57,11 +65,7 @@ export const GenreSearchCard = (props: Props) => {
               <path d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </div>
-          <Link
-            className="hidden mx-2 flex-row items-center justify-around py-2 px-4 bg-gray-400/80 rounded-lg ring-2 ring-gray-200 md:flex"
-            to="/events"
-            state={{ genreData: { tagsid: tags_arr } }}
-          >
+          <div className="hidden mx-2 flex-row items-center justify-around py-2 px-4 bg-gray-400/80 rounded-lg ring-2 ring-gray-200 md:flex">
             <span className="text-sm mx-2 font-bold">詳しく見る</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +76,7 @@ export const GenreSearchCard = (props: Props) => {
             >
               <path d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
-          </Link>
+          </div>
         </div>
       </div>
     </>

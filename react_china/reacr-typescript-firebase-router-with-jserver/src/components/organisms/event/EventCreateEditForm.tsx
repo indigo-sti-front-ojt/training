@@ -13,16 +13,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 const schema = yup.object().shape({
   event_name: yup.string().required(),
   event_note: yup.string(),
-  event_deadline: yup
-    .string()
-    .matches(/^\d{4}-\d{2}-\d{2}$/, {
-      message: "イベント締め切り日時の形式が不正です",
-    }),
-  event_date: yup
-    .string()
-    .matches(/^\d{4}-\d{2}-\d{2}$/, {
-      message: "イベント日時の形式が不正です",
-    }),
+  event_deadline: yup.string().matches(/^\d{4}-\d{2}-\d{2}$/, {
+    message: "イベント締め切り日時の形式が不正です",
+  }),
+  event_date: yup.string().matches(/^\d{4}-\d{2}-\d{2}$/, {
+    message: "イベント日時の形式が不正です",
+  }),
   event_place: yup.string().required(),
   event_budget: yup.number().positive().integer(),
   event_min_guest: yup.number().positive().integer(),
@@ -180,6 +176,9 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             className="h-auto max-h-64 md:max-h-full md:h-full w-auto object-contain rounded-md"
             alt="画像がないよ"
           />
+          <div className="h-12 w-full">
+            {errors.event_image && errors.event_image.message}
+          </div>
         </figure>
         <input
           type="file"
@@ -194,8 +193,8 @@ export const EventCreateEditForm: FC<Props> = (props) => {
         {/* 選択した時点でアップロードするのはどうかな？？ */}
 
         <div className="w-full flex flex-col border-2 items-center rounded-md border-gray-600 gap-10 py-10 px-2">
-          <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
-            <div className="w-1/3">イベント名</div>
+          <div className="flex flex-col md:flex-row md:justify-around md:items-start w-full md:w-3/4 ">
+            <div className="w-1/3 p-2">イベント名</div>
             <div className="w-full">
               <input
                 type="text"
@@ -203,61 +202,77 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                 {...register("event_name", { required: true })}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-full"
               />
+              <div className="h-6 w-full text-xs text-red-500">
+                {errors.event_name && errors.event_name.message}
+              </div>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
-            <div className="w-1/3">募集文章</div>
+          <div className="flex flex-col md:flex-row md:justify-start md:items-start w-full md:w-3/4 ">
+            <div className="w-1/3 p-2">募集文章</div>
             <div className="w-full">
               <textarea
                 placeholder="コメントを入力"
                 {...register("event_note")}
                 className="h-52 border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-full"
-              ></textarea>
+              />
+              <div className="h-6 w-full text-xs text-red-500">
+                {errors.event_note && errors.event_note.message}
+              </div>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
-            <div className="w-1/3">募集締め切り</div>
-            <div className="w-full flex flex-row items-center">
-              <input
-                type="text"
-                placeholder="2020-09-06"
-                {...register("event_deadline")}
-                className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
+          <div className="flex flex-col md:flex-row md:justify-start md:items-start w-full md:w-3/4 ">
+            <div className="w-1/3 p-2">募集締め切り</div>
+            <div className="w-full flex flex-col">
+              <div className="w-full flex flex-row items-center">
+                <input
+                  type="text"
+                  placeholder="2020-09-06"
+                  {...register("event_deadline")}
+                  className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div className="h-6 w-full text-xs text-red-500">
+                {errors.event_deadline && errors.event_deadline.message}
+              </div>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
-            <div className="w-1/3">開催日時</div>
-            <div className="w-full flex flex-row items-center">
-              <input
-                type="text"
-                placeholder="2020-09-15"
-                {...register("event_date")}
-                className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
+          <div className="flex flex-col md:flex-row md:justify-around md:items-start w-full md:w-3/4 ">
+            <div className="w-1/3 p-2">開催日時</div>
+            <div className="w-full flex flex-col">
+              <div className="w-full flex flex-row items-center">
+                <input
+                  type="text"
+                  placeholder="2020-09-15"
+                  {...register("event_date")}
+                  className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div className="h-6 w-full text-xs text-red-500">
+                {errors.event_date && errors.event_date.message}
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
-            <div className="w-1/3">開催場所</div>
+          <div className="flex flex-col md:flex-row md:justify-around md:items-start w-full md:w-3/4 ">
+            <div className="w-1/3 p-2">開催場所</div>
             <div className="w-full">
               <input
                 type="text"
@@ -265,11 +280,14 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                 {...register("event_place")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
               />
+              <div className="h-6 w-full text-xs text-red-500">
+                {errors.event_place && errors.event_place.message}
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
-            <div className="w-1/3">予算</div>
+          <div className="flex flex-col md:flex-row md:justify-around md:items-start w-full md:w-3/4 ">
+            <div className="w-1/3 p-2">予算</div>
             <div className="w-full">
               <input
                 type="text"
@@ -278,10 +296,13 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
               />{" "}
               円以下
+              <div className="h-6 w-full text-xs text-red-500">
+                {errors.event_budget && errors.event_budget.message}
+              </div>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
-            <div className="w-1/3">タグ</div>
+          <div className="flex flex-col md:flex-row md:justify-around md:items-start w-full md:w-3/4 ">
+            <div className="w-1/3 p-2">タグ</div>
             <div className="w-full">
               <div className="flex flex-row flex-wrap gap-y-2">
                 {/* タグを保持するもの */}
@@ -318,10 +339,13 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                   </div>
                 </div> */}
               </div>
+              <div className="h-6 w-full text-xs text-red-500">
+                {errors.event_tags_id && errors.event_tags_id.message}
+              </div>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row md:justify-around md:items-center w-full md:w-3/4 ">
-            <div className="w-1/3">募集人数</div>
+          <div className="flex flex-col md:flex-row md:justify-around md:items-start w-full md:w-3/4 ">
+            <div className="w-1/3 p-2">募集人数</div>
             <div className="w-full">
               <div className="flex flex-row flex-wrap gap-y-2">
                 <div className="w-2/5 flex flex-row items-center">
@@ -344,6 +368,14 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
                   />
                   <div className="w-1/3 text-center">人</div>
+                </div>
+              </div>
+              <div className="h-6 w-full text-xs text-red-500">
+                <div>
+                  {errors.event_min_guest && errors.event_min_guest.message}
+                </div>
+                <div>
+                  {errors.event_max_guest && errors.event_max_guest.message}
                 </div>
               </div>
             </div>
@@ -392,7 +424,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
           />
           <span>円</span>
         </label> */}
-        {/* 
+        {/*
         <p>タグ</p>
         {allTags?.map(function (tag, i) {
           return (
@@ -439,10 +471,12 @@ export const EventCreateEditForm: FC<Props> = (props) => {
         <div className="flex flex-row items-center justify-center w-full max-w-4xl">
           <input
             type="submit"
-            className="border border-gray-300 rounded-md flex flex-col justify-center items-center py-8 px-20"
+            className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-green-500/80 bg-green-400"
           />
+        </div>
+        <div>
           {/* フォームの入力エラー */}
-          {errors.event_name && errors.event_name.message}
+          {/* {errors.event_name && errors.event_name.message}
           {errors.event_note && errors.event_note.message}
           {errors.event_deadline && errors.event_deadline.message}
           {errors.event_date && errors.event_date.message}
@@ -451,7 +485,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
           {errors.event_min_guest && errors.event_min_guest.message}
           {errors.event_max_guest && errors.event_max_guest.message}
           {errors.event_image && errors.event_image.message}
-          {errors.event_tags_id && errors.event_tags_id.message}
+          {errors.event_tags_id && errors.event_tags_id.message} */}
         </div>
       </form>
     </>

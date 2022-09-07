@@ -287,11 +287,11 @@ export const EventDetail: FC<Props> = (props) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-row items-center justify-center w-full max-w-4xl">
+      <div className="flex flex-row items-center justify-around w-full max-w-4xl">
         {eventJoinFlag ? (
           <>
             <button
-              className="border border-gray-300 rounded-md flex flex-col justify-center items-center py-8 px-20"
+              className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-red-500/80 bg-red-400"
               onClick={onClickApplyCancel}
             >
               参加登録解除
@@ -300,7 +300,7 @@ export const EventDetail: FC<Props> = (props) => {
         ) : (
           <>
             <button
-              className="border border-gray-300 rounded-md flex flex-col justify-center items-center py-8 px-20"
+              className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-blue-500/80 bg-blue-400"
               onClick={onClickApply}
             >
               参加登録
@@ -310,14 +310,14 @@ export const EventDetail: FC<Props> = (props) => {
         {loginUser?.user_id === event?.event_owner?.user_id ? (
           <>
             <button
-              className="border border-gray-300 rounded-md flex flex-col justify-center items-center py-8 px-20"
+              className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-black border-4 border-green-500/80 bg-green-400"
               type="button"
               onClick={onClickButtonToEdit}
             >
               編集
             </button>
             <button
-              className="border border-gray-300 rounded-md flex flex-col justify-center items-center py-8 px-20"
+              className="w-1/4 border rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-red-500/80 bg-red-400"
               type="button"
               onClick={onClickButtonToDelete}
             >
