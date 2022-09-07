@@ -9,7 +9,24 @@ import { useLoginUserContext } from "../../../context/LoginUserContext";
 import { useBase64ImageUp } from "../../../hooks/api/postPutDelete/useBase64ImageUp";
 import { useNavigate } from "react-router-dom";
 
-// import { useImageUp } from "../../../hooks/useImageUp";
+//yup
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+// yup スキーマ定義
+const schema = yup.object().shape({
+  user_nickname: yup.string().required(),
+  user_coe: yup.string(),
+  user_sl: yup.string(),
+  user_comment: yup.string(),
+  user_email: yup.string().email().required(),
+  user_instagramid: yup.string(),
+  user_twitterid: yup.string(),
+  user_facebookid: yup.string(),
+  user_tags_id: yup.array().of(yup.number()),
+  user_icon: yup.string(),
+  user_lineqr: yup.string(),
+});
 
 export const MyPageEdit: FC = () => {
   const navigate = useNavigate();
@@ -32,10 +49,19 @@ export const MyPageEdit: FC = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { isSubmitSuccessful },
+    formState: { isSubmitSuccessful, errors },
   } = useForm<User>({
+    resolver: yupResolver(schema),
     defaultValues: {
-      user_tags_id: [],
+      //user_nickname: userInfo?.user_nickname ?? "",
+      user_coe: userInfo?.user_coe ?? "",
+      user_sl: userInfo?.user_sl ?? "",
+      user_comment: userInfo?.user_comment ?? "",
+      user_email: userInfo?.user_email ?? "",
+      user_instagramid: userInfo?.user_instagramid ?? "",
+      user_twitterid: userInfo?.user_twitterid ?? "",
+      user_facebookid: userInfo?.user_facebookid ?? "",
+      user_tags_id: checkedTag ?? [],
       user_icon: userInfo?.user_icon ?? "",
       user_lineqr: userInfo?.user_lineqr ?? "",
     },
@@ -45,7 +71,7 @@ export const MyPageEdit: FC = () => {
 
   // ユーザー編集のhooksの読み込み
   const { userCreateEdit } = useUserCreateEdit();
-  
+
   const onSubmit: SubmitHandler<User> = async (data: User) => {
     const temp: User = {
       ...data,
@@ -58,7 +84,6 @@ export const MyPageEdit: FC = () => {
 
   const [iconFlag, setIconFlag] = useState(false);
   const [QRFlag, setQRFlag] = useState(false);
-
 
   const [tmpUrl, setTmpUrl] = useState(userInfo?.user_icon);
   const [tmpLineUrl, setTmpLineUrl] = useState(userInfo?.user_lineqr);
@@ -157,7 +182,6 @@ export const MyPageEdit: FC = () => {
                 type="text"
                 placeholder="たろう"
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
-                defaultValue={userInfo?.user_nickname}
                 {...register("user_nickname", { required: true })}
               />
             </div>
@@ -170,7 +194,6 @@ export const MyPageEdit: FC = () => {
               <input
                 type="text"
                 placeholder="エンジニア・リーダーシップ"
-                defaultValue={userInfo?.user_coe}
                 {...register("user_coe")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
               />
@@ -180,7 +203,6 @@ export const MyPageEdit: FC = () => {
               <input
                 type="text"
                 placeholder="PS"
-                defaultValue={userInfo?.user_sl}
                 {...register("user_sl")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
               />
@@ -191,7 +213,6 @@ export const MyPageEdit: FC = () => {
             <div className="flex flex-col justify-center w-full text-xl">
               <div className="font-bold">一言自己紹介</div>
               <textarea
-                defaultValue={userInfo?.user_comment}
                 placeholder="コメントを入力"
                 {...register("user_comment")}
                 className="h-52 border-2 border-gray-600 outline-1 outline-gray-700 p-2"
@@ -266,7 +287,6 @@ export const MyPageEdit: FC = () => {
                   <input
                     type="text"
                     placeholder="abc@sios.com"
-                    defaultValue={userInfo?.user_email}
                     {...register("user_email")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
                     readOnly
@@ -283,7 +303,6 @@ export const MyPageEdit: FC = () => {
                   <input
                     type="text"
                     placeholder="@instagram"
-                    defaultValue={userInfo?.user_instagramid}
                     {...register("user_instagramid")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
                   />
@@ -299,7 +318,6 @@ export const MyPageEdit: FC = () => {
                   <input
                     type="text"
                     placeholder="@twitter"
-                    defaultValue={userInfo?.user_twitterid}
                     {...register("user_twitterid")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
                   />
@@ -316,7 +334,6 @@ export const MyPageEdit: FC = () => {
                   <input
                     type="text"
                     placeholder="@facebook"
-                    defaultValue={userInfo?.user_facebookid}
                     {...register("user_facebookid")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
                   />
@@ -362,6 +379,18 @@ export const MyPageEdit: FC = () => {
             </label>
           </div>
         </div>
+        {/* フォームの入力エラー */}
+        {errors.user_nickname && errors.user_nickname.message}
+        {errors.user_coe && errors.user_coe.message}
+        {errors.user_sl && errors.user_sl.message}
+        {errors.user_comment && errors.user_comment.message}
+        {errors.user_email && errors.user_email.message}
+        {errors.user_instagramid && errors.user_instagramid.message}
+        {errors.user_twitterid && errors.user_twitterid.message}
+        {errors.user_facebookid && errors.user_facebookid.message}
+        {errors.user_tags_id && errors.user_tags_id.message}
+        {errors.user_icon && errors.user_icon.message}
+        {errors.user_lineqr && errors.user_lineqr.message}
       </form>
       {/* <h1>個人設定</h1>
       <form onSubmit={handleSubmit(onSubmit)}>

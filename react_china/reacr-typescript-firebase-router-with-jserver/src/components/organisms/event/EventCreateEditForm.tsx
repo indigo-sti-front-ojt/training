@@ -7,6 +7,29 @@ import { useLoginUserContext } from "../../../context/LoginUserContext";
 import { useEventCreateEditDelete } from "../../../hooks/api/postPutDelete/useEventCreateEditDelete";
 import { useBase64ImageUp } from "../../../hooks/api/postPutDelete/useBase64ImageUp";
 import { useUser } from "../../../hooks/api/get/useUser";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const schema = yup.object().shape({
+  event_name: yup.string().required(),
+  event_note: yup.string(),
+  event_deadline: yup
+    .string()
+    .matches(/^\d{4}-\d{2}-\d{2}$/, {
+      message: "イベント締め切り日時の形式が不正です",
+    }),
+  event_date: yup
+    .string()
+    .matches(/^\d{4}-\d{2}-\d{2}$/, {
+      message: "イベント日時の形式が不正です",
+    }),
+  event_place: yup.string().required(),
+  event_budget: yup.number().positive().integer(),
+  event_min_guest: yup.number().positive().integer(),
+  event_max_guest: yup.number().positive().integer(),
+  event_image: yup.string(),
+  event_tags_id: yup.array().of(yup.number()),
+});
 
 type Props = {
   event?: Event;
@@ -38,11 +61,20 @@ export const EventCreateEditForm: FC<Props> = (props) => {
     register,
     handleSubmit,
     setValue,
-    formState: { isSubmitSuccessful },
+    formState: { isSubmitSuccessful, errors },
   } = useForm<Event>({
+    resolver: yupResolver(schema),
     defaultValues: {
-      event_image: "",
-      event_tags_id: [],
+      event_name: event?.event_name ?? "",
+      event_note: event?.event_note ?? "",
+      event_deadline: event?.event_deadline ?? "",
+      event_date: event?.event_date ?? "",
+      event_place: event?.event_place ?? "",
+      event_budget: event?.event_budget ?? 0,
+      event_min_guest: event?.event_min_guest ?? 0,
+      event_max_guest: event?.event_max_guest ?? 0,
+      event_image: event?.event_image ?? "",
+      event_tags_id: checkedTag ?? [],
     },
   });
 
@@ -168,7 +200,6 @@ export const EventCreateEditForm: FC<Props> = (props) => {
               <input
                 type="text"
                 placeholder="React勉強会"
-                defaultValue={event?.event_name}
                 {...register("event_name", { required: true })}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-full"
               />
@@ -178,7 +209,6 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             <div className="w-1/3">募集文章</div>
             <div className="w-full">
               <textarea
-                defaultValue={event?.event_note}
                 placeholder="コメントを入力"
                 {...register("event_note")}
                 className="h-52 border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-full"
@@ -191,7 +221,6 @@ export const EventCreateEditForm: FC<Props> = (props) => {
               <input
                 type="text"
                 placeholder="2020-09-06"
-                defaultValue={event?.event_deadline}
                 {...register("event_deadline")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
               />
@@ -212,7 +241,6 @@ export const EventCreateEditForm: FC<Props> = (props) => {
               <input
                 type="text"
                 placeholder="2020-09-15"
-                defaultValue={event?.event_date}
                 {...register("event_date")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
               />
@@ -234,7 +262,6 @@ export const EventCreateEditForm: FC<Props> = (props) => {
               <input
                 type="text"
                 placeholder="オンライン"
-                defaultValue={event?.event_place}
                 {...register("event_place")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
               />
@@ -247,7 +274,6 @@ export const EventCreateEditForm: FC<Props> = (props) => {
               <input
                 type="text"
                 placeholder="0"
-                defaultValue={event?.event_budget}
                 {...register("event_budget")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
               />{" "}
@@ -302,7 +328,6 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                   <input
                     type="text"
                     placeholder="2"
-                    defaultValue={event?.event_min_guest}
                     {...register("event_min_guest")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
                   />
@@ -315,7 +340,6 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                   <input
                     type="text"
                     placeholder="6"
-                    defaultValue={event?.event_max_guest}
                     {...register("event_max_guest")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
                   />
@@ -417,6 +441,17 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             type="submit"
             className="border border-gray-300 rounded-md flex flex-col justify-center items-center py-8 px-20"
           />
+          {/* フォームの入力エラー */}
+          {errors.event_name && errors.event_name.message}
+          {errors.event_note && errors.event_note.message}
+          {errors.event_deadline && errors.event_deadline.message}
+          {errors.event_date && errors.event_date.message}
+          {errors.event_place && errors.event_place.message}
+          {errors.event_budget && errors.event_budget.message}
+          {errors.event_min_guest && errors.event_min_guest.message}
+          {errors.event_max_guest && errors.event_max_guest.message}
+          {errors.event_image && errors.event_image.message}
+          {errors.event_tags_id && errors.event_tags_id.message}
         </div>
       </form>
     </>
