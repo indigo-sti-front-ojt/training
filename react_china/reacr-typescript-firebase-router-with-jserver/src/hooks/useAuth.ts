@@ -27,7 +27,7 @@ export const useLoginWithGoogle = () => {
   //ユーザー取得api hooks
   const { getUser } = useUser();
   // ユーザ情報取得判別
-  const { isUserChecked } = useUserInfoContext();
+  const { isUserChecked, userInfo } = useUserInfoContext();
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -45,41 +45,29 @@ export const useLoginWithGoogle = () => {
       // ユーザーDBの有無から初回ログインを判定
       getUser(res.user.uid);
 
+      // ユーザのセットが完了したらログイン判定を行う
       if (isUserChecked) {
-        console.log("初回ログイン");
-        const userRegister: UserMinInfo = {
-          user_email: res.user.email ?? undefined,
-          user_name: res.user.displayName ?? undefined,
-          user_icon: res.user.photoURL ?? undefined,
-          user_id: res.user.uid,
-        };
-        console.log("初回ログイン登録情報", userRegister);
-        await userCreateEdit("post", userRegister);
-        // getUser(res.user.uid);
-        navigate("/welcome");
-      } else {
-        console.log("再ログイン");
-        navigate("/");
+        // ユーザDBがない場合
+        if (!userInfo) {
+          console.log("初回ログイン");
+          const userRegister: UserMinInfo = {
+            user_email: res.user.email ?? undefined,
+            user_name: res.user.displayName ?? undefined,
+            user_icon: res.user.photoURL ?? undefined,
+            user_id: res.user.uid,
+          };
+          console.log("初回ログイン登録情報", userRegister);
+          await userCreateEdit("post", userRegister);
+          // getUser(res.user.uid);
+          navigate("/welcome");
+          setSuccess(true);
+        } else {
+          // ユーザDBがある場合
+          console.log("ログイン");
+          navigate("/");
+          setSuccess(true);
+        }
       }
-
-      // const isNewUser = getAdditionalUserInfo(res)?.isNewUser;
-
-      // if (isNewUser) {
-      //   console.log("初回ログイン");
-      //   const userRegister: UserMinInfo = {
-      //     user_email: res.user.email ?? undefined,
-      //     user_name: res.user.displayName ?? undefined,
-      //     user_icon: res.user.photoURL ?? undefined,
-      //     user_id: res.user.uid,
-      //   };
-      //   console.log(userRegister);
-      //   await userCreateEdit("post", userRegister);
-      //   navigate("/welcome");
-      // } else {
-      //   navigate("/");
-      // }
-
-      setSuccess(true);
     } catch {
       console.log("ログインに失敗しました");
       setError(true);
