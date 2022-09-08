@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   tag_id: string;
@@ -18,15 +18,15 @@ export const GenreSearchCard = (props: Props) => {
   const imageURL = (): string => {
     switch (tag_id) {
       case "3":
-        return `${process.env.PUBLIC_URL}/images/main_1.png`;
+        return `${process.env.PUBLIC_URL}/images/main_1-min.png`;
       case "2":
-        return `${process.env.PUBLIC_URL}/images/main_2.png`;
+        return `${process.env.PUBLIC_URL}/images/main_2-min.png`;
       case "1":
-        return `${process.env.PUBLIC_URL}/images/main_3.png`;
+        return `${process.env.PUBLIC_URL}/images/main_3-min.png`;
       case "4":
-        return `${process.env.PUBLIC_URL}/images/main_4.png`;
+        return `${process.env.PUBLIC_URL}/images/main_4-min.png`;
       default:
-        return `${process.env.PUBLIC_URL}/images/mian_1.png`;
+        return `${process.env.PUBLIC_URL}/images/main_1-min.png`;
     }
   };
   useLayoutEffect(() => {

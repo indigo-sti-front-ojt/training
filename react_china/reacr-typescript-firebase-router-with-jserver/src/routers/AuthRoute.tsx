@@ -14,6 +14,18 @@ type Props = {
 export const AuthRoute = (props: Props) => {
   const { component, redirect } = props;
 
+  const NavigateComponent = () => {
+    return (
+      <>
+        <Navigate
+          to={redirect}
+          state={{ from: useLocation() }}
+          replace={false}
+        />
+      </>
+    );
+  };
+
   // ログインユーザー・全タグのセット
   const { getLoginUser } = useLoginUser();
   const { getUser } = useUser();
@@ -36,21 +48,13 @@ export const AuthRoute = (props: Props) => {
   if (!isAuthChecked) return <p>認証中</p>;
   if (loginUser === null) {
     // firebaseログインができていない場合
-    return (
-      <Navigate to={redirect} state={{ from: useLocation() }} replace={false} />
-    );
+    return <NavigateComponent />;
   } else {
     // firebaseログインができている場合
     if (!isUserChecked) return <p>ユーザ認証中</p>;
     if (loginUser.user_id === null) {
       // DBが存在しない場合
-      return (
-        <Navigate
-          to={redirect}
-          state={{ from: useLocation() }}
-          replace={false}
-        />
-      );
+      return <NavigateComponent />;
     } else {
       return <>{component}</>;
     }

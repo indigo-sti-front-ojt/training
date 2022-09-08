@@ -1,28 +1,73 @@
 import React, { useState, ChangeEvent, FC, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Event } from "../../../types/api/Event";
 import { useAllTagsContext } from "../../../context/AllTagsContext";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
 import { useEventCreateEditDelete } from "../../../hooks/api/postPutDelete/useEventCreateEditDelete";
 import { useBase64ImageUp } from "../../../hooks/api/postPutDelete/useBase64ImageUp";
 import { useUser } from "../../../hooks/api/get/useUser";
+import { Event } from "../../../types/api/Event";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+export type EventFormList = {
+  event_id?: number;
+  user_id: string;
+  event_name: string;
+  event_image: string;
+  event_note: string;
+  event_deadline: string;
+  event_date: string;
+  event_place: string;
+  event_budget: number;
+  event_min_guest: number;
+  event_max_guest: number;
+  event_tags_id: Array<number>;
+};
+
 const schema = yup.object().shape({
-  event_name: yup.string().required(),
-  event_note: yup.string(),
-  event_deadline: yup.string().matches(/^\d{4}-\d{2}-\d{2}$/, {
-    message: "イベント締め切り日時の形式が不正です",
-  }),
-  event_date: yup.string().matches(/^\d{4}-\d{2}-\d{2}$/, {
-    message: "イベント日時の形式が不正です",
-  }),
-  event_place: yup.string().required(),
-  event_budget: yup.number().positive().integer(),
-  event_min_guest: yup.number().positive().integer(),
-  event_max_guest: yup.number().positive().integer(),
+  event_name: yup
+    .string()
+    .max(18, "イベント名は18文字以下で入力してください")
+    .typeError("文字列を入力してください")
+    .required("イベント名の入力は必須です"),
+  event_note: yup.string().typeError("文字列を入力してください"),
+  event_deadline: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .matches(/^\d{4}-\d{2}-\d{2}$/, {
+      message: "募集締め切りの形式が不正です",
+    })
+    .required("募集締め切りの入力は必須です"),
+  event_date: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .matches(/^\d{4}-\d{2}-\d{2}$/, {
+      message: "開催日時の形式が不正です",
+    })
+    .required("開催日時の入力は必須です"),
+  event_place: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .required("開催場所の入力は必須です"),
+  event_budget: yup
+    .number()
+    .typeError("数字を入力してください")
+    .integer("整数を入力してください")
+    .min(0, "0以上の数字を入れてください")
+    .required("予算の入力は必須です"),
+  event_min_guest: yup
+    .number()
+    .typeError("数字を入力してください")
+    .integer("整数を入力してください")
+    .min(0, "0以上の数字を入れてください")
+    .required("最大募集人数の入力は必須です"),
+  event_max_guest: yup
+    .number()
+    .typeError("数字を入力してください")
+    .integer("整数を入力してください")
+    .min(0, "0以上の数字を入れてください")
+    .required("最大募集人数の入力は必須です"),
   event_image: yup.string(),
   event_tags_id: yup.array().of(yup.number()),
 });
@@ -58,7 +103,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
     handleSubmit,
     setValue,
     formState: { isSubmitSuccessful, errors },
-  } = useForm<Event>({
+  } = useForm<EventFormList>({
     resolver: yupResolver(schema),
     defaultValues: {
       event_name: event?.event_name ?? "",
@@ -83,23 +128,23 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   }, [isSubmitSuccessful]);
 
   useEffect(() => {
-    setValue("user_id", loginUser?.user_id);
+    loginUser && setValue("user_id", loginUser.user_id);
     setValue("event_id", event?.event_id);
   }, [event, loginUser]);
 
-  const onSubmit: SubmitHandler<Event> = async (data: Event) => {
-    // console.log("onSubmit", data);
-    const temp: Event = {
-      ...data,
-      event_budget: Number(data.event_budget),
-      event_min_guest: Number(data.event_min_guest),
-      event_max_guest: Number(data.event_max_guest),
-      event_tags_id: data.event_tags_id?.map(Number),
-    };
-    // console.log(typeof temp.event_max_guest);
-    console.log("onSubmit", temp);
+  const onSubmit: SubmitHandler<EventFormList> = async (
+    data: EventFormList
+  ) => {
+    // const temp: Event = {
+    //   ...data,
+    //   event_budget: Number(data.event_budget),
+    //   event_min_guest: Number(data.event_min_guest),
+    //   event_max_guest: Number(data.event_max_guest),
+    //   event_tags_id: data.event_tags_id?.map(Number),
+    // };
+    console.log("onSubmit", data);
     // イベント情報を更新
-    await eventCreateEditDelete(method, temp);
+    await eventCreateEditDelete(method, data);
     // データ変更後にユーザ情報を更新
     loginUser && getUser(loginUser?.user_id);
   };
@@ -136,7 +181,9 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   const uploadEventImage = async () => {
     try {
       const azureStorageURL = await base64ImageUp(base64);
-      setValue("event_image", azureStorageURL);
+      azureStorageURL
+        ? setValue("event_image", azureStorageURL)
+        : setValue("event_image", "");
       setTmpUrl(azureStorageURL);
       return azureStorageURL;
     } catch {
@@ -172,7 +219,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
 
         <figure className="flex items-center justify-center w-full h-auto p-4">
           <img
-            src={tmpUrl ?? `${process.env.PUBLIC_URL}/images/main_1.png`}
+            src={tmpUrl ?? `${process.env.PUBLIC_URL}/images/main_1-min.png`}
             className="h-auto max-h-64 md:max-h-full md:h-full w-auto object-contain rounded-md"
             alt="画像がないよ"
           />
@@ -290,7 +337,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             <div className="w-1/3 p-2">予算</div>
             <div className="w-full">
               <input
-                type="text"
+                type="number"
                 placeholder="0"
                 {...register("event_budget")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
@@ -350,7 +397,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
               <div className="flex flex-row flex-wrap gap-y-2">
                 <div className="w-2/5 flex flex-row items-center">
                   <input
-                    type="text"
+                    type="number"
                     placeholder="2"
                     {...register("event_min_guest")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
@@ -362,7 +409,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                 </div>
                 <div className="w-2/5 flex flex-row items-center">
                   <input
-                    type="text"
+                    type="number"
                     placeholder="6"
                     {...register("event_max_guest")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"

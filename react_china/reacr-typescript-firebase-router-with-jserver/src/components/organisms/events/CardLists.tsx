@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserInfoContext } from "../../../context/UserInfoContext";
 
 type Props = {
-  events?: Event[];
+  events: Event[];
   eventListTitle: string;
 };
 
@@ -21,7 +21,7 @@ export const CardLists: FC<Props> = (props) => {
 
   // イベントデータをpropsから取得 & 整形
   const { events, eventListTitle } = props;
-  const sliceEvent = events && events?.length > 3 ? events.slice(0, 3) : events;
+  const sliceEvent = events.length > 3 ? events.slice(0, 3) : events;
 
   const url = "/events";
   const navigation = useNavigate();
@@ -42,11 +42,15 @@ export const CardLists: FC<Props> = (props) => {
         <div className="text-xl md:w-full md:text-3xl font-bold border-b-2 border-black">
           {eventListTitle}
         </div>
-        {sliceEvent?.length ? (
+        {sliceEvent.length != 0 ? (
           <>
-            {sliceEvent?.map((event) => (
+            {sliceEvent.map((event) => (
               <>
-                <EventCard event={event} key={event.event_id} />
+                {event.event_id && (
+                  <>
+                    <EventCard event={event} key={event.event_id} />
+                  </>
+                )}
               </>
             ))}
           </>
@@ -54,7 +58,7 @@ export const CardLists: FC<Props> = (props) => {
           <span>{eventListTitle}はありません</span>
         )}
         {/* イベントが3つよりあるときもっと見るボタンを表示 */}
-        {sliceEvent && (
+        {events.length > 3 && (
           <>
             <div className="w-full flex justify-center items-center">
               {eventListTitle === "あなたが関心のありそうなイベント" ? (
