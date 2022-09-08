@@ -20,9 +20,10 @@ export const useUser = () => {
         );
         setUserInfo(res_user.data);
         setUserTempInfo(res_user.data);
-        setIsUserChecked(true);
-
         console.log(res_user.data);
+
+        //ユーザのチェックが完了したらtrueに
+        setIsUserChecked(true);
       } catch (error) {
         console.log("ユーザーが取得できません");
       }

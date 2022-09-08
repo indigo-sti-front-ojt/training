@@ -22,16 +22,18 @@ const fireauth = firebaseApp.fireauth;
 export const useLoginWithGoogle = () => {
   const navigate = useNavigate();
 
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+
+  // ログインユーザのコンテキスト
+  const { loginUser } = useLoginUserContext();
+  // ユーザ情報取得判別用
+  const { isUserChecked, userInfo } = useUserInfoContext();
+
   // ユーザー作成apihooks
   const { userCreateEdit } = useUserCreateEdit();
   //ユーザー取得api hooks
   const { getUser } = useUser();
-
-  // ユーザ情報取得判別と初期化用
-  const { isUserChecked, userInfo, setIsUserChecked } = useUserInfoContext();
-
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
 
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
@@ -41,37 +43,24 @@ export const useLoginWithGoogle = () => {
     try {
       setError(false);
 
-      // ログイン
       const res = await signInWithPopup(fireauth, provider);
 
-      // ユーザーDBの有無から初回ログインを判定
-      getUser(res.user.uid);
-
-      // ユーザのセットが完了したらログイン判定を行う
-      if (isUserChecked) {
-        console.log("ユーザのセットが完了", isUserChecked);
-        setIsUserChecked(false);
-
-        if (!userInfo) {
-          // ユーザDBがない場合
-          console.log("ユーザDBがない場合(初回ログイン)");
-          const userRegister: UserMinInfo = {
-            user_email: res.user.email ?? undefined,
-            user_name: res.user.displayName ?? undefined,
-            user_icon: res.user.photoURL ?? undefined,
-            user_id: res.user.uid,
-          };
-          console.log("初回ログイン登録情報", userRegister);
-          await userCreateEdit("post", userRegister);
-          // getUser(res.user.uid);
-          navigate("/welcome");
-          setSuccess(true);
-        } else if (userInfo) {
-          // ユーザDBがある場合
-          console.log("ログイン");
-          navigate("/");
-          setSuccess(true);
-        }
+      if (isUserChecked && userInfo.user_id) {
+        console.log("ユーザDBがある場合");
+        setSuccess(true);
+        navigate("/");
+      } else {
+        console.log("ユーザDBがない場合(初回ログイン)");
+        const userRegister: UserMinInfo = {
+          user_email: res.user.email ?? undefined,
+          user_name: res.user.displayName ?? undefined,
+          user_icon: res.user.photoURL ?? undefined,
+          user_id: res.user.uid ?? undefined,
+        };
+        console.log("初回ログイン登録情報", userRegister);
+        await userCreateEdit("post", userRegister);
+        if (loginUser) getUser(loginUser.user_id);
+        navigate("/welcome");
       }
     } catch {
       console.log("ログインに失敗しました");
