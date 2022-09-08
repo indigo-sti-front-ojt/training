@@ -1,10 +1,13 @@
 import axios from "axios";
-
-import { Event } from "../../../types/api/Event";
+import { EventFormList } from "../../../components/organisms/event/EventCreateEditForm";
+import { EventDeleteFormID } from "../../../components/organisms/event/EventDetail";
 
 export const useEventCreateEditDelete = () => {
   const url = "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/events";
-  const eventCreateEditDelete = async (method: string, obj: Event) => {
+  const eventCreateEditDelete = async (
+    method: string,
+    obj: EventFormList | EventDeleteFormID
+  ) => {
     console.log("data", obj);
 
     if (method === "post") {

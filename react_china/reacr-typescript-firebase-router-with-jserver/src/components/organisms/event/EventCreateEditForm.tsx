@@ -1,41 +1,34 @@
 import React, { useState, ChangeEvent, FC, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Event } from "../../../types/api/Event";
 import { useAllTagsContext } from "../../../context/AllTagsContext";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
 import { useEventCreateEditDelete } from "../../../hooks/api/postPutDelete/useEventCreateEditDelete";
 import { useBase64ImageUp } from "../../../hooks/api/postPutDelete/useBase64ImageUp";
 import { useUser } from "../../../hooks/api/get/useUser";
+import { Event } from "../../../types/api/Event";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { UserMinInfo } from "../../../types/api/UserMinInfo";
-import { Tag} from "../../../types/api/Tag"
 
 export type EventFormList = {
   event_id?: number;
-  user_id?: string;
-  event_owner?: UserMinInfo;
-  event_left_date?: number;
-  event_image?: string;
-  event_name?: string;
-  event_note?: string;
-  event_deadline?: string;
-  event_date?: string;
-  event_place?: string;
-  event_budget?: number;
-  event_min_guest?: number;
-  event_max_guest?: number;
-  event_created_date?: string;
-  event_guests?: UserMinInfo[];
-  event_guest_length?: number;
-  event_tags?: Tag[];
-  event_tags_id?: Array<number>;
+  user_id: string;
+  event_name: string;
+  event_image: string;
+  event_note: string;
+  event_deadline: string;
+  event_date: string;
+  event_place: string;
+  event_budget: number;
+  event_min_guest: number;
+  event_max_guest: number;
+  event_tags_id: Array<number>;
 };
 
 const schema = yup.object().shape({
   event_name: yup
     .string()
+    .max(18, "イベント名は18文字以下で入力してください")
     .typeError("文字列を入力してください")
     .required("イベント名の入力は必須です"),
   event_note: yup.string().typeError("文字列を入力してください"),
@@ -43,16 +36,16 @@ const schema = yup.object().shape({
     .string()
     .typeError("文字列を入力してください")
     .matches(/^\d{4}-\d{2}-\d{2}$/, {
-      message: "イベント締め切り日時の形式が不正です",
+      message: "募集締め切りの形式が不正です",
     })
-    .required("イベント締め切り日時の入力は必須です"),
+    .required("募集締め切りの入力は必須です"),
   event_date: yup
     .string()
     .typeError("文字列を入力してください")
     .matches(/^\d{4}-\d{2}-\d{2}$/, {
-      message: "イベント日時の形式が不正です",
+      message: "開催日時の形式が不正です",
     })
-    .required("イベント日時の入力は必須です"),
+    .required("開催日時の入力は必須です"),
   event_place: yup
     .string()
     .typeError("文字列を入力してください")
@@ -67,7 +60,8 @@ const schema = yup.object().shape({
     .number()
     .typeError("数字を入力してください")
     .integer("整数を入力してください")
-    .min(0, "0以上の数字を入れてください"),
+    .min(0, "0以上の数字を入れてください")
+    .required("最大募集人数の入力は必須です"),
   event_max_guest: yup
     .number()
     .typeError("数字を入力してください")
@@ -109,7 +103,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
     handleSubmit,
     setValue,
     formState: { isSubmitSuccessful, errors },
-  } = useForm<Event>({
+  } = useForm<EventFormList>({
     resolver: yupResolver(schema),
     defaultValues: {
       event_name: event?.event_name ?? "",
@@ -117,9 +111,9 @@ export const EventCreateEditForm: FC<Props> = (props) => {
       event_deadline: event?.event_deadline ?? "",
       event_date: event?.event_date ?? "",
       event_place: event?.event_place ?? "",
-      event_budget: event?.event_budget,
-      event_min_guest: event?.event_min_guest,
-      event_max_guest: event?.event_max_guest,
+      event_budget: event?.event_budget ?? 0,
+      event_min_guest: event?.event_min_guest ?? 0,
+      event_max_guest: event?.event_max_guest ?? 0,
       event_image: event?.event_image ?? "",
       event_tags_id: checkedTag ?? [],
     },
@@ -134,11 +128,13 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   }, [isSubmitSuccessful]);
 
   useEffect(() => {
-    setValue("user_id", loginUser?.user_id);
+    loginUser && setValue("user_id", loginUser.user_id);
     setValue("event_id", event?.event_id);
   }, [event, loginUser]);
 
-  const onSubmit: SubmitHandler<Event> = async (data: Event) => {
+  const onSubmit: SubmitHandler<EventFormList> = async (
+    data: EventFormList
+  ) => {
     // const temp: Event = {
     //   ...data,
     //   event_budget: Number(data.event_budget),
@@ -185,7 +181,9 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   const uploadEventImage = async () => {
     try {
       const azureStorageURL = await base64ImageUp(base64);
-      setValue("event_image", azureStorageURL);
+      azureStorageURL
+        ? setValue("event_image", azureStorageURL)
+        : setValue("event_image", "");
       setTmpUrl(azureStorageURL);
       return azureStorageURL;
     } catch {
@@ -339,7 +337,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             <div className="w-1/3 p-2">予算</div>
             <div className="w-full">
               <input
-                type="text"
+                type="number"
                 placeholder="0"
                 {...register("event_budget")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2"
@@ -399,7 +397,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
               <div className="flex flex-row flex-wrap gap-y-2">
                 <div className="w-2/5 flex flex-row items-center">
                   <input
-                    type="text"
+                    type="number"
                     placeholder="2"
                     {...register("event_min_guest")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
@@ -411,7 +409,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
                 </div>
                 <div className="w-2/5 flex flex-row items-center">
                   <input
-                    type="text"
+                    type="number"
                     placeholder="6"
                     {...register("event_max_guest")}
                     className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"

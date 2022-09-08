@@ -11,6 +11,11 @@ import { useEventCreateEditDelete } from "../../../hooks/api/postPutDelete/useEv
 import { UserMinInfo } from "../../../types/api/UserMinInfo";
 import { useUser } from "../../../hooks/api/get/useUser";
 
+
+export type EventDeleteFormID = {
+  event_id: number;
+};
+
 type Props = {
   event_id: number;
 };
@@ -68,7 +73,7 @@ export const EventDetail: FC<Props> = (props) => {
 
   // イベント削除ボタン
   const onClickButtonToDelete = async () => {
-    console.log(event?.event_id);
+    event && console.log(event.event_id);
     await eventCreateEditDelete("delete", { event_id: event_id });
     // データ変更後にユーザ情報を更新
     loginUser && getUser(loginUser?.user_id);
