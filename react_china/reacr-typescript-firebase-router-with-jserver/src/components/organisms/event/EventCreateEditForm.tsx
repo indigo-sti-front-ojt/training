@@ -9,20 +9,71 @@ import { useBase64ImageUp } from "../../../hooks/api/postPutDelete/useBase64Imag
 import { useUser } from "../../../hooks/api/get/useUser";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { UserMinInfo } from "../../../types/api/UserMinInfo";
+import { Tag} from "../../../types/api/Tag"
+
+export type EventFormList = {
+  event_id?: number;
+  user_id?: string;
+  event_owner?: UserMinInfo;
+  event_left_date?: number;
+  event_image?: string;
+  event_name?: string;
+  event_note?: string;
+  event_deadline?: string;
+  event_date?: string;
+  event_place?: string;
+  event_budget?: number;
+  event_min_guest?: number;
+  event_max_guest?: number;
+  event_created_date?: string;
+  event_guests?: UserMinInfo[];
+  event_guest_length?: number;
+  event_tags?: Tag[];
+  event_tags_id?: Array<number>;
+};
 
 const schema = yup.object().shape({
-  event_name: yup.string().required(),
-  event_note: yup.string(),
-  event_deadline: yup.string().matches(/^\d{4}-\d{2}-\d{2}$/, {
-    message: "イベント締め切り日時の形式が不正です",
-  }),
-  event_date: yup.string().matches(/^\d{4}-\d{2}-\d{2}$/, {
-    message: "イベント日時の形式が不正です",
-  }),
-  event_place: yup.string().required(),
-  event_budget: yup.number().positive().integer(),
-  event_min_guest: yup.number().positive().integer(),
-  event_max_guest: yup.number().positive().integer(),
+  event_name: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .required("イベント名の入力は必須です"),
+  event_note: yup.string().typeError("文字列を入力してください"),
+  event_deadline: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .matches(/^\d{4}-\d{2}-\d{2}$/, {
+      message: "イベント締め切り日時の形式が不正です",
+    })
+    .required("イベント締め切り日時の入力は必須です"),
+  event_date: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .matches(/^\d{4}-\d{2}-\d{2}$/, {
+      message: "イベント日時の形式が不正です",
+    })
+    .required("イベント日時の入力は必須です"),
+  event_place: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .required("開催場所の入力は必須です"),
+  event_budget: yup
+    .number()
+    .typeError("数字を入力してください")
+    .integer("整数を入力してください")
+    .min(0, "0以上の数字を入れてください")
+    .required("予算の入力は必須です"),
+  event_min_guest: yup
+    .number()
+    .typeError("数字を入力してください")
+    .integer("整数を入力してください")
+    .min(0, "0以上の数字を入れてください"),
+  event_max_guest: yup
+    .number()
+    .typeError("数字を入力してください")
+    .integer("整数を入力してください")
+    .min(0, "0以上の数字を入れてください")
+    .required("最大募集人数の入力は必須です"),
   event_image: yup.string(),
   event_tags_id: yup.array().of(yup.number()),
 });
@@ -66,9 +117,9 @@ export const EventCreateEditForm: FC<Props> = (props) => {
       event_deadline: event?.event_deadline ?? "",
       event_date: event?.event_date ?? "",
       event_place: event?.event_place ?? "",
-      event_budget: event?.event_budget ?? 0,
-      event_min_guest: event?.event_min_guest ?? 0,
-      event_max_guest: event?.event_max_guest ?? 0,
+      event_budget: event?.event_budget,
+      event_min_guest: event?.event_min_guest,
+      event_max_guest: event?.event_max_guest,
       event_image: event?.event_image ?? "",
       event_tags_id: checkedTag ?? [],
     },
@@ -88,18 +139,16 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   }, [event, loginUser]);
 
   const onSubmit: SubmitHandler<Event> = async (data: Event) => {
-    // console.log("onSubmit", data);
-    const temp: Event = {
-      ...data,
-      event_budget: Number(data.event_budget),
-      event_min_guest: Number(data.event_min_guest),
-      event_max_guest: Number(data.event_max_guest),
-      event_tags_id: data.event_tags_id?.map(Number),
-    };
-    // console.log(typeof temp.event_max_guest);
-    console.log("onSubmit", temp);
+    // const temp: Event = {
+    //   ...data,
+    //   event_budget: Number(data.event_budget),
+    //   event_min_guest: Number(data.event_min_guest),
+    //   event_max_guest: Number(data.event_max_guest),
+    //   event_tags_id: data.event_tags_id?.map(Number),
+    // };
+    console.log("onSubmit", data);
     // イベント情報を更新
-    await eventCreateEditDelete(method, temp);
+    await eventCreateEditDelete(method, data);
     // データ変更後にユーザ情報を更新
     loginUser && getUser(loginUser?.user_id);
   };

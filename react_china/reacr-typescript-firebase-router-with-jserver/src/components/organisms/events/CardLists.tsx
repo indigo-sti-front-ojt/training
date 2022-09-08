@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserInfoContext } from "../../../context/UserInfoContext";
 
 type Props = {
-  events?: Event[];
+  events: Event[];
   eventListTitle: string;
 };
 
@@ -46,7 +46,11 @@ export const CardLists: FC<Props> = (props) => {
           <>
             {sliceEvent?.map((event) => (
               <>
-                <EventCard event={event} key={event.event_id} />
+                {event.event_id && (
+                  <>
+                    <EventCard event={event} key={event.event_id} />
+                  </>
+                )}
               </>
             ))}
           </>
