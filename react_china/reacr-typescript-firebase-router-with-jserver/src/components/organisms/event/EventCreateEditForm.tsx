@@ -172,7 +172,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
 
         <figure className="flex items-center justify-center w-full h-auto p-4">
           <img
-            src={tmpUrl ?? `${process.env.PUBLIC_URL}/images/main_1.png`}
+            src={tmpUrl ?? `${process.env.PUBLIC_URL}/images/main_1-min.png`}
             className="h-auto max-h-64 md:max-h-full md:h-full w-auto object-contain rounded-md"
             alt="画像がないよ"
           />
