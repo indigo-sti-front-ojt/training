@@ -27,21 +27,44 @@ export type UserFormEdit = {
 
 // yup スキーマ定義
 export const MyPageEditSchema = yup.object().shape({
-  user_nickname: yup.string().typeError("文字列を入力してください").required(),
-  user_coe: yup.string().typeError("文字列を入力してください"),
-  user_sl: yup.string().typeError("文字列を入力してください"),
-  user_comment: yup.string().typeError("文字列を入力してください"),
+  user_nickname: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .max(19, "名前は19文字以下で入力してください")
+    .required(),
+  user_coe: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .max(19, "所属CoEは19文字以下で入力してください"),
+  user_sl: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .max(19, "所属SLは19文字以下で入力してください"),
+  user_comment: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .max(150, "一言自己紹介は150文字以下で入力してください"),
   user_email: yup
     .string()
     .typeError("文字列を入力してください")
-    .email()
+    .max(35, "メールアドレスは35文字以下で入力してください")
+    .email("メールアドレスの形式で入力してください")
     .required(),
-  user_instagramid: yup.string().typeError("文字列を入力してください"),
-  user_twitterid: yup.string().typeError("文字列を入力してください"),
-  user_facebookid: yup.string().typeError("文字列を入力してください"),
+  user_instagramid: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .max(35, "InstagramのIDは35文字以下で入力してください"),
+  user_twitterid: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .max(35, "twitterのidは35文字以下で入力してください"),
+  user_facebookid: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .max(35, "facebookのIDは35文字以下で入力してください"),
   user_tags_id: yup.array().of(yup.number()),
-  user_icon: yup.string().typeError("文字列を入力してください"),
-  user_lineqr: yup.string().typeError("文字列を入力してください"),
+  user_icon: yup.string(),
+  user_lineqr: yup.string(),
 });
 
 export const MyPageEdit: FC = () => {
