@@ -15,15 +15,23 @@ export const EventCard: FC<Props> = (props) => {
   const onClickLink = () => {
     navigation(url, { state: { event_id: event?.event_id } });
   };
+
   return (
     <>
       <div
         className="relative flex items-center flex-col h-96 w-64 rounded-md overflow-hidden shadow-md flex-grow md:max-w-[300px] hover:cursor-pointer"
         onClick={onClickLink}
       >
-        {event.event_left_date && event.event_left_date > 0 ? (
+        {event.event_left_date && event.event_left_date > 1 ? (
           <div className="absolute flex justify-center items-center w-full h-10 bg-red-600 text-white origin-center left-[35%] rotate-[30deg] top-4">
             あと{event?.event_left_date}日
+          </div>
+        ) : (
+          <></>
+        )}
+        {event.event_left_date && event.event_left_date === 0 ? (
+          <div className="absolute flex justify-center items-center w-full h-10 bg-red-600 text-white origin-center left-[35%] rotate-[30deg] top-4">
+            本日締切り
           </div>
         ) : (
           <></>
