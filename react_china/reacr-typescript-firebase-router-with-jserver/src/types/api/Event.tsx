@@ -2,7 +2,7 @@ import { Tag } from "./Tag";
 import { UserMinInfo } from "./UserMinInfo";
 
 export type Event = {
-  event_id?: number;
+  event_id: number;
   user_id?: string;
   event_owner?: UserMinInfo;
   event_left_date?: number;

@@ -23,17 +23,17 @@ export const Home: FC = () => {
     tagsid: tagsid,
   };
 
-  const [nearEvents, setNearEvents] = useState<Event[]>();
-  const [tagEvents, setTagEvents] = useState<Event[]>();
+  const [nearEvents, setNearEvents] = useState<Event[]>([]);
+  const [tagEvents, setTagEvents] = useState<Event[]>([]);
 
   useEffect(() => {
     const readData = async () => {
       const event1 = await getEvents();
-      setNearEvents(event1);
+      event1 ? setNearEvents(event1) : setNearEvents([]);
       console.log("events", event1);
 
       const tagEvents = await getSearchEvents(data_tags);
-      setTagEvents(tagEvents);
+      tagEvents ? setTagEvents(tagEvents) : setTagEvents([]);
       console.log("tagEvents", tagEvents);
     };
     readData();
