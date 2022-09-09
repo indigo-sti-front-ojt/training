@@ -27,6 +27,7 @@ const schema = yup.object().shape({
     .typeError("数値を入力してください")
     .integer()
     .min(0, "0以上の数字を入れてください")
+    .max(100000, "100000以下の数値を入力してください")
     .nullable()
     .transform((value, originalValue) =>
       String(originalValue).trim() === "" ? null : value
@@ -36,6 +37,7 @@ const schema = yup.object().shape({
     .typeError("数値を入力してください")
     .integer()
     .min(0, "0以上の数字を入れてください")
+    .max(100, "100以下の数値を入力してください")
     .nullable()
     .transform((value, originalValue) =>
       String(originalValue).trim() === "" ? null : value
@@ -45,6 +47,7 @@ const schema = yup.object().shape({
     .typeError("数値を入力してください")
     .integer()
     .min(0, "0以上の数字を入れてください")
+    .max(100, "100以下の数値を入力してください")
     .nullable()
     .transform((value, originalValue) =>
       String(originalValue).trim() === "" ? null : value
