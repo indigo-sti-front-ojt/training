@@ -11,7 +11,6 @@ import { useEventCreateEditDelete } from "../../../hooks/api/postPutDelete/useEv
 import { UserMinInfo } from "../../../types/api/UserMinInfo";
 import { useUser } from "../../../hooks/api/get/useUser";
 
-
 export type EventDeleteFormID = {
   event_id: number;
 };
@@ -57,6 +56,10 @@ export const EventDetail: FC<Props> = (props) => {
   const [eventJoinFlag, setEventJoinFlag] = useState(
     guestID?.includes(loginUser?.user_id)
   );
+  // このフラグが変更された際もイベントを再度取得し画面を再描画する
+  useEffect(() => {
+    getEvent(event_id);
+  }, [eventJoinFlag]);
 
   const navigate = useNavigate();
 
@@ -107,81 +110,6 @@ export const EventDetail: FC<Props> = (props) => {
       navigate(url, { state: { user_id: userInfo.user_id } });
     }
   };
-
-  // const old = (
-  //   <>
-  //     {loginUser?.user_id === event?.event_owner?.user_id ? (
-  //       <>
-  //         <button type="button" onClick={onClickButtonToEdit}>
-  //           編集
-  //         </button>
-  //         <button type="button" onClick={onClickButtonToDelete}>
-  //           削除
-  //         </button>
-  //       </>
-  //     ) : (
-  //       // <>
-  //       //   <button onClick={onClickApplyCancel}>参加登録解除</button>
-  //       // </>
-  //       <>
-  //         {guestID?.includes(loginUser?.user_id) && (
-  //           <>
-  //             <button onClick={onClickApplyCancel}>参加登録解除</button>
-  //           </>
-  //         )}
-  //       </>
-  //     )}
-  //     <p>応募締め切り{event?.event_deadline}</p>
-  //     <img src={event?.event_image} alt="イベントヘッダー画像" />
-  //     {event?.event_tags?.map((tag, i) => (
-  //       <>
-  //         <div key={i}>
-  //           <span style={{ color: tag.tag_color }}>{tag.tag_value}</span>
-  //         </div>
-  //       </>
-  //     ))}
-  //     <h3>{event?.event_name}</h3>
-  //     <p>{event?.event_note}</p>
-  //     <div>
-  //       <div>
-  //         <p>最小募集人数</p>
-  //         <p>{event?.event_min_guest}人</p>
-  //       </div>
-  //       <div>
-  //         <p>最大募集人数</p>
-  //         <p>{event?.event_max_guest}人</p>
-  //       </div>
-  //       <div>
-  //         <p>主催者</p>
-  //         <LinkToUserButton user_info={event?.event_owner} />
-  //         <p>{event?.event_owner?.user_name}</p>
-  //       </div>
-  //       <div>
-  //         <p>予算</p>
-  //         <p>{event?.event_budget}円以下</p>
-  //       </div>
-  //       <div>
-  //         <p>日時</p>
-  //         <p>{event?.event_date}</p>
-  //       </div>
-  //       <div>
-  //         <p>場所</p>
-  //         <p>{event?.event_place}</p>
-  //       </div>
-  //       <h4>参加者</h4>
-  //       <div>
-  //         {event?.event_guests?.map((guest, i) => (
-  //           <>
-  //             <div key={i}>
-  //               <LinkToUserButton user_info={guest} />
-  //             </div>
-  //           </>
-  //         ))}
-  //       </div>
-  //       <button onClick={onClickApply}>参加登録</button>
-  //     </div>
-  //   </>
-  // );
 
   return (
     <>
@@ -293,26 +221,8 @@ export const EventDetail: FC<Props> = (props) => {
         </div>
       </div>
       <div className="flex flex-row items-center justify-around w-full max-w-4xl">
-        {eventJoinFlag ? (
-          <>
-            <button
-              className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-red-500/80 bg-red-400"
-              onClick={onClickApplyCancel}
-            >
-              参加登録解除
-            </button>
-          </>
-        ) : (
-          <>
-            <button
-              className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-blue-500/80 bg-blue-400"
-              onClick={onClickApply}
-            >
-              参加登録
-            </button>
-          </>
-        )}
         {loginUser?.user_id === event?.event_owner?.user_id ? (
+          // イベントのユーザIDがログインユーザと同じ場合
           <>
             <button
               className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-black border-4 border-green-500/80 bg-green-400"
@@ -330,7 +240,27 @@ export const EventDetail: FC<Props> = (props) => {
             </button>
           </>
         ) : (
-          <></>
+          <>
+            {eventJoinFlag ? (
+              <>
+                <button
+                  className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-red-500/80 bg-red-400"
+                  onClick={onClickApplyCancel}
+                >
+                  参加登録解除
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-blue-500/80 bg-blue-400"
+                  onClick={onClickApply}
+                >
+                  参加登録
+                </button>
+              </>
+            )}
+          </>
         )}
       </div>
     </>
