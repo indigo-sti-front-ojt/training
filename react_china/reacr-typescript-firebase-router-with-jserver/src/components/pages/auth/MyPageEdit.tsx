@@ -31,7 +31,7 @@ export const MyPageEditSchema = yup.object().shape({
     .string()
     .typeError("文字列を入力してください")
     .max(19, "名前は19文字以下で入力してください")
-    .required(),
+    .required("名前の入力は必須です"),
   user_coe: yup
     .string()
     .typeError("文字列を入力してください")
@@ -49,7 +49,7 @@ export const MyPageEditSchema = yup.object().shape({
     .typeError("文字列を入力してください")
     .max(35, "メールアドレスは35文字以下で入力してください")
     .email("メールアドレスの形式で入力してください")
-    .required(),
+    .required("メールアドレスの入力は必須です"),
   user_instagramid: yup
     .string()
     .typeError("文字列を入力してください")

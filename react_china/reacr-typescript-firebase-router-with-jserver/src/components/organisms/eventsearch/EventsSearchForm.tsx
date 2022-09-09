@@ -26,7 +26,7 @@ const schema = yup.object().shape({
     .number()
     .typeError("数値を入力してください")
     .integer()
-    .min(0, "0以上の数字を入れてください")
+    .min(0, "0以上の数字を入力してください")
     .max(100000, "100000以下の数値を入力してください")
     .nullable()
     .transform((value, originalValue) =>
@@ -54,14 +54,14 @@ const schema = yup.object().shape({
     ),
   fromdate: yup
     .string()
-    .matches(/^\d{4}-\d{2}-\d{2}$/, { message: "開始日付の形式が不正です" })
+    .matches(/^\d{4}-\d{2}-\d{2}$/, { message: "検索開始日付の形式が不正です" })
     .nullable()
     .transform((value, originalValue) =>
       String(originalValue).trim() === "" ? null : value
     ),
   todate: yup
     .string()
-    .matches(/^\d{4}-\d{2}-\d{2}$/, { message: "終了日付の形式が不正です" })
+    .matches(/^\d{4}-\d{2}-\d{2}$/, { message: "検索終了日付の形式が不正です" })
     .nullable()
     .transform((value, originalValue) =>
       String(originalValue).trim() === "" ? null : value
