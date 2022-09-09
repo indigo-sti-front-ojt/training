@@ -17,6 +17,9 @@ export const useAuthUser = () => {
 
   const login = useCallback(async () => {
     const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({
+      hd: "sios.com",
+    });
     try {
       await signInWithPopup(auth, provider);
     } catch (e) {
