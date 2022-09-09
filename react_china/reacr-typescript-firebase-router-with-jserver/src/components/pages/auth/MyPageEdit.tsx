@@ -1,6 +1,5 @@
 import React, { FC, useState, ChangeEvent, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { User } from "../../../types/api/User";
 import { useAllTagsContext } from "../../../context/AllTagsContext";
 import { useUserInfoContext } from "../../../context/UserInfoContext";
 import { useUserCreateEdit } from "../../../hooks/api/postPutDelete/useUserCreateEdit";
@@ -8,24 +7,41 @@ import { useUser } from "../../../hooks/api/get/useUser";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
 import { useBase64ImageUp } from "../../../hooks/api/postPutDelete/useBase64ImageUp";
 import { useNavigate } from "react-router-dom";
-
-//yup
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+export type UserFormEdit = {
+  user_id: string;
+  user_email: string;
+  user_icon: string;
+  user_nickname: string;
+  user_coe: string;
+  user_sl: string;
+  user_comment: string;
+  user_lineqr: string;
+  user_twitterid: string;
+  user_instagramid: string;
+  user_facebookid: string;
+  user_tags_id: Array<number>;
+};
+
 // yup スキーマ定義
-const schema = yup.object().shape({
-  user_nickname: yup.string().required(),
-  user_coe: yup.string(),
-  user_sl: yup.string(),
-  user_comment: yup.string(),
-  user_email: yup.string().email().required(),
-  user_instagramid: yup.string(),
-  user_twitterid: yup.string(),
-  user_facebookid: yup.string(),
+export const MyPageEditSchema = yup.object().shape({
+  user_nickname: yup.string().typeError("文字列を入力してください").required(),
+  user_coe: yup.string().typeError("文字列を入力してください"),
+  user_sl: yup.string().typeError("文字列を入力してください"),
+  user_comment: yup.string().typeError("文字列を入力してください"),
+  user_email: yup
+    .string()
+    .typeError("文字列を入力してください")
+    .email()
+    .required(),
+  user_instagramid: yup.string().typeError("文字列を入力してください"),
+  user_twitterid: yup.string().typeError("文字列を入力してください"),
+  user_facebookid: yup.string().typeError("文字列を入力してください"),
   user_tags_id: yup.array().of(yup.number()),
-  user_icon: yup.string(),
-  user_lineqr: yup.string(),
+  user_icon: yup.string().typeError("文字列を入力してください"),
+  user_lineqr: yup.string().typeError("文字列を入力してください"),
 });
 
 export const MyPageEdit: FC = () => {
@@ -50,8 +66,8 @@ export const MyPageEdit: FC = () => {
     handleSubmit,
     setValue,
     formState: { isSubmitSuccessful, errors },
-  } = useForm<User>({
-    resolver: yupResolver(schema),
+  } = useForm<UserFormEdit>({
+    resolver: yupResolver(MyPageEditSchema),
     defaultValues: {
       user_nickname: userInfo?.user_nickname ?? "",
       user_coe: userInfo?.user_coe ?? "",
@@ -67,12 +83,12 @@ export const MyPageEdit: FC = () => {
     },
   });
 
-  setValue("user_id", userInfo?.user_id);
+  userInfo.user_id && setValue("user_id", userInfo?.user_id);
 
   // ユーザー編集のhooksの読み込み
   const { userCreateEdit } = useUserCreateEdit();
 
-  const onSubmit: SubmitHandler<User> = async (data: User) => {
+  const onSubmit: SubmitHandler<UserFormEdit> = async (data: UserFormEdit) => {
     // const temp: User = {
     //   ...data,
     //   user_tags_id: data.user_tags_id?.map(Number),
@@ -135,7 +151,7 @@ export const MyPageEdit: FC = () => {
   const uploadUserIcon = async () => {
     try {
       const azureStorageURL = await base64ImageUp(base64);
-      setValue("user_icon", azureStorageURL);
+      azureStorageURL && setValue("user_icon", azureStorageURL);
       setTmpUrl(azureStorageURL);
       return azureStorageURL;
     } catch {
@@ -146,7 +162,7 @@ export const MyPageEdit: FC = () => {
   const uploadLineQR = async () => {
     try {
       const azureStorageURL = await base64ImageUp(base64QR);
-      setValue("user_lineqr", azureStorageURL);
+      azureStorageURL && setValue("user_lineqr", azureStorageURL);
       setTmpLineUrl(azureStorageURL);
       return azureStorageURL;
     } catch {

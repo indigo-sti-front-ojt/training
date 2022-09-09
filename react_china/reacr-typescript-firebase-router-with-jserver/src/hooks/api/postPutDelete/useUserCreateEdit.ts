@@ -1,9 +1,13 @@
 import axios from "axios";
-import { User } from "../../../types/api/User";
+import { UserFormEdit } from "../../../components/pages/auth/MyPageEdit";
+import { UserFormCreate } from "../../useAuth";
 
 export const useUserCreateEdit = () => {
   const url = "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/users";
-  const userCreateEdit = async (method: string, obj: User) => {
+  const userCreateEdit = async (
+    method: string,
+    obj: UserFormCreate | UserFormEdit
+  ) => {
     if (method === "post") {
       try {
         await axios.post(url, obj);
