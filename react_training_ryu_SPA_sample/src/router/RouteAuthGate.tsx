@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { AuthUserContainer } from "../provider/AuthUserProvider";
 
 type Props = {
@@ -10,10 +10,24 @@ type Props = {
 export const RouteAuthGate = (props: Props) => {
   const { component, redirect } = props;
   const { isLoggined, isAuthChecked } = AuthUserContainer.useContainer();
+  const NaviComponent = () => {
+    return (
+      <>
+        <Navigate
+          to={redirect}
+          state={{ from: useLocation() }}
+          replace={true}
+        />
+      </>
+    );
+  };
+
   if (!isAuthChecked) return <p>認証チェック中</p>;
   if (!isLoggined) {
     return (
-      <Navigate to={redirect} state={{ from: useLocation() }} replace={false} />
+      <>
+        <NaviComponent />
+      </>
     );
   }
   return <>{component}</>;

@@ -79,7 +79,7 @@ export const RouterConfig = () => {
 
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename="">
         <ScrollTop />
         <Routes>
           <Route path="/" element={<Layout />}>

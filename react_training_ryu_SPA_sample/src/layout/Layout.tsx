@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 
 import { FooterComponet } from "../designComponents/FooterComponent";
 import { HeaderComponent } from "../designComponents/HeaderComponent";
+import { HeaderComponentRe } from "../designComponents/HeaderComponentRe";
 import { LodingContainer } from "../provider/LoadingProvider";
 
 export const Layout = () => {
@@ -12,10 +13,11 @@ export const Layout = () => {
 
   return (
     <>
-      <HeaderComponent />
+      {/* <HeaderComponent /> */}
+      <HeaderComponentRe />
       <main
         className={
-          "flex flex-col gap-16 m-auto pt-12 md:pt-0 items-center w-full max-w-4xl" +
+          "flex flex-col gap-16 m-auto pt-16 items-center w-full max-w-4xl" +
           (location.pathname.includes("owner") ? " md:pl-11" : " ")
         }
       >
