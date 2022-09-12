@@ -25,8 +25,9 @@ const schema = yup.object().shape({
   budget: yup
     .number()
     .typeError("数値を入力してください")
-    .positive()
     .integer()
+    .min(0, "0以上の数字を入力してください")
+    .max(100000, "100000以下の数値を入力してください")
     .nullable()
     .transform((value, originalValue) =>
       String(originalValue).trim() === "" ? null : value
@@ -34,8 +35,9 @@ const schema = yup.object().shape({
   minguest: yup
     .number()
     .typeError("数値を入力してください")
-    .positive()
     .integer()
+    .min(0, "0以上の数字を入れてください")
+    .max(100, "100以下の数値を入力してください")
     .nullable()
     .transform((value, originalValue) =>
       String(originalValue).trim() === "" ? null : value
@@ -43,22 +45,23 @@ const schema = yup.object().shape({
   maxguest: yup
     .number()
     .typeError("数値を入力してください")
-    .positive()
     .integer()
+    .min(0, "0以上の数字を入れてください")
+    .max(100, "100以下の数値を入力してください")
     .nullable()
     .transform((value, originalValue) =>
       String(originalValue).trim() === "" ? null : value
     ),
   fromdate: yup
     .string()
-    .matches(/^\d{4}-\d{2}-\d{2}$/, { message: "開始日付の形式が不正です" })
+    .matches(/^\d{4}-\d{2}-\d{2}$/, { message: "検索開始日付の形式が不正です" })
     .nullable()
     .transform((value, originalValue) =>
       String(originalValue).trim() === "" ? null : value
     ),
   todate: yup
     .string()
-    .matches(/^\d{4}-\d{2}-\d{2}$/, { message: "終了日付の形式が不正です" })
+    .matches(/^\d{4}-\d{2}-\d{2}$/, { message: "検索終了日付の形式が不正です" })
     .nullable()
     .transform((value, originalValue) =>
       String(originalValue).trim() === "" ? null : value
@@ -83,13 +86,6 @@ export const EventSerchForm = (props: Props) => {
   });
 
   const onSubmit: SubmitHandler<SearchEventList> = async (data) => {
-    // const temp = {
-    //   ...data,
-    //   budget: Number(data.budget),
-    //   minguest: Number(data.minguest),
-    //   maxguest: Number(data.maxguest),
-    //   tags: data?.tagsid?.map(Number),
-    // };
     console.log("onSubmit", data);
     const eventsdata = await getSearchEvents(data);
     setEvents(eventsdata);
@@ -203,7 +199,7 @@ export const EventSerchForm = (props: Props) => {
           <div className="flex flex-row flex-wrap gap-y-2">
             <div className="w-2/5 flex flex-row items-center">
               <input
-                type="text"
+                type="number"
                 placeholder="0"
                 {...register("minguest")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
@@ -215,7 +211,7 @@ export const EventSerchForm = (props: Props) => {
             </div>
             <div className="w-2/5 flex flex-row items-center">
               <input
-                type="text"
+                type="number"
                 placeholder="5"
                 {...register("maxguest")}
                 className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
@@ -229,7 +225,7 @@ export const EventSerchForm = (props: Props) => {
           <div className="font-bold">予算</div>
           <div className="flex flex-row flex-wrap gap-y-2 justify-center items-center">
             <input
-              type="text"
+              type="number"
               placeholder="2000"
               {...register("budget")}
               className="border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-2/3"
@@ -308,7 +304,6 @@ export const EventSerchForm = (props: Props) => {
         {errors.maxguest && errors.maxguest.message}
         {errors.fromdate && errors.fromdate.message}
         {errors.todate && errors.todate.message}
-        
       </form>
       {/* <form onSubmit={handleSubmit(onSubmit)}>
         <p>イベントタグ</p>

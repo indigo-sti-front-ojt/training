@@ -11,12 +11,18 @@ import {
 } from "firebase/auth";
 
 import { useUserCreateEdit } from "./api/postPutDelete/useUserCreateEdit";
-import { UserMinInfo } from "../types/api/UserMinInfo";
 import { useLoginUserContext } from "../context/LoginUserContext";
 import { useUserInfoContext } from "../context/UserInfoContext";
 import { useUser } from "./api/get/useUser";
 
 const fireauth = firebaseApp.fireauth;
+
+export type UserFormCreate = {
+  user_id: string;
+  user_name: string;
+  user_icon: string;
+  user_email: string;
+};
 
 //googleログイン用hook
 export const useLoginWithGoogle = () => {
@@ -51,11 +57,11 @@ export const useLoginWithGoogle = () => {
         navigate("/");
       } else {
         console.log("ユーザDBがない場合(初回ログイン)");
-        const userRegister: UserMinInfo = {
-          user_email: res.user.email ?? undefined,
-          user_name: res.user.displayName ?? undefined,
-          user_icon: res.user.photoURL ?? undefined,
-          user_id: res.user.uid ?? undefined,
+        const userRegister: UserFormCreate = {
+          user_email: res.user.email ?? "",
+          user_name: res.user.displayName ?? "",
+          user_icon: res.user.photoURL ?? "",
+          user_id: res.user.uid,
         };
         console.log("初回ログイン登録情報", userRegister);
         await userCreateEdit("post", userRegister);

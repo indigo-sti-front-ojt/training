@@ -48,25 +48,30 @@ const schema = yup.object().shape({
     .required("開催日時の入力は必須です"),
   event_place: yup
     .string()
+    .max(6, "開催場所は6文字以下で入力してください")
     .typeError("文字列を入力してください")
     .required("開催場所の入力は必須です"),
   event_budget: yup
     .number()
+    .max(6, "予算は6桁以下で入力してください")
     .typeError("数字を入力してください")
     .integer("整数を入力してください")
     .min(0, "0以上の数字を入れてください")
+    .max(100000, "100000以下の数値を入力してください")
     .required("予算の入力は必須です"),
   event_min_guest: yup
     .number()
     .typeError("数字を入力してください")
     .integer("整数を入力してください")
     .min(0, "0以上の数字を入れてください")
+    .max(100, "100以下の数値を入力してください")
     .required("最大募集人数の入力は必須です"),
   event_max_guest: yup
     .number()
     .typeError("数字を入力してください")
     .integer("整数を入力してください")
     .min(0, "0以上の数字を入れてください")
+    .max(100, "100以下の数値を入力してください")
     .required("最大募集人数の入力は必須です"),
   event_image: yup.string(),
   event_tags_id: yup.array().of(yup.number()),
