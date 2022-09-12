@@ -53,7 +53,6 @@ const schema = yup.object().shape({
     .required("開催場所の入力は必須です"),
   event_budget: yup
     .number()
-    .max(6, "予算は6桁以下で入力してください")
     .typeError("数字を入力してください")
     .integer("整数を入力してください")
     .min(0, "0以上の数字を入れてください")
@@ -65,7 +64,7 @@ const schema = yup.object().shape({
     .integer("整数を入力してください")
     .min(0, "0以上の数字を入れてください")
     .max(100, "100以下の数値を入力してください")
-    .required("最大募集人数の入力は必須です"),
+    .required("最小募集人数の入力は必須です"),
   event_max_guest: yup
     .number()
     .typeError("数字を入力してください")
