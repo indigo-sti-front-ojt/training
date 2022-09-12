@@ -1,14 +1,16 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Outlet } from "react-router";
+import { HeaderComponent } from "../Components/HeaderComponent";
 
 export const Layout = () => {
   return (
     <>
-      <header></header>
+      <HeaderComponent />
       <main>
-        <Outlet />
+        <Suspense fallback={<p>parent..</p>}>
+          <Outlet />
+        </Suspense>
       </main>
-      <footer></footer>
     </>
   );
 };
