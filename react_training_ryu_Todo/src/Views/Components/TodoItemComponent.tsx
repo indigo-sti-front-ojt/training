@@ -1,18 +1,13 @@
 import {
-  Avatar,
-  Box,
-  Button,
   Checkbox,
   IconButton,
   ListItem,
-  ListItemAvatar,
   ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
 import React from "react";
 import { TodoViewDataType } from "../../Types/TodoViewDataType";
-import FolderIcon from "@mui/icons-material/Folder";
 import DeleteIcon from "@mui/icons-material/Delete";
 type Props = {
   onClickFin: (uuid: string) => void;
