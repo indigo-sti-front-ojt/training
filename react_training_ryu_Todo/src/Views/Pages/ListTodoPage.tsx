@@ -57,10 +57,23 @@ export const ListTodoPage = () => {
           gap: "15px",
         }}
       >
-        <Button variant="contained" size="large" onClick={handleOpen}>
+        <Button
+          variant="contained"
+          size="large"
+          sx={{ mt: "10px" }}
+          onClick={handleOpen}
+        >
           追加
         </Button>
-        <Box sx={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            flexDirection: "row",
+            gap: "10px",
+          }}
+        >
           {tags.map((value: string) => (
             <Card key={value} sx={{ minWidth: 275, maxWidth: 275 }}>
               <CardContent>

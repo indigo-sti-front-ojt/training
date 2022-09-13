@@ -3,7 +3,6 @@ import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { useTodoData } from "../Hooks/TodoData";
 import { TodoContainer } from "../Providers/TodoList";
 import { Layout } from "../Views/Layout/Layout";
-import { HomePage } from "../Views/Pages/HomePage";
 import { ListTodoPage } from "../Views/Pages/ListTodoPage";
 import { NotFound } from "../Views/Pages/NotFound";
 import { TodoPage } from "../Views/Pages/TodoPage";
@@ -25,9 +24,8 @@ export const RouterConfig = () => {
       <>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route path="/" element={<HomePage />} />
             <Route
-              path="listTodo"
+              path="/"
               element={
                 <>
                   <Outlet />

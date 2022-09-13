@@ -8,6 +8,10 @@ import { TodoViewDataType } from "../../Types/TodoViewDataType";
 import { TodoItemComponent } from "../Components/TodoItemComponent";
 import { TodoInputComponent } from "../Components/TodoInputComponent";
 import { TodoContainer } from "../../Providers/TodoList";
+import { Alert, Button, IconButton, List, ListSubheader } from "@mui/material";
+import { Box, Container } from "@mui/system";
+
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export const TodoPage = () => {
   const { tagName } = useParams();
@@ -16,8 +20,6 @@ export const TodoPage = () => {
   const { setLoad: setLoadTag } = TodoContainer.useContainer();
   // データの読み込みチェック
   const [load, setLoad] = useState<boolean>(false);
-  // データがあるかどうかのチェック
-  const [dataCheck, setDataCheck] = useState<boolean>(true);
   // データそのもの
   const [data, setData] = useState<TodoViewDataType[]>([]);
 
@@ -54,12 +56,10 @@ export const TodoPage = () => {
             return { uuid: createUUID(), ...value };
           });
           setData(temp);
-          setDataCheck(true);
           setLoad(true);
         })
         .catch((e) => {
           console.log("come on", e);
-          setDataCheck(false);
           setLoad(true);
         });
     const FinData = data.filter((value: TodoViewDataType) => value.fin);
@@ -67,24 +67,40 @@ export const TodoPage = () => {
 
     return (
       <>
-        <h1>未終了</h1>
-        {NonFinData.map((value: TodoViewDataType) => (
-          <TodoItemComponent
-            key={value.uuid}
-            value={value}
-            onClickFin={onClickFin}
-            onClickDelete={onClickDelete}
-          />
-        ))}
-        <h1>終了</h1>
-        {FinData.map((value: TodoViewDataType) => (
-          <TodoItemComponent
-            key={value.uuid}
-            value={value}
-            onClickFin={onClickFin}
-            onClickDelete={onClickDelete}
-          />
-        ))}
+        <List
+          sx={{
+            width: "50%",
+            minWidth: "300px",
+            maxWidth: "300px",
+          }}
+          subheader={<ListSubheader>未完了タスク</ListSubheader>}
+        >
+          {NonFinData.map((value: TodoViewDataType) => (
+            <TodoItemComponent
+              key={value.uuid}
+              value={value}
+              onClickFin={onClickFin}
+              onClickDelete={onClickDelete}
+            />
+          ))}
+        </List>
+        <List
+          sx={{
+            width: "50%",
+            minWidth: "300px",
+            maxWidth: "300px",
+          }}
+          subheader={<ListSubheader>完了タスク</ListSubheader>}
+        >
+          {FinData.map((value: TodoViewDataType) => (
+            <TodoItemComponent
+              key={value.uuid}
+              value={value}
+              onClickFin={onClickFin}
+              onClickDelete={onClickDelete}
+            />
+          ))}
+        </List>
       </>
     );
   }, [data]);
@@ -93,8 +109,14 @@ export const TodoPage = () => {
     if (tagName) {
       const result = await deleteData(tagName);
       setLoadTag(false);
-      if (result) navigate("/listTodo");
+      if (result) navigate("/");
     }
+  };
+  const onClickBackButton = async () => {
+    if (dataSaveCheck) {
+      await onClickSaveButton();
+    }
+    navigate("/");
   };
   const onClickSaveButton = async () => {
     if (tagName) {
@@ -108,25 +130,72 @@ export const TodoPage = () => {
 
   return (
     <>
-      <Suspense fallback={<p>loading..</p>}>
-        {dataSaveCheck ? (
+      <Container sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <Suspense fallback={<p>loading..</p>}>
           <>
-            適宜情報を保存してください
-            <button onClick={onClickSaveButton}>送信</button>
-          </>
-        ) : (
-          <></>
-        )}
-        {dataCheck ? (
-          <>
-            <button onClick={onClickDeleteButton}>削除</button>
+            <Box
+              sx={{
+                display: "flex",
+                width: "full",
+                height: "50px",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <IconButton size="large" onClick={onClickBackButton}>
+                <ArrowBackIcon />
+              </IconButton>
+              <Button
+                variant="contained"
+                size="large"
+                color="error"
+                onClick={onClickDeleteButton}
+              >
+                削除
+              </Button>
+            </Box>
+            <Box
+              sx={{
+                height: "50px",
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {dataSaveCheck ? (
+                <>
+                  <Alert sx={{ width: "250px" }}>
+                    適宜情報を保存してください
+                  </Alert>
+                  <Button
+                    sx={{ width: "50px" }}
+                    variant="contained"
+                    onClick={onClickSaveButton}
+                  >
+                    送信
+                  </Button>
+                </>
+              ) : (
+                <></>
+              )}
+            </Box>
+
             <TodoInputComponent onClickAdd={onClickAdd} />
-            <TodoData />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "20px",
+                flexWrap: "wrap",
+                width: "100%",
+              }}
+            >
+              <TodoData />
+            </Box>
           </>
-        ) : (
-          <>detaが存在しません</>
-        )}
-      </Suspense>
+        </Suspense>
+      </Container>
     </>
   );
 };

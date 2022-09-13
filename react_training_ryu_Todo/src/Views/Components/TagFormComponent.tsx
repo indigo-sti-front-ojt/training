@@ -1,10 +1,10 @@
 import { Alert, Box, Button, Input } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { TodoContainer } from "../../Providers/TodoList";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { TodoContainer } from "../../Providers/TodoList";
 
 type Props = {
   addData: (tagName: string) => void;
@@ -12,15 +12,6 @@ type Props = {
 
 type FormInput = {
   tagName: string;
-};
-
-const style = {
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-around",
-  gap: "20px",
-  width: "300px",
-  height: "150px",
 };
 
 export const TagFormComponent = (props: Props) => {
@@ -62,15 +53,19 @@ export const TagFormComponent = (props: Props) => {
     addData(data.tagName);
   };
 
-  useEffect(() => {
-    console.log(errors);
-    console.log(schema);
-  }, [errors]);
-
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box sx={style}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-around",
+            gap: "20px",
+            width: "300px",
+            height: "150px",
+          }}
+        >
           <Controller
             name="tagName"
             control={control}
