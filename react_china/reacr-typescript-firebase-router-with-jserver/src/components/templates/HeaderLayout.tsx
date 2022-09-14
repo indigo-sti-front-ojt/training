@@ -13,8 +13,8 @@ export const HeaderLayout: FC<Props> = memo((props: Props) => {
   return (
     <>
       <Header />
-      <main className="flex flex-col items-center justify-center">
-        <div className="w-full max-w-4xl flex flex-col items-center gap-10">
+      <main className="flex flex-col items-center justify-center my-10">
+        <div className="w-full max-w-4xl flex flex-col items-center gap-16">
           {children}
         </div>
       </main>

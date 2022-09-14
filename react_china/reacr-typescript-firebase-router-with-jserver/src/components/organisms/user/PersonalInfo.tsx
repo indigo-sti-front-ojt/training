@@ -17,7 +17,7 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
   return (
     <>
       <div className="flex flex-col w-72 m-2 px-4 gap-1 shadow-xl rounded md:w-full max-w-4xl md:flex-row">
-        <div className="flex flex-row md:w-32">
+        <div className="flex flex-row md:w-32 flex-shrink-0">
           <div className="w-1/2 md:w-full">
             <img
               src={
@@ -93,7 +93,7 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="w-full flex flex-col gap-3">
+        <div className="w-full md:w-1/2 flex flex-col gap-3 flex-shrink flex-grow">
           <div className="nameToSL flex flex-col gap-2 md:w-full md:flex-row md:flex-wrap md:gap-y-0 md:gap-x-4">
             <div className="flex flex-col justify-center h-16 w-full text-xl md:w-2/5">
               <div className="font-bold border-b-2 border-black">名前</div>
@@ -134,7 +134,7 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
               <div className="font-bold border-b-2 border-black">
                 一言自己紹介
               </div>
-              <div className="h-24">
+              <div className="h-24 break-words">
                 {!user?.user_comment ? <>未登録</> : <>{user?.user_comment}</>}
               </div>
             </div>
