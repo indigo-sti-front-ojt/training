@@ -53,9 +53,16 @@ export const EventDetail: FC<Props> = (props) => {
   const guestID = event?.event_guests?.map((guest) => guest?.user_id);
 
   // レンダリング時の参加登録の有無を表すフラグの定義
-  const [eventJoinFlag, setEventJoinFlag] = useState(
-    guestID?.includes(loginUser?.user_id)
+  const tempEventJoinFlag = guestID?.includes(loginUser?.user_id);
+  const [eventJoinFlag, setEventJoinFlag] = useState<boolean | undefined>(
+    tempEventJoinFlag
   );
+  // console.log(tempEventJoinFlag);
+  // 初期化の監視
+  useEffect(() => {
+    setEventJoinFlag(tempEventJoinFlag);
+  }, [tempEventJoinFlag]);
+
   // このフラグが変更された際もイベントを再度取得し画面を再描画する
   useEffect(() => {
     getEvent(event_id);

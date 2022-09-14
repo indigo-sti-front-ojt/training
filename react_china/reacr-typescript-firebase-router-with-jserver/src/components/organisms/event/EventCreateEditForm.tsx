@@ -35,17 +35,17 @@ const schema = yup.object().shape({
   event_deadline: yup
     .string()
     .typeError("文字列を入力してください")
+    .required("募集締め切りの入力は必須です")
     .matches(/^\d{4}-\d{2}-\d{2}$/, {
       message: "募集締め切りの形式が不正です",
-    })
-    .required("募集締め切りの入力は必須です"),
+    }),
   event_date: yup
     .string()
     .typeError("文字列を入力してください")
+    .required("開催日時の入力は必須です")
     .matches(/^\d{4}-\d{2}-\d{2}$/, {
       message: "開催日時の形式が不正です",
-    })
-    .required("開催日時の入力は必須です"),
+    }),
   event_place: yup
     .string()
     .max(6, "開催場所は6文字以下で入力してください")
@@ -262,7 +262,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             <div className="w-1/3 p-2">募集文章</div>
             <div className="w-full">
               <textarea
-                placeholder="コメントを入力"
+                placeholder="募集文章を入力"
                 {...register("event_note")}
                 className="h-52 border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-full"
               />

@@ -100,6 +100,8 @@ export const Comment: FC<Props> = (props) => {
         >
           <div className="flex-grow">
             <input
+              type="text"
+              placeholder="コメントを入力してください"
               className="w-full border-2 border-gray-600 outline-1 outline-gray-700 p-2"
               {...register("comment_text", { required: true })}
             />

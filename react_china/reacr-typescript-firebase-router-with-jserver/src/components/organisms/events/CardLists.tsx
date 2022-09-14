@@ -57,7 +57,7 @@ export const CardLists: FC<Props> = (props) => {
         ) : (
           <span>{eventListTitle}はありません</span>
         )}
-        {/* イベントが3つよりあるときもっと見るボタンを表示 */}
+        {/* イベントが3つよりあるとき更に検索するボタンを表示 */}
         {events.length > 3 && (
           <>
             <div className="w-full flex justify-center items-center">

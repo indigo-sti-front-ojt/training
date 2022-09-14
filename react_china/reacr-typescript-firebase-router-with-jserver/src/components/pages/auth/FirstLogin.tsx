@@ -38,7 +38,10 @@ export const FirstLogin = () => {
   setValue("user_id", userInfo.user_id ?? "");
   setValue("user_email", userInfo.user_email ?? "");
   setValue("user_icon", userInfo.user_icon ?? "");
-  setValue("user_nickname", userInfo.user_nickname ?? "");
+  setValue(
+    "user_nickname",
+    userInfo.user_nickname ?? loginUser?.user_name ?? ""
+  );
   setValue("user_tags_id", user_tags_id ?? []);
   setValue("user_coe", userInfo.user_coe ?? "");
   setValue("user_comment", userInfo.user_comment ?? "");

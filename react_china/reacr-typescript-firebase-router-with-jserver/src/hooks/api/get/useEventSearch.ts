@@ -13,7 +13,7 @@ export const useEventSearch = () => {
 
     let tags = "";
     if (data?.tagsid) {
-      tags = "?tagid=" + data?.tagsid[0];
+      tags = "&tagid=" + data?.tagsid[0];
       for (let i = 1; i < data?.tagsid.length; i++) {
         tags = tags + "+" + data?.tagsid[i];
       }
@@ -26,36 +26,36 @@ export const useEventSearch = () => {
 
     let budgetQuery = "";
     if (data?.budget) {
-      budgetQuery = `?budget=${data?.budget}`;
+      budgetQuery = `&budget=${data?.budget}`;
     }
 
     let minguestQuery = "";
     if (data?.minguest) {
-      minguestQuery = `?minguest=${data?.minguest}`;
+      minguestQuery = `&minguest=${data?.minguest}`;
     }
 
     let maxguestQuery = "";
     if (data?.maxguest) {
-      maxguestQuery = `?maxguest=${data?.maxguest}`;
+      maxguestQuery = `&maxguest=${data?.maxguest}`;
     }
 
     let fromdateQuery = "";
     if (data?.fromdate) {
-      fromdateQuery = `?fromdate=${data?.fromdate}`;
+      fromdateQuery = `&fromdate=${data?.fromdate}`;
     }
 
     let todateQuery = "";
     if (data?.todate) {
-      todateQuery = `?todate=${data?.todate}`;
+      todateQuery = `&todate=${data?.todate}`;
     }
 
     let numQuery = "";
     if (data?.num) {
-      numQuery = `?num=${data?.num}`;
+      numQuery = `&num=${data?.num}`;
     }
 
     const eventsUrl =
-      "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/events_search" +
+      "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/events_search?" +
       tagsQuery +
       budgetQuery +
       minguestQuery +

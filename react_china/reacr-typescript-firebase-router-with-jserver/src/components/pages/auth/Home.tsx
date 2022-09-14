@@ -33,7 +33,10 @@ export const Home: FC = () => {
       console.log("events", event1);
 
       const tagEvents = await getSearchEvents(data_tags);
-      tagEvents ? setTagEvents(tagEvents) : setTagEvents([]);
+      // ユーザのタグ設定がされていて、タグに関連するイベントが取得できたら、イベントをセットする
+      tagEvents && userInfo.user_tags?.length
+        ? setTagEvents(tagEvents)
+        : setTagEvents([]);
       console.log("tagEvents", tagEvents);
     };
     readData();
@@ -45,19 +48,14 @@ export const Home: FC = () => {
 
       <LinkToEventSearch />
 
-      {/* <h2>ジャンルから探す</h2> */}
-      {/* <GenreSearchCard tag_id="2" tag_name="飲み会" />
-      <GenreSearchCard tag_id="4" tag_name="ゲーム" />
-      <GenreSearchCard tag_id="1" tag_name="アウトドア" />
-      <GenreSearchCard tag_id="3" tag_name="勉強" /> */}
       <div className="w-full flex flex-row flex-wrap gap-2 justify-center">
         <div className="w-3/4 md:w-full text-2xl md:text-3xl font-bold border-b-2 border-black">
           ジャンルから探す
         </div>
-        <GenreSearchCard tag_id="1" tag_name="飲み会" />
-        <GenreSearchCard tag_id="4" tag_name="ゲーム" />
-        <GenreSearchCard tag_id="2" tag_name="アウトドア" />
-        <GenreSearchCard tag_id="3" tag_name="勉強" />
+        <GenreSearchCard tag_id="3" tag_name="飲み会" />
+        <GenreSearchCard tag_id="1" tag_name="ゲーム" />
+        <GenreSearchCard tag_id="4" tag_name="アウトドア" />
+        <GenreSearchCard tag_id="7" tag_name="勉強" />
       </div>
 
       <CardLists

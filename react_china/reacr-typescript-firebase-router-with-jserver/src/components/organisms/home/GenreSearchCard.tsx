@@ -17,13 +17,13 @@ export const GenreSearchCard = (props: Props) => {
 
   const imageURL = (): string => {
     switch (tag_id) {
-      case "3":
+      case "7":
         return `${process.env.PUBLIC_URL}/images/main_1-min.png`;
-      case "2":
-        return `${process.env.PUBLIC_URL}/images/main_2-min.png`;
-      case "1":
-        return `${process.env.PUBLIC_URL}/images/main_3-min.png`;
       case "4":
+        return `${process.env.PUBLIC_URL}/images/main_2-min.png`;
+      case "3":
+        return `${process.env.PUBLIC_URL}/images/main_3-min.png`;
+      case "1":
         return `${process.env.PUBLIC_URL}/images/main_4-min.png`;
       default:
         return `${process.env.PUBLIC_URL}/images/main_1-min.png`;
