@@ -20,7 +20,11 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
         <div className="flex flex-row md:w-32">
           <div className="w-1/2 md:w-full">
             <img
-              src={user?.user_icon}
+              src={
+                !user?.user_icon
+                  ? "https://placehold.jp/666dc7/ffffff/150x150.png?text=%E3%82%A2%E3%82%A4%E3%82%B3%E3%83%B3%0A%E6%9C%AA%E8%A8%AD%E5%AE%9A"
+                  : user?.user_icon
+              }
               className="object-contain w-auto h-auto"
               alt=""
             />
