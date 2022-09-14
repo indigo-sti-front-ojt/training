@@ -35,17 +35,17 @@ const schema = yup.object().shape({
   event_deadline: yup
     .string()
     .typeError("文字列を入力してください")
+    .required("募集締め切りの入力は必須です")
     .matches(/^\d{4}-\d{2}-\d{2}$/, {
       message: "募集締め切りの形式が不正です",
-    })
-    .required("募集締め切りの入力は必須です"),
+    }),
   event_date: yup
     .string()
     .typeError("文字列を入力してください")
+    .required("開催日時の入力は必須です")
     .matches(/^\d{4}-\d{2}-\d{2}$/, {
       message: "開催日時の形式が不正です",
-    })
-    .required("開催日時の入力は必須です"),
+    }),
   event_place: yup
     .string()
     .max(6, "開催場所は6文字以下で入力してください")
