@@ -30,20 +30,20 @@ export const MyPageEditSchema = yup.object().shape({
   user_nickname: yup
     .string()
     .typeError("文字列を入力してください")
-    .max(19, "名前は19文字以下で入力してください")
+    .max(15, "名前は15文字以下で入力してください")
     .required("名前の入力は必須です"),
   user_coe: yup
     .string()
     .typeError("文字列を入力してください")
-    .max(19, "所属CoEは19文字以下で入力してください"),
+    .max(15, "所属CoEは15文字以下で入力してください"),
   user_sl: yup
     .string()
     .typeError("文字列を入力してください")
-    .max(19, "所属SLは19文字以下で入力してください"),
+    .max(15, "所属SLは15文字以下で入力してください"),
   user_comment: yup
     .string()
     .typeError("文字列を入力してください")
-    .max(150, "一言自己紹介は150文字以下で入力してください"),
+    .max(60, "一言自己紹介は60文字以下で入力してください"),
   user_email: yup
     .string()
     .typeError("文字列を入力してください")
