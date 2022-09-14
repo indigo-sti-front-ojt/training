@@ -46,8 +46,12 @@ export const FirstLogin = () => {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<UserFormEdit> = async (data) => {
-    console.log("onSubmit");
-    await userCreateEdit("put", data);
+    const temp: UserFormEdit = {
+      ...data,
+      user_tags_id: data.user_tags_id?.map(Number),
+    };
+    console.log("onSubmit", temp);
+    await userCreateEdit("put", temp);
     console.log("onSubmit putが終了");
     navigate("/");
     console.log("onSubmitトップへ遷移完了");
