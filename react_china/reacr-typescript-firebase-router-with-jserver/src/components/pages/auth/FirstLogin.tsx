@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useLoginUserContext } from "../../../context/LoginUserContext";
@@ -7,8 +7,6 @@ import { useUserInfoContext } from "../../../context/UserInfoContext";
 import { useUserCreateEdit } from "../../../hooks/api/postPutDelete/useUserCreateEdit";
 import { useUser } from "../../../hooks/api/get/useUser";
 import { UserFormEdit } from "./MyPageEdit";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { MyPageEditSchema } from "./MyPageEdit";
 
 export const FirstLogin = () => {
   const { loginUser } = useLoginUserContext();
@@ -28,28 +26,25 @@ export const FirstLogin = () => {
     handleSubmit,
     setValue,
     //formState: { errors },
-  } = useForm<UserFormEdit>({
-    resolver: yupResolver(MyPageEditSchema),
-    defaultValues: {
-      user_tags_id: user_tags_id ?? [],
-    },
-  });
+  } = useForm<UserFormEdit>({});
 
-  setValue("user_id", userInfo.user_id ?? "");
-  setValue("user_email", userInfo.user_email ?? "");
-  setValue("user_icon", userInfo.user_icon ?? "");
-  setValue(
-    "user_nickname",
-    userInfo.user_nickname ?? loginUser?.user_name ?? ""
-  );
-  setValue("user_tags_id", user_tags_id ?? []);
-  setValue("user_coe", userInfo.user_coe ?? "");
-  setValue("user_comment", userInfo.user_comment ?? "");
-  setValue("user_facebookid", userInfo.user_facebookid ?? "");
-  setValue("user_instagramid", userInfo.user_instagramid ?? "");
-  setValue("user_lineqr", userInfo.user_lineqr ?? "");
-  setValue("user_sl", userInfo.user_sl ?? "");
-  setValue("user_twitterid", userInfo.user_twitterid ?? "");
+  useEffect(() => {
+    setValue("user_id", userInfo.user_id ?? "");
+    setValue("user_email", userInfo.user_email ?? "");
+    setValue("user_icon", userInfo.user_icon ?? "");
+    setValue(
+      "user_nickname",
+      userInfo.user_nickname ?? loginUser?.user_name ?? ""
+    );
+    setValue("user_tags_id", user_tags_id ?? []);
+    setValue("user_coe", userInfo.user_coe ?? "");
+    setValue("user_comment", userInfo.user_comment ?? "");
+    setValue("user_facebookid", userInfo.user_facebookid ?? "");
+    setValue("user_instagramid", userInfo.user_instagramid ?? "");
+    setValue("user_lineqr", userInfo.user_lineqr ?? "");
+    setValue("user_sl", userInfo.user_sl ?? "");
+    setValue("user_twitterid", userInfo.user_twitterid ?? "");
+  }, []);
 
   const navigate = useNavigate();
 
@@ -61,7 +56,6 @@ export const FirstLogin = () => {
     console.log("onSubmitトップへ遷移完了");
     loginUser && getUser(loginUser.user_id);
     console.log("ユーザinfoを更新");
-    
   };
 
   return (
