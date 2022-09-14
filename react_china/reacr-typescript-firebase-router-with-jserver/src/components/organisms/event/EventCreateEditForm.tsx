@@ -262,7 +262,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             <div className="w-1/3 p-2">募集文章</div>
             <div className="w-full">
               <textarea
-                placeholder="コメントを入力"
+                placeholder="募集文章を入力"
                 {...register("event_note")}
                 className="h-52 border-2 border-gray-600 outline-1 outline-gray-700 p-2 w-full"
               />
