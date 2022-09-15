@@ -77,6 +77,14 @@ export const PageItemComponent = (props: Props) => {
     }
   });
 
+  const onClickLink = (url: string, flag: boolean) => {
+    if (flag) {
+      location.href = url;
+    } else {
+      location.href = `https://www.instagram.com/${url}`;
+    }
+  };
+
   const Links = data.links?.map((value: TagTextObject) => {
     switch (value.tag) {
       case "食べログ":
@@ -85,6 +93,7 @@ export const PageItemComponent = (props: Props) => {
             <div
               className="py-2 px-8 rounded-md border-2 border-black hover:cursor-pointer"
               key={value.tag}
+              onClick={() => onClickLink(value.text, true)}
             >
               食べログ
             </div>
@@ -96,6 +105,7 @@ export const PageItemComponent = (props: Props) => {
             <div
               className="py-2 px-8 rounded-md border-2 border-black hover:cursor-pointer"
               key={value.tag}
+              onClick={() => onClickLink(value.text, true)}
             >
               ぐるなび
             </div>
@@ -106,6 +116,7 @@ export const PageItemComponent = (props: Props) => {
           <div
             className="py-2 px-8 rounded-md border-2 border-black hover:cursor-pointer"
             key={value.tag}
+            onClick={() => onClickLink(value.text, false)}
           >
             instagram
           </div>
