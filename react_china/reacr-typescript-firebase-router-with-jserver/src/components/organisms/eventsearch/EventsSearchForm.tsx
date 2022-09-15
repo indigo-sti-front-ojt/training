@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { SearchEventList } from "../../../types/react-hook-form/SearchEventList";
 import { useEventSearch } from "../../../hooks/api/get/useEventSearch";
@@ -6,6 +6,7 @@ import { useAllTagsContext } from "../../../context/AllTagsContext";
 import { Event } from "../../../types/api/Event";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { EventSearchResult } from "./EventSearchResult";
 
 type Props = {
   setEvents: React.Dispatch<React.SetStateAction<Event[] | undefined>>;
@@ -70,7 +71,7 @@ const schema = yup.object().shape({
 
 export const EventSerchForm = (props: Props) => {
   const { allTags } = useAllTagsContext();
-  const { setEvents, genreData } = props;
+  const { setEvents, genreData, events } = props;
 
   const { getSearchEvents } = useEventSearch();
 
@@ -87,18 +88,43 @@ export const EventSerchForm = (props: Props) => {
 
   const onSubmit: SubmitHandler<SearchEventList> = async (data) => {
     console.log("onSubmit", data);
-    const eventsdata = await getSearchEvents(data);
-    setEvents(eventsdata);
+    setSearchData(data);
+    setSearchState(false);
+    // const eventsdata = await getSearchEvents(data);
+    // setEvents(eventsdata);
   };
 
-  const genreEventSet = async (genreData?: SearchEventList) => {
-    const eventsdata = await getSearchEvents(genreData);
-    setEvents(eventsdata);
-  };
+  // const genreEventSet = async (genreData?: SearchEventList) => {
+  //   const eventsdata = await getSearchEvents(genreData);
+  //   setEvents(eventsdata);
+  // };
 
-  useEffect(() => {
-    genreEventSet(genreData);
-  }, [genreData]);
+  // useEffect(() => {
+  //   genreEventSet(genreData);
+  // }, [genreData]);
+
+  const [state, setState] = useState<boolean>(false);
+  const [searchState, setSearchState] = useState<boolean>(true);
+  const [searchData, setSearchData] = useState<SearchEventList>();
+  const TestComponent = () => {
+    if (!state) {
+      throw getSearchEvents(genreData).then((value: Event[] | undefined) => {
+        setEvents(value);
+        setState(true);
+      });
+    }
+    if (!searchState) {
+      throw getSearchEvents(searchData).then((value: Event[] | undefined) => {
+        setEvents(value);
+        setSearchState(true);
+      });
+    }
+    return (
+      <>
+        <EventSearchResult events={events} />
+      </>
+    );
+  };
 
   return (
     <>
@@ -364,6 +390,15 @@ export const EventSerchForm = (props: Props) => {
           </>
         ))}
       </div> */}
+      <Suspense
+        fallback={
+          <div className="flex justify-center">
+            <div className="animate-spin h-20 w-20 border-4 border-blue-500 rounded-full border-t-transparent"></div>
+          </div>
+        }
+      >
+        <TestComponent />
+      </Suspense>
     </>
   );
 };
