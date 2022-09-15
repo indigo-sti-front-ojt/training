@@ -139,13 +139,6 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   const onSubmit: SubmitHandler<EventFormList> = async (
     data: EventFormList
   ) => {
-    // const temp: Event = {
-    //   ...data,
-    //   event_budget: Number(data.event_budget),
-    //   event_min_guest: Number(data.event_min_guest),
-    //   event_max_guest: Number(data.event_max_guest),
-    //   event_tags_id: data.event_tags_id?.map(Number),
-    // };
     console.log("onSubmit", data);
     // イベント情報を更新
     await eventCreateEditDelete(method, data);
@@ -167,9 +160,17 @@ export const EventCreateEditForm: FC<Props> = (props) => {
   const [imageFlag, setImageFlag] = useState(false);
   const [tmpUrl, setTmpUrl] = useState(event?.event_image);
 
+  const sizeLimit = 1024 * 1024 * 1; // 制限サイズ
+
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
+    if (file.size > sizeLimit) {
+      // ファイルサイズが制限以上
+      alert("ファイルサイズは1MB以下にしてください");
+      setValue("event_image", "");
+      return;
+    }
     setImageFlag(true);
     await convertToBase64(file);
   };

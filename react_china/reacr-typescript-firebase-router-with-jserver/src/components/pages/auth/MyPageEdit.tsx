@@ -129,9 +129,17 @@ export const MyPageEdit: FC = () => {
   const [base64, setBase64] = useState<string>("");
   const [base64QR, setBase64QR] = useState<string>("");
 
+  const sizeLimit = 1024 * 1024 * 1; // 制限サイズ
+
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const iconFile = e.target.files[0];
+    if (iconFile.size > sizeLimit) {
+      // ファイルサイズが制限以上
+      alert("ファイルサイズは1MB以下にしてください");
+      setValue("user_icon", "");
+      return;
+    }
     setIconFlag(true);
     await convertToBase64("icon", iconFile);
   };
@@ -147,6 +155,12 @@ export const MyPageEdit: FC = () => {
   const handleChangeLine = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const lineQRFile = e.target.files[0];
+    if (lineQRFile.size > sizeLimit) {
+      // ファイルサイズが制限以上
+      alert("ファイルサイズは1MB以下にしてください");
+      setValue("user_lineqr", "");
+      return;
+    }
     setQRFlag(true);
     await convertToBase64("qr", lineQRFile);
   };
