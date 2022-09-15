@@ -8,6 +8,9 @@
 .tag {
   @apply mx-2 px-4 py-1 rounded-lg font-bold  border-2  text-sm;
 }
+.form-input {
+  @apply py-2 px-20 rounded-lg border-2 border-gray-500;
+}
 
 /* 
 @charset "UTF-8";
