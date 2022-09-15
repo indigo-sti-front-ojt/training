@@ -28,11 +28,11 @@ export const Home: FC = () => {
 
   useEffect(() => {
     const readData = async () => {
-      const event1 = await getEvents();
+      const event1 = await getEvents("?num=4");
       event1 ? setNearEvents(event1) : setNearEvents([]);
       console.log("events", event1);
 
-      const tagEvents = await getSearchEvents(data_tags);
+      const tagEvents = await getSearchEvents(data_tags, 0);
       // ユーザのタグ設定がされていて、タグに関連するイベントが取得できたら、イベントをセットする
       tagEvents && userInfo.user_tags?.length
         ? setTagEvents(tagEvents)
