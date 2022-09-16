@@ -47,7 +47,7 @@ export const AuthRoute = (props: Props) => {
 
   if (!isAuthChecked)
     return (
-      <div className="fixed top-0 left-0 h-screen w-screen bg-gray-400/50 flex justify-center items-center">
+      <div className="fixed top-0 left-0 h-screen w-screen bg-gray-400/20 flex justify-center items-center">
         <div className="animate-spin h-20 w-20 border-4 border-blue-500 rounded-full border-t-transparent"></div>
       </div>
     );
@@ -58,7 +58,7 @@ export const AuthRoute = (props: Props) => {
     // firebaseログインができている場合
     if (!isUserChecked)
       return (
-        <div className="fixed top-0 left-0 h-screen w-screen bg-gray-400/50 flex justify-center items-center">
+        <div className="fixed top-0 left-0 h-screen w-screen bg-gray-400/20 flex justify-center items-center">
           <div className="animate-spin h-20 w-20 border-4 border-blue-500 rounded-full border-t-transparent"></div>
         </div>
       );

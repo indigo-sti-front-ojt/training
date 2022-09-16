@@ -54,7 +54,7 @@ export const EventCard: FC<Props> = (props) => {
           />
         </figure>
         <div className="flex flex-col justify-start items-center h-2/3 w-full gap-2 p-2">
-          <div className="font-main text-xl w-full">{event?.event_name}</div>
+          <div className="font-main text-xl w-full truncate">{event?.event_name}</div>
           <div className="flex items-center h-10 text-md w-full">
             <img
               src={event?.event_owner?.user_icon}
@@ -64,7 +64,7 @@ export const EventCard: FC<Props> = (props) => {
             <span>主催：{event?.event_owner?.user_name}</span>
           </div>
           <div className="h-1/2 w-full flex flex-wrap justify-center items-center text-xl">
-            <div className="w-1/2">場所:{event?.event_place}</div>
+            <div className="w-1/2 truncate">場所:{event?.event_place}</div>
             <div className="w-1/2">
               日程:
               {event?.event_date
