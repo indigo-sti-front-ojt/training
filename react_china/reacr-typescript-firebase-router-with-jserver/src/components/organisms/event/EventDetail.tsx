@@ -52,6 +52,15 @@ export const EventDetail: FC<Props> = (props) => {
   // ゲストのIDを配列化
   const guestID = event?.event_guests?.map((guest) => guest?.user_id);
 
+  // タグの色の配列化
+  const tagInnerColor = event?.event_tags?.map(
+    (tag) => "bg-" + tag.tag_color + "-500"
+  );
+
+  const tagOuterColor = event?.event_tags?.map(
+    (tag) => "ring-" + tag.tag_color + "-200"
+  );
+
   // レンダリング時の参加登録の有無を表すフラグの定義
   const tempEventJoinFlag = guestID?.includes(loginUser?.user_id);
   const [eventJoinFlag, setEventJoinFlag] = useState<boolean | undefined>(
@@ -139,9 +148,12 @@ export const EventDetail: FC<Props> = (props) => {
           />
         </figure>
         <div className="flex flex-row flex-wrap gap-y-2 w-full">
-          {event?.event_tags?.map((value) => (
+          {event?.event_tags?.map((value, i) => (
             <>
-              <span className="tag" key={value.tag_id}>
+              <span
+                className={`tag ${tagInnerColor?.[i]}  ring-2 ${tagOuterColor?.[i]}`}
+                key={value.tag_id}
+              >
                 {value.tag_value}
               </span>
             </>

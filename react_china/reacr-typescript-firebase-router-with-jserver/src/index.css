@@ -6,7 +6,7 @@
   @apply flex justify-center items-center h-9 w-48 px-10 py-4 rounded-xl font-bold border-2 hover:cursor-pointer transition-opacity opacity-30 peer-checked:opacity-100;
 }
 .tag {
-  @apply mx-2 px-4 py-1 rounded-lg font-bold  border-2  text-sm;
+  @apply mx-2 px-4 py-1 rounded-lg font-bold text-sm;
 }
 .form-input {
   @apply py-2 px-20 rounded-lg border-2 border-gray-500;
