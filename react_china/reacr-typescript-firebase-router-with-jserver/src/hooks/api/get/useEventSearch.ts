@@ -4,7 +4,8 @@ import axios from "axios";
 import { Event } from "../../../types/api/Event";
 import { SearchEventList } from "../../../types/react-hook-form/SearchEventList";
 
-type EventApi = {
+export type EventApi = {
+  event_length?: number;
   events: Event[];
 };
 
@@ -76,7 +77,7 @@ export const useEventSearch = () => {
 
       try {
         const resNearEvents = await axios.get<EventApi>(eventsUrl);
-        return resNearEvents.data.events;
+        return resNearEvents.data;
       } catch (error) {
         console.log("イベントが取得できません。");
       }

@@ -45,13 +45,23 @@ export const AuthRoute = (props: Props) => {
     }
   }, [isAuthChecked]);
 
-  if (!isAuthChecked) return <p>認証中</p>;
+  if (!isAuthChecked)
+    return (
+      <div className="fixed top-0 left-0 h-screen w-screen bg-gray-400/50 flex justify-center items-center">
+        <div className="animate-spin h-20 w-20 border-4 border-blue-500 rounded-full border-t-transparent"></div>
+      </div>
+    );
   if (loginUser === null) {
     // firebaseログインができていない場合
     return <NavigateComponent />;
   } else {
     // firebaseログインができている場合
-    if (!isUserChecked) return <p>ユーザ認証中</p>;
+    if (!isUserChecked)
+      return (
+        <div className="fixed top-0 left-0 h-screen w-screen bg-gray-400/50 flex justify-center items-center">
+          <div className="animate-spin h-20 w-20 border-4 border-blue-500 rounded-full border-t-transparent"></div>
+        </div>
+      );
     if (loginUser.user_id === null) {
       // DBが存在しない場合
       return <NavigateComponent />;

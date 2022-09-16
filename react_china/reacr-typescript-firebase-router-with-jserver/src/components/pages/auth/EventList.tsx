@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { EventSerchForm } from "../../organisms/eventsearch/EventsSearchForm";
-import { Event } from "../../../types/api/Event";
 import { useLocation } from "react-router-dom";
 import { SearchEventList } from "../../../types/react-hook-form/SearchEventList";
+import { EventApi } from "../../../hooks/api/get/useEventSearch";
 
 type State = {
   genreData?: SearchEventList;
 };
 
 export const EventList = () => {
-  const [events, setEvents] = useState<Event[]>();
+  const [events, setEvents] = useState<EventApi | undefined>();
 
   // ジャンルのタグをうけとったときだけ情報を読み込む
   let state = null;
@@ -22,13 +22,13 @@ export const EventList = () => {
         <>
           <EventSerchForm
             setEvents={setEvents}
-            events={events}
+            eventData={events}
             genreData={state?.genreData}
           />
         </>
       ) : (
         <>
-          <EventSerchForm setEvents={setEvents} events={events} />
+          <EventSerchForm setEvents={setEvents} eventData={events} />
         </>
       )}
     </>

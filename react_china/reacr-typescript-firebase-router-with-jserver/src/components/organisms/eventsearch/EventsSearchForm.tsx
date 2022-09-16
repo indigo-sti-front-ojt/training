@@ -1,16 +1,18 @@
 import React, { Suspense, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { SearchEventList } from "../../../types/react-hook-form/SearchEventList";
-import { useEventSearch } from "../../../hooks/api/get/useEventSearch";
+import {
+  EventApi,
+  useEventSearch,
+} from "../../../hooks/api/get/useEventSearch";
 import { useAllTagsContext } from "../../../context/AllTagsContext";
-import { Event } from "../../../types/api/Event";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { EventSearchResult } from "./EventSearchResult";
 
 type Props = {
-  setEvents: React.Dispatch<React.SetStateAction<Event[] | undefined>>;
-  events?: Event[];
+  setEvents: React.Dispatch<React.SetStateAction<EventApi | undefined>>;
+  eventData?: EventApi;
   genreData?: SearchEventList;
 };
 
@@ -71,7 +73,7 @@ const schema = yup.object().shape({
 
 export const EventSerchForm = (props: Props) => {
   const { allTags } = useAllTagsContext();
-  const { setEvents, genreData, events } = props;
+  const { setEvents, genreData, eventData } = props;
 
   const { getSearchEvents } = useEventSearch();
 
@@ -128,7 +130,7 @@ export const EventSerchForm = (props: Props) => {
   const TestComponent = () => {
     if (!state) {
       throw getSearchEvents(genreData, page).then(
-        (value: Event[] | undefined) => {
+        (value: EventApi | undefined) => {
           setEvents(value);
           setState(true);
         }
@@ -136,7 +138,7 @@ export const EventSerchForm = (props: Props) => {
     }
     if (!searchState) {
       throw getSearchEvents(searchData, page).then(
-        (value: Event[] | undefined) => {
+        (value: EventApi | undefined) => {
           setEvents(value);
           setSearchState(true);
         }
@@ -145,7 +147,7 @@ export const EventSerchForm = (props: Props) => {
 
     return (
       <>
-        <EventSearchResult events={events} />
+        <EventSearchResult events={eventData?.events} />
       </>
     );
   };
@@ -330,31 +332,58 @@ export const EventSerchForm = (props: Props) => {
 
       <Suspense
         fallback={
-          <div className="flex justify-center">
+          <div className="fixed top-0 left-0 h-screen w-screen bg-gray-400/50 flex justify-center items-center">
             <div className="animate-spin h-20 w-20 border-4 border-blue-500 rounded-full border-t-transparent"></div>
           </div>
         }
       >
-        <div className="flex justify-between w-full">
-          {page < 1 ? (
-            //ページが0ページ目以下のときボタンを無効化
-            <>
-              <button className="form-input" onClick={onClickBack} disabled>
-                前の9件
-              </button>
-            </>
-          ) : (
-            <>
-              <button className="form-input" onClick={onClickBack}>
-                前の9件
-              </button>
-            </>
-          )}
-          <button className="form-input" onClick={onClickNext}>
-            次の9件
-          </button>
+        <div className="flex flex-col gap-8">
+          <TestComponent />
+          <div className="flex justify-between w-full">
+            {page < 1 ? (
+              //ページが0ページ目以下のときボタンを無効化
+              <>
+                <button
+                  className="form-input hover:bg-white"
+                  onClick={onClickBack}
+                  disabled
+                >
+                  前の9件
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="form-input" onClick={onClickBack}>
+                  前の9件
+                </button>
+              </>
+            )}
+            {eventData?.event_length && (
+              <p>
+                {page + 1}/{Math.ceil(eventData?.event_length / 9)}
+              </p>
+            )}
+
+            {eventData?.event_length &&
+            Math.ceil(eventData.event_length / 9) > page + 1 ? (
+              <>
+                <button className="form-input" onClick={onClickNext}>
+                  次の9件
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className="form-input hover:bg-white"
+                  onClick={onClickNext}
+                  disabled
+                >
+                  次の9件
+                </button>
+              </>
+            )}
+          </div>
         </div>
-        <TestComponent />
       </Suspense>
     </>
   );

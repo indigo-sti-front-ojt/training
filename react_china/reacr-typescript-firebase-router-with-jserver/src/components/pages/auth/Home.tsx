@@ -5,7 +5,10 @@ import { LinkToEventSearch } from "../../organisms/home/LinkToEventSearch";
 import { GenreSearchCard } from "../../organisms/home/GenreSearchCard";
 import { CreateNewEventButton } from "../../atoms/buttons/CreateNewEventButton";
 import { useUserInfoContext } from "../../../context/UserInfoContext";
-import { useEventSearch } from "../../../hooks/api/get/useEventSearch";
+import {
+  EventApi,
+  useEventSearch,
+} from "../../../hooks/api/get/useEventSearch";
 import { useEvents } from "../../../hooks/api/get/useEvents";
 import { Event } from "../../../types/api/Event";
 
@@ -34,8 +37,8 @@ export const Home: FC = () => {
 
       const tagEvents = await getSearchEvents(data_tags, 0);
       // ユーザのタグ設定がされていて、タグに関連するイベントが取得できたら、イベントをセットする
-      tagEvents && userInfo.user_tags?.length
-        ? setTagEvents(tagEvents)
+      tagEvents?.events && userInfo.user_tags?.length
+        ? setTagEvents(tagEvents.events)
         : setTagEvents([]);
       console.log("tagEvents", tagEvents);
     };
