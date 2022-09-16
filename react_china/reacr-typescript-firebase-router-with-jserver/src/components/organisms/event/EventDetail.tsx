@@ -52,6 +52,11 @@ export const EventDetail: FC<Props> = (props) => {
   // ゲストのIDを配列化
   const guestID = event?.event_guests?.map((guest) => guest?.user_id);
 
+  // タグの色の配列化
+  const tagColor = event?.event_tags?.map(
+    (tag) => "tag-color-" + tag.tag_color
+  );
+
   // レンダリング時の参加登録の有無を表すフラグの定義
   const tempEventJoinFlag = guestID?.includes(loginUser?.user_id);
   const [eventJoinFlag, setEventJoinFlag] = useState<boolean | undefined>(
@@ -139,9 +144,12 @@ export const EventDetail: FC<Props> = (props) => {
           />
         </figure>
         <div className="flex flex-row flex-wrap gap-y-2 w-full">
-          {event?.event_tags?.map((value) => (
+          {event?.event_tags?.map((value, i) => (
             <>
-              <span className="tag" key={value.tag_id}>
+              <span
+                className={`tag ${tagColor?.[i]}  ring-2 text-white`}
+                key={value.tag_id}
+              >
                 {value.tag_value}
               </span>
             </>
@@ -232,14 +240,14 @@ export const EventDetail: FC<Props> = (props) => {
           // イベントのユーザIDがログインユーザと同じ場合
           <>
             <button
-              className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-black border-4 border-green-500/80 bg-green-400"
+              className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-black border-4 border-green-500/80 bg-green-400 hover:cursor-pointer hover:bg-green-400/70 duration-500"
               type="button"
               onClick={onClickButtonToEdit}
             >
               編集
             </button>
             <button
-              className="w-1/4 border rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-red-500/80 bg-red-400"
+              className="w-1/4 border rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-red-500/80 bg-red-400 hover:cursor-pointer hover:bg-red-400/70 duration-500"
               type="button"
               onClick={onClickButtonToDelete}
             >
@@ -251,7 +259,7 @@ export const EventDetail: FC<Props> = (props) => {
             {eventJoinFlag ? (
               <>
                 <button
-                  className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-red-500/80 bg-red-400"
+                  className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-red-500/80 bg-red-400 hover:cursor-pointer hover:bg-red-400/70 duration-500"
                   onClick={onClickApplyCancel}
                 >
                   参加登録解除
@@ -260,7 +268,7 @@ export const EventDetail: FC<Props> = (props) => {
             ) : (
               <>
                 <button
-                  className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-blue-500/80 bg-blue-400"
+                  className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-blue-500/80 bg-blue-400 hover:cursor-pointer hover:bg-blue-400/70 duration-500"
                   onClick={onClickApply}
                 >
                   参加登録

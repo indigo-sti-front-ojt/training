@@ -8,9 +8,9 @@ type EventApi = {
 };
 
 export const useEvents = () => {
-  const getEvents = useCallback(async () => {
+  const getEvents = useCallback(async (query?: string) => {
     const eventsUrl =
-      "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/events";
+      "https://icy-mushroom-0e274e110.1.azurestaticapps.net/api/events" + query;
 
     try {
       const resNearEvents = await axios.get<EventApi>(eventsUrl);

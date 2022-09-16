@@ -12,7 +12,7 @@ export const CreateNewEventButton = () => {
       {/* <Link to={"/events/event/create"}>イベント作成</Link> */}
       <div
         onClick={onClickLink}
-        className="fixed w-10 h-10 md:w-20 md:h-20 right-0 bottom-0 m-2 bg-gray-300 rounded-full overflow-hidden hover:cursor-pointer"
+        className="fixed w-10 h-10 md:w-20 md:h-20 right-0 bottom-0 m-2 bg-gray-300 rounded-full overflow-hidden hover:cursor-pointer hover:bg-gray-400/70 duration-500"
       >
         <div className="w-full h-full flex items-center justify-center">
           <svg

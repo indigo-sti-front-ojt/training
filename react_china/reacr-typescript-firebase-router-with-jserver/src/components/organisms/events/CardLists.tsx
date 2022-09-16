@@ -4,6 +4,7 @@ import { Event } from "../../../types/api/Event";
 import { EventCard } from "./EventCard";
 import { useNavigate } from "react-router-dom";
 import { useUserInfoContext } from "../../../context/UserInfoContext";
+import { EventCardMoreButton } from "../../atoms/buttons/EventCardMoreButton";
 
 type Props = {
   events: Event[];
@@ -38,8 +39,8 @@ export const CardLists: FC<Props> = (props) => {
 
   return (
     <>
-      <div className="w-72 md:w-full flex flex-row flex-wrap gap-2 justify-start">
-        <div className="text-xl md:w-full md:text-3xl font-bold border-b-2 border-black">
+      <div className="w-72 md:w-full flex flex-row flex-wrap gap-2 gap-y-6 justify-start">
+        <div className="text-xl md:w-full md:text-3xl font-bold border-b-2 border-black mb-1">
           {eventListTitle}
         </div>
         {sliceEvent.length != 0 ? (
@@ -63,25 +64,11 @@ export const CardLists: FC<Props> = (props) => {
             <div className="w-full flex justify-center items-center">
               {eventListTitle === "あなたが関心のありそうなイベント" ? (
                 <>
-                  <button
-                    onClick={onClickLinkTag}
-                    className="py-4 px-4 md:py-2 h-6 w-72 md:w-full flex flex-row items-center justify-around bg-gray-400/80 rounded-lg ring-2 ring-gray-200"
-                  >
-                    <span className="text-sm mx-2 font-bold">
-                      さらに検索する
-                    </span>
-                  </button>
+                  <EventCardMoreButton onClick={onClickLinkTag} />
                 </>
               ) : (
                 <>
-                  <button
-                    onClick={onClickLink}
-                    className="py-4 px-4 md:py-2 h-6 w-72 md:w-full flex flex-row items-center justify-around bg-gray-400/80 rounded-lg ring-2 ring-gray-200"
-                  >
-                    <span className="text-sm mx-2 font-bold">
-                      さらに検索する
-                    </span>
-                  </button>
+                  <EventCardMoreButton onClick={onClickLink} />
                 </>
               )}
             </div>

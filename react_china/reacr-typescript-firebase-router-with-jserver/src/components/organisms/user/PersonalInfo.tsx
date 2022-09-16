@@ -12,7 +12,8 @@ type Props = {
 export const PersonalInfo: FC<Props> = (props: Props) => {
   const { loginUser } = useLoginUserContext();
   const { user, onClickButtonToEdit } = props;
-  console.log(user);
+
+  const tagColor = user?.user_tags?.map((tag) => "tag-color-" + tag.tag_color);
 
   return (
     <>
@@ -153,9 +154,9 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
                   <>
                     <span
                       key={i}
-                      className="mx-2 px-4 py-1 rounded-lg bg-orange-500 font-bold text-white ring-2 ring-orange-200 text-sm"
+                      className={`mx-2 px-4 py-1 rounded-lg ${tagColor?.[i]} font-bold text-white ring-2 text-sm`}
                     >
-                      {tag.tag_color} {tag.tag_value}
+                      {tag.tag_value}
                     </span>
                   </>
                 ))}
@@ -252,7 +253,7 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
               <div className="w-full my-6 flex justify-end">
                 <button
                   onClick={onClickButtonToEdit}
-                  className="w-full flex flex-row items-center justify-center py-4 px-8 bg-gray-400/80 rounded-xl ring-2 ring-gray-200 md:w-36"
+                  className="w-full flex flex-row items-center justify-center py-4 px-8 bg-gray-300 rounded-xl ring-2 ring-gray-200 md:w-36 hover:bg-gray-400/70 duration-500"
                 >
                   <span className="text-sm mx-2 font-bold">編集</span>
                   <svg

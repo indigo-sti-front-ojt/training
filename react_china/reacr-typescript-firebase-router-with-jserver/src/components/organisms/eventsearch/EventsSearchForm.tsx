@@ -1,15 +1,18 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { SearchEventList } from "../../../types/react-hook-form/SearchEventList";
-import { useEventSearch } from "../../../hooks/api/get/useEventSearch";
+import {
+  EventApi,
+  useEventSearch,
+} from "../../../hooks/api/get/useEventSearch";
 import { useAllTagsContext } from "../../../context/AllTagsContext";
-import { Event } from "../../../types/api/Event";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { EventSearchResult } from "./EventSearchResult";
 
 type Props = {
-  setEvents: React.Dispatch<React.SetStateAction<Event[] | undefined>>;
-  events?: Event[];
+  setEvents: React.Dispatch<React.SetStateAction<EventApi | undefined>>;
+  eventData?: EventApi;
   genreData?: SearchEventList;
 };
 
@@ -70,7 +73,7 @@ const schema = yup.object().shape({
 
 export const EventSerchForm = (props: Props) => {
   const { allTags } = useAllTagsContext();
-  const { setEvents, genreData } = props;
+  const { setEvents, genreData, eventData } = props;
 
   const { getSearchEvents } = useEventSearch();
 
@@ -85,20 +88,69 @@ export const EventSerchForm = (props: Props) => {
     },
   });
 
+  // はじめは0ページから
+  const [page, setPage] = useState(0);
+
   const onSubmit: SubmitHandler<SearchEventList> = async (data) => {
     console.log("onSubmit", data);
-    const eventsdata = await getSearchEvents(data);
-    setEvents(eventsdata);
+    setSearchData(data);
+    setSearchState(false);
+    // const eventsdata = await getSearchEvents(data);
+    // setEvents(eventsdata);
   };
 
-  const genreEventSet = async (genreData?: SearchEventList) => {
-    const eventsdata = await getSearchEvents(genreData);
-    setEvents(eventsdata);
+  // const genreEventSet = async (genreData?: SearchEventList) => {
+  //   const eventsdata = await getSearchEvents(genreData);
+  //   setEvents(eventsdata);
+  // };
+
+  // useEffect(() => {
+  //   genreEventSet(genreData);
+  // }, [genreData]);
+
+  // 前の9件を表示する
+  const onClickBack = () => {
+    setPage(page - 1);
+    setSearchState(false);
   };
 
-  useEffect(() => {
-    genreEventSet(genreData);
-  }, [genreData]);
+  // 前の9件を表示する
+  const onClickNext = () => {
+    setPage(page + 1);
+    setSearchState(false);
+  };
+
+  // 初期レンダリング時
+  const [state, setState] = useState<boolean>(false);
+  // 検索ボタンが押された時
+  const [searchState, setSearchState] = useState<boolean>(true);
+  // 検索後のデータを保存
+  const [searchData, setSearchData] = useState<SearchEventList>();
+
+  const TestComponent = () => {
+    if (!state) {
+      throw getSearchEvents(genreData, page).then(
+        (value: EventApi | undefined) => {
+          setEvents(value);
+          setState(true);
+        }
+      );
+    }
+    if (!searchState) {
+      throw getSearchEvents(searchData, page).then(
+        (value: EventApi | undefined) => {
+          setEvents(value);
+          setSearchState(true);
+        }
+      );
+    }
+
+    return (
+      <>
+        <EventSearchResult events={eventData?.events} />
+      </>
+    );
+  };
 
   return (
     <>
@@ -163,36 +215,8 @@ export const EventSerchForm = (props: Props) => {
                 ))}
               </>
             )}
-            {/* {allTags?.map((tag, i) => (
-              <label key={i} className="px-4">
-                <input
-                  type="checkbox"
-                  {...register("tagsid")}
-                  value={tag.tag_id}
-                  defaultChecked={false}
-                />
-                {tag.tag_value}
-              </label>
-            ))} */}
-            {/* <div className="w-full md:w-36 hover:cursor-pointer">
-              <div className="w-full flex flex-row items-center justify-around py-1 px-8 bg-gray-400/80 rounded-xl ring-2 ring-gray-200">
-                <span className="text-sm mx-2 font-bold">選択する</span>
-              </div>
-            </div> */}
           </div>
         </div>
-
-        {/* <div className="flex flex-col justify-center w-full text-xl md:w-full gap-1">
-          <div className="font-bold">場所</div>
-          <div className="flex flex-row flex-wrap gap-y-2"> */}
-        {/* タグの表示 */}
-        {/* <div className="w-full md:w-36 hover:cursor-pointer">
-              <div className="w-full flex flex-row items-center justify-around py-1 px-8 bg-gray-400/80 rounded-xl ring-2 ring-gray-200">
-                <span className="text-sm mx-2 font-bold">選択する</span>
-              </div>
-            </div>
-          </div>
-        </div> */}
 
         <div className="flex flex-col justify-center w-full text-xl md:w-1/2 gap-1">
           <div className="font-bold">募集人数</div>
@@ -282,7 +306,7 @@ export const EventSerchForm = (props: Props) => {
         </div>
 
         <div className="flex flex-col justify-center w-full text-xl md:items-end">
-          <label className="w-full flex flex-row items-center justify-center py-4 px-8 bg-gray-400/80 rounded-xl ring-2 ring-gray-200 md:w-36 hover:cursor-pointer">
+          <label className="w-full flex flex-row items-center justify-center py-4 px-8 bg-gray-300 rounded-xl ring-2 ring-gray-200 md:w-36 hover:cursor-pointer hover:bg-gray-400/70 duration-500">
             <span className="text-sm mx-2 font-bold">検索</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -305,65 +329,62 @@ export const EventSerchForm = (props: Props) => {
         {errors.fromdate && errors.fromdate.message}
         {errors.todate && errors.todate.message}
       </form>
-      {/* <form onSubmit={handleSubmit(onSubmit)}>
-        <p>イベントタグ</p>
-        {allTags?.map((tag, i) => (
-          <div key={i}>
-            <label>
-              <input type="checkbox" {...register("tags")} value={tag.tag_id} />
-              {tag.tag_value}
-            </label>
-          </div>
-        ))}
-        <div>
-          <label>
-            <p>予算</p>
-            <input defaultValue="" {...register("budget")} />
-          </label>
-        </div>
-        <div>
-          <label>
-            <p>募集人数</p>
-            <input defaultValue="" {...register("minguest")} />
-            <span>人</span>
-            <span>~</span>
-            <input defaultValue="" {...register("maxguest")} />
-            <span>人</span>
-          </label>
-        </div>
-        <div>
-          <label>
-            <p>日程</p>
-            <input defaultValue="" {...register("fromdate")} />
-            <span>~</span>
-            <input defaultValue="" {...register("todate")} />
-          </label>
-        </div>
-        <input type="submit" />
-      </form> */}
 
-      {/* <div className="flex flex-col md:flex-row items-center w-full max-w-4xl flex-wrap gap-2">
-        <div className="w-full text-2xl md:text-3xl font-bold border-b-2 border-black">
-          検索結果
-        </div> */}
-      {/* event 検索結果 */}
-      {/* {events?.map((event, i) => (
-          <>
-            <EventCard key={i} event={event} />
-          </>
-        ))}
-      </div> */}
-      {/* 
-      <h2>検索結果</h2>
-      <div>
-        {events?.map((event, i) => (
-          <>
-            <div key={i}>
-              <EventCard event={event} />
-            </div>
-          </>
-        ))}
-      </div> */}
+      <Suspense
+        fallback={
+          <div className="fixed top-0 left-0 h-screen w-screen bg-gray-400/50 flex justify-center items-center">
+            <div className="animate-spin h-20 w-20 border-4 border-blue-500 rounded-full border-t-transparent"></div>
+          </div>
+        }
+      >
+        <div className="flex flex-col gap-8">
+          <TestComponent />
+          <div className="flex justify-between w-full">
+            {page < 1 ? (
+              //ページが0ページ目以下のときボタンを無効化
+              <>
+                <button
+                  className="form-input hover:bg-white"
+                  onClick={onClickBack}
+                  disabled
+                >
+                  前の9件
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="form-input" onClick={onClickBack}>
+                  前の9件
+                </button>
+              </>
+            )}
+            {eventData?.event_length && (
+              <p>
+                {page + 1}/{Math.ceil(eventData?.event_length / 9)}
+              </p>
+            )}
+
+            {eventData?.event_length &&
+            Math.ceil(eventData.event_length / 9) > page + 1 ? (
+              <>
+                <button className="form-input" onClick={onClickNext}>
+                  次の9件
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className="form-input hover:bg-white"
+                  onClick={onClickNext}
+                  disabled
+                >
+                  次の9件
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </Suspense>
     </>
   );
 };

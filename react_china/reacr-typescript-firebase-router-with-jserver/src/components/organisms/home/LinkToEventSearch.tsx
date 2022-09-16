@@ -24,7 +24,7 @@ export const LinkToEventSearch = () => {
           </span>
           <button
             onClick={onClickLink}
-            className="flex flex-row items-center justify-around py-4 px-8 bg-gray-400/80 rounded-xl ring-2 ring-gray-200 flex-grow-0 md:w-64 my-4"
+            className="flex flex-row items-center justify-around py-4 px-8 bg-gray-300 rounded-xl ring-2 ring-gray-200 flex-grow-0 md:w-64 my-4 hover:bg-gray-400/70 duration-500"
           >
             <span className="text-sm mx-2 font-bold">イベントを検索する</span>
             <svg
