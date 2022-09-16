@@ -109,7 +109,7 @@ export const Comment: FC<Props> = (props) => {
               {errors.comment_text && "コメントが入力されていません"}
             </div>
           </div>
-          <button className="flex-shrink-0 rounded-md flex flex-row items-center py-2 px-8 border border-gray-600">
+          <button className="flex-shrink-0 rounded-md flex flex-row items-center py-2 px-8 border border-gray-600 hover:bg-gray-100/80 duration-500">
             <span>送信</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"

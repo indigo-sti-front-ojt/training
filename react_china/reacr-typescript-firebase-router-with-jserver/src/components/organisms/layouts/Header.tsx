@@ -23,61 +23,14 @@ export const Header = () => {
 
   return (
     <>
-      {/* <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar sx={{ justifyContent: "right" }}>
-            {auth && (
-              <div>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleMenu}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={handleMyPage}>プロフィール</MenuItem>
-                  <MenuItem onClick={handleLogout}>ログアウト</MenuItem>
-                </Menu>
-              </div>
-            )}
-          </Toolbar>
-        </AppBar>
-        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-          <Alert
-            onClose={handleClose}
-            severity="success"
-            sx={{ width: "100%" }}
-          >
-            ログアウトしました
-          </Alert>
-        </Snackbar>
-      </Box> */}
 
       <header className="flex flex-row items-center justify-between h-16 bg-pink-400/10 px-4">
-        <button className="text-2xl" onClick={handleHome}>
+        <button className="text-2xl hover:opacity-70 duration-500" onClick={handleHome}>
           NANPA
         </button>
         <button
           onClick={handleMyPage}
-          className="flex items-center gap-2 p-2 border-2 border-pink-400 bg-pink-300 rounded-2xl px-3 text-white"
+          className="flex items-center gap-2 p-2 border-2 border-pink-400 bg-pink-300 rounded-2xl px-3 text-white hover:bg-pink-400/80 duration-500"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

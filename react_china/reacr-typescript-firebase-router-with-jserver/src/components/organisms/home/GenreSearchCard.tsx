@@ -41,7 +41,7 @@ export const GenreSearchCard = (props: Props) => {
     <>
       <div
         onClick={onClickLink}
-        className="relative w-3/4 h-24 flex flex-row bg-gray-100 items-center rounded-md shadow-md px-2 md:flex-col md:h-72 md:w-1/5 md:px-0 md:rounded-sm overflow-hidden md:flex-grow hover:cursor-pointer"
+        className="relative w-3/4 h-24 flex flex-row bg-gray-100 items-center rounded-md shadow-md px-2 md:flex-col md:h-72 md:w-1/5 md:px-0 md:rounded-sm overflow-hidden md:flex-grow hover:cursor-pointer hover:bg-gray-200 duration-500"
       >
         <figure className="w-20 h-20 bg-red-400 overflow-hidden rounded-full md:w-full md:h-1/2 md:rounded-none">
           <img
@@ -65,7 +65,7 @@ export const GenreSearchCard = (props: Props) => {
               <path d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </div>
-          <div className="hidden mx-2 flex-row items-center justify-around py-2 px-4 bg-gray-400/80 rounded-lg ring-2 ring-gray-200 md:flex">
+          <div className="hidden mx-2 flex-row items-center justify-around py-2 px-4 bg-gray-300 rounded-lg ring-2 ring-gray-200 md:flex">
             <span className="text-sm mx-2 font-bold">詳しく見る</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"

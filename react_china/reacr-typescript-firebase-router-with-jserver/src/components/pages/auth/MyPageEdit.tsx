@@ -449,7 +449,7 @@ export const MyPageEdit: FC = () => {
           </div>
 
           <div className="w-full my-6 flex justify-end">
-            <label className="w-full flex flex-row items-center justify-center py-4 px-8 bg-gray-400/80 rounded-xl ring-2 ring-gray-200 md:w-36">
+            <label className="w-full flex flex-row items-center justify-center py-4 px-8 bg-gray-300 rounded-xl ring-2 ring-gray-200 md:w-36 hover:bg-gray-400/70 duration-500">
               <span className="text-sm mx-2 font-bold">送信</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

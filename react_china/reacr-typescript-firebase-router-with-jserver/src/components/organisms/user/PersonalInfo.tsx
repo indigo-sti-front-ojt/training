@@ -259,7 +259,7 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
               <div className="w-full my-6 flex justify-end">
                 <button
                   onClick={onClickButtonToEdit}
-                  className="w-full flex flex-row items-center justify-center py-4 px-8 bg-gray-400/80 rounded-xl ring-2 ring-gray-200 md:w-36"
+                  className="w-full flex flex-row items-center justify-center py-4 px-8 bg-gray-300 rounded-xl ring-2 ring-gray-200 md:w-36 hover:bg-gray-400/70 duration-500"
                 >
                   <span className="text-sm mx-2 font-bold">編集</span>
                   <svg

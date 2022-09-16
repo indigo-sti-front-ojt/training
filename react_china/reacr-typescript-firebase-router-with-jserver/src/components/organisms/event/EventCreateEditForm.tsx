@@ -523,7 +523,7 @@ export const EventCreateEditForm: FC<Props> = (props) => {
         <div className="flex flex-row items-center justify-center w-full max-w-4xl">
           <input
             type="submit"
-            className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-green-500/80 bg-green-400"
+            className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-green-500/80 bg-green-400 hover:cursor-pointer hover:bg-green-400/70 duration-500 "
           />
         </div>
         <div>

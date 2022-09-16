@@ -304,7 +304,7 @@ export const EventSerchForm = (props: Props) => {
         </div>
 
         <div className="flex flex-col justify-center w-full text-xl md:items-end">
-          <label className="w-full flex flex-row items-center justify-center py-4 px-8 bg-gray-400/80 rounded-xl ring-2 ring-gray-200 md:w-36 hover:cursor-pointer">
+          <label className="w-full flex flex-row items-center justify-center py-4 px-8 bg-gray-300 rounded-xl ring-2 ring-gray-200 md:w-36 hover:cursor-pointer hover:bg-gray-400/70 duration-500">
             <span className="text-sm mx-2 font-bold">検索</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -19,7 +19,7 @@ export const EventCard: FC<Props> = (props) => {
   return (
     <>
       <div
-        className="relative flex items-center flex-col h-96 w-64 rounded-md overflow-hidden shadow-md flex-grow md:max-w-[300px] hover:cursor-pointer"
+        className="relative flex items-center flex-col h-96 w-64 rounded-md overflow-hidden shadow-md flex-grow md:max-w-[300px] hover:cursor-pointer hover:bg-gray-100 hover:opacity-80 duration-500"
         onClick={onClickLink}
       >
         {event.event_left_date && event.event_left_date > 0 ? (
@@ -79,7 +79,7 @@ export const EventCard: FC<Props> = (props) => {
             </div>
           </div>
           <div className="w-full h-14 flex justify-center flex-grow items-center">
-            <button className="mx-2 flex-row items-center justify-around py-2 px-4 bg-gray-400/80 rounded-lg ring-2 ring-gray-200 flex w-3/4 h-12">
+            <button className="mx-2 flex-row items-center justify-around py-2 px-4 bg-gray-300 rounded-lg ring-2 ring-gray-200 flex w-3/4 h-12">
               <span className="text-sm mx-2 font-bold">詳しく見る</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
