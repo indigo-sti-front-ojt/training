@@ -6,7 +6,6 @@ import { GenreSearchCard } from "../../organisms/home/GenreSearchCard";
 import { CreateNewEventButton } from "../../atoms/buttons/CreateNewEventButton";
 import { useUserInfoContext } from "../../../context/UserInfoContext";
 import {
-  EventApi,
   useEventSearch,
 } from "../../../hooks/api/get/useEventSearch";
 import { useEvents } from "../../../hooks/api/get/useEvents";
