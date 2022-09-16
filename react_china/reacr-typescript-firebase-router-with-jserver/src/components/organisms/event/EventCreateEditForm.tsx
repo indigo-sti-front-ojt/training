@@ -526,19 +526,6 @@ export const EventCreateEditForm: FC<Props> = (props) => {
             className="w-1/4 rounded-md flex flex-col justify-center items-center py-8 font-bold text-xl text-white border-4 border-green-500/80 bg-green-400 hover:cursor-pointer hover:bg-green-400/70 duration-500 "
           />
         </div>
-        <div>
-          {/* フォームの入力エラー */}
-          {/* {errors.event_name && errors.event_name.message}
-          {errors.event_note && errors.event_note.message}
-          {errors.event_deadline && errors.event_deadline.message}
-          {errors.event_date && errors.event_date.message}
-          {errors.event_place && errors.event_place.message}
-          {errors.event_budget && errors.event_budget.message}
-          {errors.event_min_guest && errors.event_min_guest.message}
-          {errors.event_max_guest && errors.event_max_guest.message}
-          {errors.event_image && errors.event_image.message}
-          {errors.event_tags_id && errors.event_tags_id.message} */}
-        </div>
       </form>
     </>
   );

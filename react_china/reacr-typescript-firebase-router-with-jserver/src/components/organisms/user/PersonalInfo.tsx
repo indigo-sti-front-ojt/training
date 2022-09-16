@@ -13,13 +13,7 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
   const { loginUser } = useLoginUserContext();
   const { user, onClickButtonToEdit } = props;
 
-  const tagInnerColor = user?.user_tags?.map(
-    (tag) => "bg-" + tag.tag_color + "-500"
-  );
-
-  const tagOuterColor = user?.user_tags?.map(
-    (tag) => "ring-" + tag.tag_color + "-200"
-  );
+  const tagColor = user?.user_tags?.map((tag) => "tag-color-" + tag.tag_color);
 
   return (
     <>
@@ -160,7 +154,7 @@ export const PersonalInfo: FC<Props> = (props: Props) => {
                   <>
                     <span
                       key={i}
-                      className={`mx-2 px-4 py-1 rounded-lg ${tagInnerColor?.[i]} font-bold text-white ring-2 ${tagOuterColor?.[i]} text-sm`}
+                      className={`mx-2 px-4 py-1 rounded-lg ${tagColor?.[i]} font-bold text-white ring-2 text-sm`}
                     >
                       {tag.tag_value}
                     </span>
