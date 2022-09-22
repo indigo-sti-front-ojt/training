@@ -12,10 +12,10 @@ export const TagTodos = (props: Props) => {
   const { val, setState, getTagTodos } = props;
   if (val === null) {
     if (setState) {
-      throw getTagTodos("tag")
+      throw getTagTodos("testt")
         .then((res) => {
           setState(res);
-          console.log(val);
+          console.log(res);
         })
         .catch((e) => {
           console.log(e);
@@ -23,9 +23,5 @@ export const TagTodos = (props: Props) => {
     }
   }
 
-  return (
-    <>
-      <p>a</p>
-    </>
-  );
+  return <>{val ? <>データがありません</> : <>{val && val[0]}</>}</>;
 };

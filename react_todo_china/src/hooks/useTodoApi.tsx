@@ -40,9 +40,56 @@ export const useTodoApi = () => {
         "tag-name": tagName,
       },
     });
-    const data: typeTodo[] = res.data.data;
+    const data: typeTodo[] = res.data.data.data as typeTodo[];
     return data;
   }, []);
 
-  return { getTags, getTagTodos, getTagsMock };
+  // 特定のタグのデータにTODOを作成
+  const addTodos = useCallback(async (tagName: string) => {
+    const res = await ApiClient.post("", {
+      ...reqestIni,
+      method: "POST",
+      postData: {
+        "tag-name": tagName,
+        data: [],
+      },
+    });
+
+    const data: boolean = res.data as boolean;
+    return data;
+  }, []);
+
+  // 特定のタグ内ののデータのTODOを編集/削除
+  const editTodos = useCallback(
+    async (tagName: string, newData: typeTodo[]) => {
+      const res = await ApiClient.post("", {
+        ...reqestIni,
+        method: "PUT",
+        postData: {
+          "tag-name": tagName,
+          data: newData,
+        },
+      });
+
+      const data: boolean = res.data as boolean;
+      return data;
+    },
+    []
+  );
+
+  // 特定のタグをTODOごと削除
+  const deleteTag = useCallback(async (tagName: string) => {
+    const res = await ApiClient.post("", {
+      ...reqestIni,
+      method: "DELETE",
+      postData: {
+        "tag-name": tagName,
+      },
+    });
+
+    const data: boolean = res.data as boolean;
+    return data;
+  }, []);
+
+  return { getTagsMock, getTags, getTagTodos, addTodos, editTodos, deleteTag };
 };
