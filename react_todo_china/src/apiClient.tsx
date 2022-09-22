@@ -1,13 +1,13 @@
 import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from "axios";
 
-// export const ApiClient = axios.create({
-//   baseURL:
-//     "https://script.google.com/macros/s/AKfycbwQu9rDG5zUP3cB_QdHTFzKj-06OgMso6AjPevcBG10RXS0yr2k0lRo0sgWJZcVOW5k/exec",
-// });
-
 export const ApiClient = axios.create({
   baseURL:
-    "http://localhost:5000",
+    "https://script.google.com/macros/s/AKfycbwQu9rDG5zUP3cB_QdHTFzKj-06OgMso6AjPevcBG10RXS0yr2k0lRo0sgWJZcVOW5k/exec",
+  headers: { "Content-Type": "text/plain" },
+});
+
+export const ApiClientMock = axios.create({
+  baseURL: "http://localhost:5000",
 });
 
 // requestに関する前処理
