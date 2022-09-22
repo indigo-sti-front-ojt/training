@@ -22,9 +22,7 @@ export const FirstLogin = () => {
     (checkd_tag) => checkd_tag.tag_id
   );
   // タグの色の配列化
-  const tagColor = userInfo?.user_tags?.map(
-    (tag) => "tag-color-" + tag.tag_color
-  );
+  const tagColor = allTags.map((tag) => "tag-color-" + tag.tag_color);
 
   const {
     register,
@@ -80,9 +78,15 @@ export const FirstLogin = () => {
                   {...register("user_tags_id")}
                   value={tag.tag_id}
                 />
-                <div className={`tips-checkbox ${tagColor?.[i]}  text-white`}>
-                  {tag.tag_value}
-                </div>
+                {tagColor?.[i] ? (
+                  <div className={`tips-checkbox ${tagColor[i]}  text-white`}>
+                    {tag.tag_value}
+                  </div>
+                ) : (
+                  <div className="tips-checkbox tag-color-orange  text-white">
+                    {tag.tag_value}
+                  </div>
+                )}
               </label>
             </>
           ))}

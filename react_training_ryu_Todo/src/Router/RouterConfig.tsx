@@ -13,6 +13,7 @@ export const RouterConfig = () => {
   const { readDataTags } = useTodoData();
 
   const { load, setLoad, setTags } = TodoContainer.useContainer();
+  
   const RouterThings = () => {
     if (!load) {
       throw readDataTags().then((value: string[]) => {
