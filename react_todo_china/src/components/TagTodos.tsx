@@ -22,6 +22,11 @@ export const TagTodos = (props: Props) => {
         });
     }
   }
-
-  return <>{val ? <>データがありません</> : <>{val && val[0]}</>}</>;
+  return (
+    <div>
+      <p>{val?.map((val) => val.color)}</p>
+      <p>{val?.map((val) => val.fin)}</p>
+      <p>{val?.map((val) => val.text)}</p>
+    </div>
+  );
 };

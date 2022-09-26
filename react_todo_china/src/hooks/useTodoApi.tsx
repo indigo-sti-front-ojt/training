@@ -44,8 +44,8 @@ export const useTodoApi = () => {
     return data;
   }, []);
 
-  // 特定のタグのデータにTODOを作成
-  const addTodos = useCallback(async (tagName: string) => {
+  // タグの作成（特定のタグのデータにTODOを作成）
+  const createTagTodos = useCallback(async (tagName: string) => {
     const res = await ApiClient.post("", {
       ...reqestIni,
       method: "POST",
@@ -60,7 +60,7 @@ export const useTodoApi = () => {
   }, []);
 
   // 特定のタグ内ののデータのTODOを編集/削除
-  const editTodos = useCallback(
+  const editTagTodos = useCallback(
     async (tagName: string, newData: typeTodo[]) => {
       const res = await ApiClient.post("", {
         ...reqestIni,
@@ -91,5 +91,5 @@ export const useTodoApi = () => {
     return data;
   }, []);
 
-  return { getTagsMock, getTags, getTagTodos, addTodos, editTodos, deleteTag };
+  return { getTagsMock, getTags, getTagTodos, createTagTodos, editTagTodos, deleteTag };
 };
