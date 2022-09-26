@@ -8,7 +8,7 @@ export const useTodoData = () => {
   const requestTemplate = {
     accessToken: API_AUTH_KEY,
     path: "todo",
-  };
+  }
 
   const readDataTags = useCallback(async () => {
     const session = axiosClient.post("", {

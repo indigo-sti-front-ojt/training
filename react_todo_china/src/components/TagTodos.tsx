@@ -23,5 +23,5 @@ export const TagTodos = (props: Props) => {
     }
   }
 
-  return <>{val ? <>データがありません</> : <>{val && val[0]}</>}</>;
+  return <>{val?.map((val) => val.color)}</>;
 };
