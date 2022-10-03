@@ -26,6 +26,7 @@ export const Header = () => {
 
       <header className="flex flex-row items-center justify-between h-16 bg-pink-400/10 px-4">
         <button className="text-2xl hover:opacity-70 duration-500" onClick={handleHome}>
+          {/* <img src={`${process.env.PUBLIC_URL}/images/nanpa.png`} alt="" /> */}
           NANPA
         </button>
         <button
